@@ -215,7 +215,7 @@ class FarmGamePygame:
             img=self.images.loadimage('sickle')
         if self.currenttool=="watering":
             img=self.images.loadimage('wateringcan')
-        screen.blit(img, (mx, my))
+        screen.blit(img, (mx, my-48))
 
         #draw notify window if mouse under seed
         pos=self.get_farmtile_pos_under_mouse()
