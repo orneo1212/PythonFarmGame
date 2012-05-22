@@ -32,9 +32,10 @@ class FarmGamePygame:
         self.itemscounter={'0':1,'1':1,'2':1,'3':1}
         self.timer=pygame.time.Clock()
 
+        self.groups=[pygame.sprite.Group()] # view groups
         self.images=ImageLoader(imagesdata)
 
-        self.currenttool='plant'
+        self.currenttool='harvest'
         self.currentseed=0
 
         pygame.display.set_caption("PyFarmGame")
@@ -66,13 +67,18 @@ class FarmGamePygame:
             if event.type==pygame.KEYDOWN:
                 if event.key==pygame.K_ESCAPE:
                     self.running=False
+                if event.key==pygame.K_1:
+                    self.currenttool="harvest"
+                if event.key==pygame.K_2:
+                    self.currenttool="plant"
+                if event.key==pygame.K_3:
+                    self.currenttool="watering"
 
         #Mouse motion
         mx,my=pygame.mouse.get_pos()
 
         #left mouse button
         if pygame.mouse.get_pressed()[0]==1:
-
             seed=self.get_seed_under_cursor()
             pos=self.get_farmtile_pos_under_mouse()
 
@@ -105,15 +111,18 @@ class FarmGamePygame:
                 self.currenttool='plant'
             if pygame.Rect((110,10,48,48)).collidepoint((mx,my)):
                 self.currenttool='watering'
+            #regenerate sprites
+            self.generate_field_sprites()
 
-    def redraw(self,screen):
-        """Redraw screen"""
+    def generate_field_sprites(self):
+        group=self.groups[0]
+        group.empty()
 
-        screen.blit(self.images.loadimage('background'),(0, 0))
-        screen.blit(self.images.loadimage('frame'),
-            (self.farmoffset[0]-30, self.farmoffset[1]-30))
+        sprite=pygame.sprite.Sprite()
+        sprite.image=self.images.loadimage('background')
+        sprite.rect=(0,0, 800,600)
+        group.add(sprite)
 
-        #draw farm
         for y in range(12):
             for x in range(12):
                 farmtile=self.farm.get_farmtile(x,y)
@@ -122,28 +131,36 @@ class FarmGamePygame:
                 posy=y*32+self.farmoffset[1]
 
                 #draw ground
-                if farmtile['water']==100:
-                    screen.blit(self.images.loadimage('wetground'),
-                        (posx, posy))
+                sprite=pygame.sprite.Sprite()
+                if farmtile['water']>20:
+                    sprite.image=self.images.loadimage('wetground')
+                    sprite.rect=(posx, posy, 32, 32)
                 else:
-                    screen.blit(self.images.loadimage('dryground'),
-                        (posx, posy))
+                    sprite.image=self.images.loadimage('dryground')
+                    sprite.rect=(posx, posy, 32, 32)
+                group.add(sprite)
 
                 #draw plant or seed
                 seed=farmtile['seed']
                 if seed:
+                    sprite=pygame.sprite.Sprite()
                     if not seed.to_harvest:
-                        screen.blit(self.images['seed'+str(seed.id)],
-                            (posx, posy))
+                        sprite.image=self.images['seed']
+                        sprite.rect=(posx, posy, 32, 32)
                     else:
-                        screen.blit(
-                            self.images['seed'+str(seed.id)],
-                            (posx, posy)
-                            )
+                        sprite.image=self.images['seed'+str(seed.id)]
+                        sprite.rect=(posx, posy, 32, 32)
+                    #add sprite
+                    group.add(sprite)
+        #
+        print "Sprites generated", len(group)
 
-                #draw grid
-                pygame.draw.rect(screen,(48,80,80),
-                    (posx,posy,33,33),1)
+    def redraw(self,screen):
+        """Redraw screen"""
+
+        #Draw Farmfeld
+        for g in self.groups:
+            g.draw(screen)
 
         #draw tools
         #SICKLE Harvest (10,10,48,48)
@@ -203,7 +220,7 @@ class FarmGamePygame:
             )
 
         #update screen
-        pygame.display.update()
+        pygame.display.flip()
 
     def render_notify(self,screenobj, posx, posy, underseed):
         """Render notification about planted seed"""
@@ -318,18 +335,16 @@ class FarmGamePygame:
 
     def main(self):
         """Main"""
-        frame=0
-        if frame>2000:frame=0
 
         result=self.farm.load_farmfield('field.xml')
         if not result:print "No save game found. Starting new one"
 
+        self.generate_field_sprites()
         while self.running:
             self.events()
             self.update()
             self.timer.tick(30)
-            if frame%2==0:self.redraw(self.screen)
-            frame+=1
+            self.redraw(self.screen)
 
         self.farm.save_farmfield('field.xml')
 
