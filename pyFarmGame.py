@@ -75,43 +75,42 @@ class FarmGamePygame:
             if event.type==pygame.QUIT:
                 self.running=False
 
-            if event.type==pygame.MOUSEBUTTONDOWN:
+        #Mouse motion
+        mx,my=pygame.mouse.get_pos()
 
-                mx,my=pygame.mouse.get_pos()
+        #left mouse button
+        if pygame.mouse.get_pressed()[0]==1:
 
-                #left mouse button
-                if pygame.mouse.get_pressed()[0]==1:
+            seed=self.get_seed_under_cursor()
+            pos=self.get_farmtile_pos_under_mouse()
 
-                    seed=self.get_seed_under_cursor()
-                    pos=self.get_farmtile_pos_under_mouse()
+            #there is a seed under mouse
+            if seed:
+                if self.currenttool=='harvest' and pos:
+                    self.farm.harvest(pos[0], pos[1], self.inventory, self.itemscounter)
 
-                    #there is a seed under mouse
-                    if seed:
-                        if self.currenttool=='harvest' and pos:
-                            self.farm.harvest(pos[0], pos[1], self.inventory, self.itemscounter)
+                if self.currenttool=='watering' and pos:
+                    self.farm.water(pos[0], pos[1])
 
-                        if self.currenttool=='watering' and pos:
-                            self.farm.water(pos[0], pos[1])
+            #there no seed under mouse
+            else:
+                if self.currenttool=='plant' and pos:
+                    self.farm.plant(pos[0], pos[1], self.create_new_seed_by_id(self.currentseed))
 
-                    #there no seed under mouse
-                    else:
-                        if self.currenttool=='plant' and pos:
-                            self.farm.plant(pos[0], pos[1], self.create_new_seed_by_id(self.currentseed))
+            #events for inventory
+            index=self.get_index_inventory_under_mouse()
+            if index:
+                itemid=index[1]*self.inventorysize[0]+index[0]
+                if itemid<len(self.inventory):
+                    self.currentseed=self.inventory[itemid]
 
-                    #events for inventory
-                    index=self.get_index_inventory_under_mouse()
-                    if index:
-                        itemid=index[1]*self.inventorysize[0]+index[0]
-                        if itemid<len(self.inventory):
-                            self.currentseed=self.inventory[itemid]
-
-                    #events for tools
-                    if pygame.Rect((10,10,48,48)).collidepoint((mx,my)):
-                        self.currenttool='harvest'
-                    if pygame.Rect((60,10,48,48)).collidepoint((mx,my)):
-                        self.currenttool='plant'
-                    if pygame.Rect((110,10,48,48)).collidepoint((mx,my)):
-                        self.currenttool='watering'
+            #events for tools
+            if pygame.Rect((10,10,48,48)).collidepoint((mx,my)):
+                self.currenttool='harvest'
+            if pygame.Rect((60,10,48,48)).collidepoint((mx,my)):
+                self.currenttool='plant'
+            if pygame.Rect((110,10,48,48)).collidepoint((mx,my)):
+                self.currenttool='watering'
 
     def prepare_images(self):
         """Prepare images."""
