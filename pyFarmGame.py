@@ -14,13 +14,14 @@ imagesdata={
     'seed2':"images/bean.png",
     'seed3':"images/carrot.png",
     'seed':'images/seed.bmp',
-    'dryground':'images/dryground.bmp',
-    'wetground':'images/wetground.bmp',
+    'dryground':'images/dryground.png',
+    'wetground':'images/wetground.png',
     'background':'images/background.png',
     'frame':'images/frame.png',
     'sickle':'images/sickle.png',
     'plant':'images/plant.png',
     'wateringcan':'images/wateringcan.png',
+    'inventory':'images/inventory.png',
     }
 
 class FarmGamePygame:
@@ -185,10 +186,8 @@ class FarmGamePygame:
             pygame.draw.rect(screen,(255,255,255),(110,10,48,48),1)
 
         #draw inventory
-        img=pygame.Surface((5*64, 5*32))
-        img.fill((48,80,80))
-        img.set_alpha(128+64)
-        screen.blit(img,self.inventoryoffset)
+        img=self.images['inventory']
+        screen.blit(img, self.inventoryoffset)
         #draw inv items
         counterx=0
         countery=0
