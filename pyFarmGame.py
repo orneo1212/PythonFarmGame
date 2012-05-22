@@ -2,11 +2,11 @@
 #-*- coding:utf-8 -*-
 import pygame
 
-from farmlib.seed import Seed, seeds
 from farmlib.farmfield import FarmField
 from farmlib.imageloader import ImageLoader
 from farmlib.inventory import PygameInventory
 from farmlib.player import Player
+from farmlib.window import Window
 
 pygame.init()
 
@@ -43,7 +43,8 @@ class FarmGamePygame:
 
         self.player = Player()
         self.inventory = PygameInventory(self.images)
-
+        self.sellwindow = Window((400, 400))
+        self.sellwindow.hide()
         pygame.display.set_caption("PyFarmGame")
 
         self.running = True
@@ -73,6 +74,11 @@ class FarmGamePygame:
                     self.currenttool = "plant"
                 if event.key == pygame.K_3:
                     self.currenttool = "watering"
+                if event.key == pygame.K_s:
+                    if self.sellwindow.visible:
+                        self.sellwindow.hide()
+                    else:
+                        self.sellwindow.show()
 
         #Mouse motion
         mx, my = pygame.mouse.get_pos()
@@ -222,7 +228,8 @@ class FarmGamePygame:
             self.images.loadimage('seed' + str(self.currentseed)),
             (65, 65)
             )
-
+        #redraw sell window
+        self.sellwindow.render(screen, (200, 40))
         #update screen
         pygame.display.flip()
 
