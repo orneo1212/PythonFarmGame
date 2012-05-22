@@ -15,9 +15,11 @@ class PygameInventory:
         """Render inventory notify"""
 
         sizex = 200
+        sizey = 150
 
-        img = pygame.Surface((sizex, 150))
+        img = pygame.Surface((sizex, sizey))
         img.fill((48, 80, 80))
+        pygame.draw.rect(img, (255, 255, 255), (0, 0, sizex - 1, sizey - 1), 1)
 
         #Name
         text = seeds[index]['name'] + " x" + str(player.itemscounter[str(index)])

@@ -90,7 +90,8 @@ class FarmField:
 
         farmfield = ET.Element('FarmField',
                                {'inventory':str(player.inventory),
-                                'itemscounter':str(player.itemscounter)
+                                'itemscounter':str(player.itemscounter),
+                                'money':str(player.money),
                                 })
 
         for ft in self.farmtiles.keys():
@@ -100,7 +101,11 @@ class FarmField:
             farmtile = self.farmtiles[ft]
             if not farmtile['seed']:continue
 
-            farmtileelem = ET.Element('farmtile', {'posx':posx, 'posy':posy, 'water':str(farmtile['water'])})
+            farmtileelem = ET.Element('farmtile',
+                                      {'posx':posx,
+                                       'posy':posy,
+                                       'water':str(farmtile['water'])
+                                       })
 
             #store seed if exist
             if farmtile['seed']:
@@ -134,6 +139,10 @@ class FarmField:
         #load game information
         player.inventory = eval(str(rootelement.attrib['inventory']))
         player.itemscounter = eval(str(rootelement.attrib['itemscounter']))
+        try:
+            player.money = int(rootelement.attrib['money'])
+        except:pass
+
 
         for elem in rootelement:
             if elem.tag == "farmtile":

@@ -4,6 +4,7 @@ class Player:
     def __init__(self):
         self.inventory = [0, 1, 2, 3]
         self.itemscounter = {'0':1, '1':1, '2':1, '3':1}
+        self.money = 0
 
     def update(self):
         #create dict key if not exist in itemscounter
