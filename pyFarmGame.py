@@ -118,9 +118,21 @@ class FarmGamePygame:
         group=self.groups[0]
         group.empty()
 
+        #background
         sprite=pygame.sprite.Sprite()
         sprite.image=self.images.loadimage('background')
         sprite.rect=(0,0, 800,600)
+        group.add(sprite)
+
+        #frame
+        sprite=pygame.sprite.Sprite()
+        sprite.image=self.images.loadimage('frame')
+        sprite.rect=(
+            self.farmoffset[0]-30,
+            self.farmoffset[1]-30,
+            800,
+            600
+            )
         group.add(sprite)
 
         for y in range(12):
