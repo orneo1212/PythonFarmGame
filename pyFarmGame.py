@@ -7,11 +7,13 @@ from xml.etree import ElementTree as ET
 from farmlib.farmfield import FarmField
 from farmlib.seed import Seed
 
+pygame.init()
+
 class FarmGamePygame:
 
     def __init__(self):
         """Init game"""
-
+        self.screen=pygame.display.set_mode((800,600),pygame.DOUBLEBUF)
         self.farm=FarmField()
         self.inventory=[0,1,2,3]
         self.itemscounter={'0':1,'1':1,'2':1,'3':1}
@@ -26,24 +28,23 @@ class FarmGamePygame:
             ]
 
         self.images={
-            'seed0':pygame.image.load("images/strawberry.png"),
-            'seed1':pygame.image.load("images/onion.png"),
-            'seed2':pygame.image.load("images/bean.png"),
-            'seed3':pygame.image.load("images/carrot.png"),
-            'seed':pygame.image.load('images/seed.bmp'),
-            'dryground':pygame.image.load('images/dryground.bmp'),
-            'wetground':pygame.image.load('images/wetground.bmp'),
-            'background':pygame.image.load('images/background.png'),
-            'frame':pygame.image.load('images/frame.png'),
-            'sickle':pygame.image.load('images/sickle.png'),
-            'plant':pygame.image.load('images/plant.png'),
-            'wateringcan':pygame.image.load('images/wateringcan.png'),
+            'seed0':pygame.image.load("images/strawberry.png").convert(),
+            'seed1':pygame.image.load("images/onion.png").convert(),
+            'seed2':pygame.image.load("images/bean.png").convert(),
+            'seed3':pygame.image.load("images/carrot.png").convert(),
+            'seed':pygame.image.load('images/seed.bmp').convert(),
+            'dryground':pygame.image.load('images/dryground.bmp').convert(),
+            'wetground':pygame.image.load('images/wetground.bmp').convert(),
+            'background':pygame.image.load('images/background.png').convert(),
+            'frame':pygame.image.load('images/frame.png').convert(),
+            'sickle':pygame.image.load('images/sickle.png').convert(),
+            'plant':pygame.image.load('images/plant.png').convert(),
+            'wateringcan':pygame.image.load('images/wateringcan.png').convert(),
             }
 
         self.currenttool='plant'
         self.currentseed=0
 
-        self.screen=pygame.display.set_mode((800,600),pygame.DOUBLEBUF)
         pygame.display.set_caption("PyFarmGame")
         pygame.init()
 
