@@ -237,6 +237,10 @@ class FarmGamePygame:
         img.fill((48, 80, 80))
         pygame.draw.rect(img, (255, 255, 255), (0, 0, sizex - 1, sizey - 1), 1)
 
+        #Draw seed
+        seedimg = self.images["seed" + str(underseed.id)]
+        img.blit(seedimg, (sizex / 2 - 32, sizey - 32))
+
         #name
         text = "" + underseed.name + ""
         text = self.notifyfont.render(text, 0, (255, 255, 0), (255, 0, 255))

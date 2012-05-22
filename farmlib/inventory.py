@@ -26,6 +26,10 @@ class PygameInventory(Inventory):
         img.fill((48, 80, 80))
         pygame.draw.rect(img, (255, 255, 255), (0, 0, sizex - 1, sizey - 1), 1)
 
+        #Draw seed
+        seedimg = self.images["seed" + str(index)]
+        img.blit(seedimg, (sizex / 2 - 32, sizey - 32))
+
         #Name
         text = seeds[index]['name'] + " x" + str(player.itemscounter[str(index)])
         text = self.notifyfont.render(text, 0, (255, 255, 0), (255, 0, 255))
