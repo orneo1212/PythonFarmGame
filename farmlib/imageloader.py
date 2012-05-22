@@ -3,9 +3,9 @@ import pygame
 class ImageLoader:
 
     def __init__(self, imagesdict):
-        self.config=imagesdict
-        self.loaded={}
-        self.empty=pygame.Surface((64, 32))
+        self.config = imagesdict
+        self.loaded = {}
+        self.empty = pygame.Surface((64, 32))
 
     def __getitem__(self, name):
         return self.loadimage(name)
@@ -16,7 +16,7 @@ class ImageLoader:
             self.loadimage(item)
         return self.loaded
 
-    def loadimage(self, name,scale=True):
+    def loadimage(self, name, scale = True):
         """Load image by name"""
 
         #wrong name
@@ -27,14 +27,14 @@ class ImageLoader:
         except KeyError:pass
 
         #load file
-        filename=self.config[name]
+        filename = self.config[name]
         try:
             #return scaled image
-            img=pygame.image.load(filename)
+            img = pygame.image.load(filename)
             img.set_colorkey((255, 0, 255))
-            img=img.convert_alpha()
+            img = img.convert_alpha()
         except Exception, e:
             print e
-            img=self.empty.copy()
-        self.loaded[name]=img
+            img = self.empty.copy()
+        self.loaded[name] = img
         return img

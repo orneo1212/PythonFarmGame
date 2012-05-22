@@ -85,10 +85,13 @@ class FarmField:
                 if ret:modified = True
         return modified
 
-    def save_farmfield(self, filename):
+    def save_farmfield(self, filename, player):
         """Save farmfield to xml file"""
 
-        farmfield = ET.Element('FarmField', {'inventory':str(self.inventory), 'itemscounter':str(self.itemscounter)})
+        farmfield = ET.Element('FarmField',
+                               {'inventory':str(player.inventory),
+                                'itemscounter':str(player.itemscounter)
+                                })
 
         for ft in self.farmtiles.keys():
             posx = ft.split('x')[0]
@@ -119,7 +122,7 @@ class FarmField:
         ET.ElementTree(farmfield).write(filename)
         return 1
 
-    def load_farmfield(self, filename):
+    def load_farmfield(self, filename, player):
         """Load farmfield from XML file"""
 
         if not os.path.isfile(filename):
@@ -129,8 +132,8 @@ class FarmField:
         if rootelement.tag != "FarmField":return 1
 
         #load game information
-        self.inventory = eval(str(rootelement.attrib['inventory']))
-        self.itemscounter = eval(str(rootelement.attrib['itemscounter']))
+        player.inventory = eval(str(rootelement.attrib['inventory']))
+        player.itemscounter = eval(str(rootelement.attrib['itemscounter']))
 
         for elem in rootelement:
             if elem.tag == "farmtile":

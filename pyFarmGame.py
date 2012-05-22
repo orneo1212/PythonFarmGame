@@ -297,7 +297,7 @@ class FarmGamePygame:
     def main(self):
         """Main"""
 
-        result = self.farm.load_farmfield('field.xml')
+        result = self.farm.load_farmfield('field.xml', self.player)
         if not result:print "No save game found. Starting new one"
 
         self.generate_field_sprites()
@@ -307,7 +307,7 @@ class FarmGamePygame:
             self.redraw(self.screen)
             self.timer.tick(30)
 
-        self.farm.save_farmfield('field.xml')
+        self.farm.save_farmfield('field.xml', self.player)
 
 if __name__ == '__main__':
     f = FarmGamePygame()

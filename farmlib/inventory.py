@@ -26,7 +26,8 @@ class PygameInventory:
         img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 5))
 
         #Descriptions
-        text = self.notifyfont.render(seeds[index]['description'], 0, (255, 0, 0), (255, 0, 255))
+        text = self.notifyfont.render(seeds[index]['description'],
+                                      0, (255, 0, 0), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
         img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
 
