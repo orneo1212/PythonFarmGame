@@ -4,11 +4,26 @@ import pygame
 
 from farmlib.seed import Seed, seeds
 from farmlib.farmfield import FarmField
+from farmlib.imageloader import ImageLoader
 
 pygame.init()
 
-class FarmGamePygame:
+imagesdata={
+    'seed0':"images/strawberry.png",
+    'seed1':"images/onion.png",
+    'seed2':"images/bean.png",
+    'seed3':"images/carrot.png",
+    'seed':'images/seed.bmp',
+    'dryground':'images/dryground.bmp',
+    'wetground':'images/wetground.bmp',
+    'background':'images/background.png',
+    'frame':'images/frame.png',
+    'sickle':'images/sickle.png',
+    'plant':'images/plant.png',
+    'wateringcan':'images/wateringcan.png',
+    }
 
+class FarmGamePygame:
     def __init__(self):
         """Init game"""
         self.screen=pygame.display.set_mode((800,600),pygame.DOUBLEBUF)
@@ -17,28 +32,13 @@ class FarmGamePygame:
         self.itemscounter={'0':1,'1':1,'2':1,'3':1}
         self.timer=pygame.time.Clock()
 
-        self.images={
-            'seed0':pygame.image.load("images/strawberry.png").convert(),
-            'seed1':pygame.image.load("images/onion.png").convert(),
-            'seed2':pygame.image.load("images/bean.png").convert(),
-            'seed3':pygame.image.load("images/carrot.png").convert(),
-            'seed':pygame.image.load('images/seed.bmp').convert(),
-            'dryground':pygame.image.load('images/dryground.bmp').convert(),
-            'wetground':pygame.image.load('images/wetground.bmp').convert(),
-            'background':pygame.image.load('images/background.png').convert(),
-            'frame':pygame.image.load('images/frame.png').convert(),
-            'sickle':pygame.image.load('images/sickle.png').convert(),
-            'plant':pygame.image.load('images/plant.png').convert(),
-            'wateringcan':pygame.image.load('images/wateringcan.png').convert(),
-            }
+        self.images=ImageLoader(imagesdata)
 
         self.currenttool='plant'
         self.currentseed=0
 
         pygame.display.set_caption("PyFarmGame")
         pygame.init()
-
-        self.prepare_images()
 
         self.running=True
         self.farmoffset=(212,50)
@@ -105,18 +105,12 @@ class FarmGamePygame:
             if pygame.Rect((110,10,48,48)).collidepoint((mx,my)):
                 self.currenttool='watering'
 
-    def prepare_images(self):
-        """Prepare images."""
-
-        for im in self.images.keys():
-            self.images[im].set_colorkey((255,0,255))
-            self.images[im]=self.images[im].convert_alpha()
-
     def redraw(self,screen):
         """Redraw screen"""
 
-        screen.blit(self.images['background'],(0, 0))
-        screen.blit(self.images['frame'],(self.farmoffset[0]-30, self.farmoffset[1]-30))
+        screen.blit(self.images.loadimage('background'),(0, 0))
+        screen.blit(self.images.loadimage('frame'),
+            (self.farmoffset[0]-30, self.farmoffset[1]-30))
 
         #draw farm
         for y in range(12):
@@ -128,28 +122,41 @@ class FarmGamePygame:
 
                 #draw ground
                 if farmtile['water']==100:
-                    screen.blit(self.images['wetground'],(posx, posy))
+                    screen.blit(self.images.loadimage('wetground'),
+                        (posx, posy))
                 else:
-                    screen.blit(self.images['dryground'],(posx, posy))
+                    screen.blit(self.images.loadimage('dryground'),
+                        (posx, posy))
 
                 #draw plant or seed
                 seed=farmtile['seed']
                 if seed:
-                    if not seed.to_harvest:screen.blit(self.images['seed'],(posx, posy))
-                    else:screen.blit(self.images['seed'+str(seed.id)],(posx, posy))
+                    if not seed.to_harvest:
+                        screen.blit(self.images.loadimage('seed'),
+                            (posx, posy))
+                    else:
+                        screen.blit(
+                            self.images.loadimage('seed'+str(seed.id)),
+                            (posx, posy)
+                            )
 
                 #draw grid
-                pygame.draw.rect(screen,(48,80,80),(posx,posy,33,33),1)
+                pygame.draw.rect(screen,(48,80,80),
+                    (posx,posy,33,33),1)
 
         #draw tools
         #SICKLE Harvest (10,10,48,48)
         #PLANT (60,10,48,48)
-        screen.blit(self.images['sickle'],(10,10))
-        screen.blit(self.images['plant'],(60,10))
-        screen.blit(self.images['wateringcan'],(110,10))
-        if self.currenttool=='harvest':pygame.draw.rect(screen,(255,255,255),(10,10,48,48),1)
-        if self.currenttool=='plant':pygame.draw.rect(screen,(255,255,255),(60,10,48,48),1)
-        if self.currenttool=='watering':pygame.draw.rect(screen,(255,255,255),(110,10,48,48),1)
+        screen.blit(self.images.loadimage('sickle'), (10,10))
+        screen.blit(self.images.loadimage('plant'), (60,10))
+        screen.blit(self.images.loadimage('wateringcan'), (110,10))
+
+        if self.currenttool=='harvest':
+            pygame.draw.rect(screen,(255,255,255),(10,10,48,48),1)
+        if self.currenttool=='plant':
+            pygame.draw.rect(screen,(255,255,255),(60,10,48,48),1)
+        if self.currenttool=='watering':
+            pygame.draw.rect(screen,(255,255,255),(110,10,48,48),1)
 
         #draw inventory
         img=pygame.Surface((5*32, 5*32))
@@ -160,7 +167,11 @@ class FarmGamePygame:
         counterx=0
         countery=0
         for item in self.inventory:
-            screen.blit(self.images['seed'+str(item)],(counterx*32+self.inventoryoffset[0], countery*32+self.inventoryoffset[1]))
+            screen.blit(self.images.loadimage('seed'+str(item)),
+                (
+                counterx*32+self.inventoryoffset[0],
+                countery*32+self.inventoryoffset[1])
+                )
             counterx+=1
             if counterx==self.inventorysize[0]:
                 counterx=0
@@ -185,7 +196,10 @@ class FarmGamePygame:
                 self.render_inventory_notify(screen, mx, my, self.inventory[itemid])
 
         #draw selected seed
-        screen.blit(self.images['seed'+str(self.currentseed)],(65,65))
+        screen.blit(
+            self.images.loadimage('seed'+str(self.currentseed)),
+            (65,65)
+            )
 
         #update screen
         pygame.display.update()
