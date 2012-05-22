@@ -185,7 +185,7 @@ class FarmGamePygame:
             pygame.draw.rect(screen,(255,255,255),(110,10,48,48),1)
 
         #draw inventory
-        img=pygame.Surface((5*32, 5*32))
+        img=pygame.Surface((5*64, 5*32))
         img.fill((48,80,80))
         img.set_alpha(128+64)
         screen.blit(img,self.inventoryoffset)
@@ -195,7 +195,7 @@ class FarmGamePygame:
         for item in self.inventory:
             screen.blit(self.images.loadimage('seed'+str(item)),
                 (
-                counterx*32+self.inventoryoffset[0],
+                counterx*64+self.inventoryoffset[0],
                 countery*32+self.inventoryoffset[1])
                 )
             counterx+=1
@@ -324,7 +324,7 @@ class FarmGamePygame:
         """Get position of element in inventory under mouse cursor"""
 
         mx,my=pygame.mouse.get_pos()
-        xx=(mx-self.inventoryoffset[0])/32
+        xx=(mx-self.inventoryoffset[0])/64
         yy=(my-self.inventoryoffset[1])/32
 
         if xx<0 or yy<0:return None
