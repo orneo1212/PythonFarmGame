@@ -1,3 +1,7 @@
+import os
+from xml.etree import ElementTree as ET
+
+from farmlib.seed import Seed, seeds
 
 class FarmField:
 
@@ -76,3 +80,80 @@ class FarmField:
         for farmtile in self.farmtiles.values():
             if farmtile['seed']:
                 farmtile['seed'].update(farmtile)
+
+    def save_farmfield(self, filename):
+        """Save farmfield to xml file"""
+
+        farmfield=ET.Element('FarmField',{'inventory':str(self.inventory), 'itemscounter':str(self.itemscounter)})
+
+        for ft in self.farmtiles.keys():
+            posx=ft.split('x')[0]
+            posy=ft.split('x')[1]
+
+            farmtile=self.farmtiles[ft]
+            if not farmtile['seed']:continue
+
+            farmtileelem=ET.Element('farmtile', {'posx':posx,'posy':posy,'water':str(farmtile['water'])})
+
+            #store seed if exist
+            if farmtile['seed']:
+
+                seed=farmtile['seed']
+
+                seedelem=ET.Element('seed',
+                    {
+                    'growstarttime':str(seed.growstarttime),
+                    'growendtime':str(seed.growendtime),
+                    'growing':str(int(seed.growing)),
+                    'to_harvest':str(int(seed.to_harvest)),
+                    'id':str(seed.id),
+                    })
+                farmtileelem.append(seedelem)
+
+            farmfield.append(farmtileelem)
+        #save created node to file
+        ET.ElementTree(farmfield).write(filename)
+        return 1
+
+    def load_farmfield(self, filename):
+        """Load farmfield from XML file"""
+
+        if not os.path.isfile(filename):
+            return 0
+
+        rootelement=ET.parse(open(filename)).getroot()
+        if rootelement.tag!="FarmField":return 1
+
+        #load game information
+        self.inventory=eval(str(rootelement.attrib['inventory']))
+        self.itemscounter=eval(str(rootelement.attrib['itemscounter']))
+
+        for elem in rootelement:
+            if elem.tag=="farmtile":
+                #if there is a children node (should be /seed/)
+                if elem is not None:
+                    #got seed
+                    if elem[0].tag=="seed":
+                        newseed=Seed()
+                        newseed.growstarttime=int(elem[0].attrib['growstarttime'])
+                        newseed.growendtime=int(elem[0].attrib['growendtime'])
+                        newseed.growing=int(elem[0].attrib['growing'])
+                        newseed.to_harvest=int(elem[0].attrib['to_harvest'])
+                        newseed.id=int(elem[0].attrib['id'])
+                        newseed.apply_dict(seeds[newseed.id])
+
+                    #there no seed on the farmtile (wrong tag name)
+                    else:newseed=None
+                #there no seed on the farmtile
+                else:newseed=None
+
+            #restore a farmtile
+            px=int(elem.attrib['posx'])
+            py=int(elem.attrib['posy'])
+            wa=int(elem.attrib['water'])
+            newfarmtile={'water':wa, 'seed':newseed}
+
+            self.set_farmtile(px,py,newfarmtile)
+
+        #return 1 as done
+        return 1

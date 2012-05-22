@@ -59,3 +59,12 @@ class Seed:
         """apply dictionary to object"""
 
         self.__dict__.update(dictionary)
+
+
+#SEED DEFINITION
+seeds=[
+    {'id':0, 'name':"Strawberry", "description":"Grow in 2 hours.", 'growtime':3600*2, 'growquantity':4, 'price':20},
+    {'id':1, 'name':"Onion", "description":"Grow in 1 hour.", 'growtime':3600*1, 'growquantity':4, 'price':80},
+    {'id':2, 'name':"Bean", "description":"Grow in 8 hours.", 'growtime':3600*8, 'growquantity':5, 'price':10},
+    {'id':3, 'name':"Carrot", "description":"Grow in 30 minutes.", 'growtime':30*60, 'growquantity':4, 'price':5},
+    ]

@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 import pygame
-import os
-from xml.etree import ElementTree as ET
 
+from farmlib.seed import Seed, seeds
 from farmlib.farmfield import FarmField
-from farmlib.seed import Seed
 
 pygame.init()
 
@@ -18,14 +16,6 @@ class FarmGamePygame:
         self.inventory=[0,1,2,3]
         self.itemscounter={'0':1,'1':1,'2':1,'3':1}
         self.timer=pygame.time.Clock()
-
-        #price 10 per hour
-        self.seeds=[
-            {'name':"Strawberry", "description":"Grow in 2 hours.", 'growtime':3600*2, 'growquantity':4, 'price':20},
-            {'name':"Onion", "description":"Grow in 1 hour.", 'growtime':3600*1, 'growquantity':4, 'price':80},
-            {'name':"Bean", "description":"Grow in 8 hours.", 'growtime':3600*8, 'growquantity':5, 'price':10},
-            {'name':"Carrot", "description":"Grow in 30 minutes.", 'growtime':30*60, 'growquantity':4, 'price':5},
-            ]
 
         self.images={
             'seed0':pygame.image.load("images/strawberry.png").convert(),
@@ -49,7 +39,6 @@ class FarmGamePygame:
         pygame.init()
 
         self.prepare_images()
-        self.prepare_seeds()
 
         self.running=True
         self.farmoffset=(212,50)
@@ -119,13 +108,6 @@ class FarmGamePygame:
         for im in self.images.keys():
             self.images[im].set_colorkey((255,0,255))
             self.images[im]=self.images[im].convert_alpha()
-
-    def prepare_seeds(self):
-        """Prepare seeds"""
-
-        #make ID
-        for i in range(len(self.seeds)):
-            self.seeds[i]['id']=i
 
     def redraw(self,screen):
         """Redraw screen"""
@@ -250,12 +232,12 @@ class FarmGamePygame:
         img.fill((48,80,80))
 
         #Name
-        text=self.notifyfont.render(self.seeds[index]['name']+" x"+str(self.itemscounter[str(index)]), 0, (255,255,0),(255,0,255))
+        text=self.notifyfont.render(seeds[index]['name']+" x"+str(self.itemscounter[str(index)]), 0, (255,255,0),(255,0,255))
         text.set_colorkey((255,0,255))
         img.blit(text, (sizex/2-text.get_size()[0]/2, 5))
 
         #Descriptions
-        text=self.notifyfont.render(self.seeds[index]['description'], 0, (255,0,0),(255,0,255))
+        text=self.notifyfont.render(seeds[index]['description'], 0, (255,0,0),(255,0,255))
         text.set_colorkey((255,0,255))
         img.blit(text, (sizex/2-text.get_size()[0]/2, 25))
 
@@ -301,83 +283,6 @@ class FarmGamePygame:
         yy=min(self.inventorysize[1]-1,yy)
         return (xx,yy)
 
-    def save_farmfield(self, filename):
-        """Save farmfield to xml file"""
-
-        farmfield=ET.Element('FarmField',{'inventory':str(self.inventory), 'itemscounter':str(self.itemscounter)})
-
-        for ft in self.farm.farmtiles.keys():
-            posx=ft.split('x')[0]
-            posy=ft.split('x')[1]
-
-            farmtile=self.farm.farmtiles[ft]
-            if not farmtile['seed']:continue
-
-            farmtileelem=ET.Element('farmtile', {'posx':posx,'posy':posy,'water':str(farmtile['water'])})
-
-            #store seed if exist
-            if farmtile['seed']:
-
-                seed=farmtile['seed']
-
-                seedelem=ET.Element('seed',
-                    {
-                    'growstarttime':str(seed.growstarttime),
-                    'growendtime':str(seed.growendtime),
-                    'growing':str(int(seed.growing)),
-                    'to_harvest':str(int(seed.to_harvest)),
-                    'id':str(seed.id),
-                    })
-                farmtileelem.append(seedelem)
-
-            farmfield.append(farmtileelem)
-        #save created node to file
-        ET.ElementTree(farmfield).write(filename)
-        return 1
-
-    def load_farmfield(self, filename):
-        """Load farmfield from XML file"""
-
-        if not os.path.isfile(filename):
-            return 0
-
-        rootelement=ET.parse(open(filename)).getroot()
-        if rootelement.tag!="FarmField":return 1
-
-        #load game information
-        self.inventory=eval(str(rootelement.attrib['inventory']))
-        self.itemscounter=eval(str(rootelement.attrib['itemscounter']))
-
-        for elem in rootelement:
-            if elem.tag=="farmtile":
-                #if there is a children node (should be /seed/)
-                if elem is not None:
-                    #got seed
-                    if elem[0].tag=="seed":
-                        newseed=Seed()
-                        newseed.growstarttime=int(elem[0].attrib['growstarttime'])
-                        newseed.growendtime=int(elem[0].attrib['growendtime'])
-                        newseed.growing=int(elem[0].attrib['growing'])
-                        newseed.to_harvest=int(elem[0].attrib['to_harvest'])
-                        newseed.id=int(elem[0].attrib['id'])
-                        newseed.apply_dict(self.seeds[newseed.id])
-
-                    #there no seed on the farmtile (wrong tag name)
-                    else:newseed=None
-                #there no seed on the farmtile
-                else:newseed=None
-
-            #restore a farmtile
-            px=int(elem.attrib['posx'])
-            py=int(elem.attrib['posy'])
-            wa=int(elem.attrib['water'])
-            newfarmtile={'water':wa, 'seed':newseed}
-
-            self.farm.set_farmtile(px,py,newfarmtile)
-
-        #return 1 as done
-        return 1
-
     def create_new_seed_by_id(self,index):
         """Create new seed from seeds dictionary"""
 
@@ -387,7 +292,7 @@ class FarmGamePygame:
             if self.itemscounter[str(index)]==0:
                 self.inventory.remove(index)
             seed=Seed()
-            seed.apply_dict(self.seeds[index])
+            seed.apply_dict(seeds[index])
             return seed
 
     def main(self):
@@ -395,7 +300,7 @@ class FarmGamePygame:
         frame=0
         if frame>2000:frame=0
 
-        result=self.load_farmfield('field.xml')
+        result=self.farm.load_farmfield('field.xml')
         if not result:print "No save game found. Starting new one"
 
         while self.running:
@@ -405,7 +310,7 @@ class FarmGamePygame:
             if frame%2==0:self.redraw(self.screen)
             frame+=1
 
-        self.save_farmfield('field.xml')
+        self.farm.save_farmfield('field.xml')
 
 if __name__ == '__main__':
     f=FarmGamePygame()
