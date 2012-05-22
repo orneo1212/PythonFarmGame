@@ -38,14 +38,13 @@ class FarmGamePygame:
         self.currentseed=0
 
         pygame.display.set_caption("PyFarmGame")
-        pygame.init()
 
         self.running=True
         self.farmoffset=(212,50)
         self.inventoryoffset=(10,120)
         self.inventorysize=(5,5)
 
-        self.notifyfont=pygame.font.Font(None,22)
+        self.notifyfont=pygame.font.Font("droidsansmono.ttf",12)
 
     def update(self):
         """Update farm"""
@@ -88,7 +87,9 @@ class FarmGamePygame:
             #there no seed under mouse
             else:
                 if self.currenttool=='plant' and pos:
-                    self.farm.plant(pos[0], pos[1], self.create_new_seed_by_id(self.currentseed))
+                    self.farm.plant(pos[0], pos[1],
+                        self.create_new_seed_by_id(self.currentseed)
+                        )
 
             #events for inventory
             index=self.get_index_inventory_under_mouse()
@@ -132,11 +133,11 @@ class FarmGamePygame:
                 seed=farmtile['seed']
                 if seed:
                     if not seed.to_harvest:
-                        screen.blit(self.images.loadimage('seed'),
+                        screen.blit(self.images['seed'+str(seed.id)],
                             (posx, posy))
                     else:
                         screen.blit(
-                            self.images.loadimage('seed'+str(seed.id)),
+                            self.images['seed'+str(seed.id)],
                             (posx, posy)
                             )
 
@@ -215,17 +216,20 @@ class FarmGamePygame:
         pygame.draw.rect(img, (255,255,255),(0, 0, sizex-1,sizey-1),1)
 
         #name
-        text=self.notifyfont.render(underseed.name, 0, (255,255,0),(255,0,255))
+        text=""+underseed.name+""
+        text=self.notifyfont.render(text, 0, (255,255,0),(255,0,255))
         text.set_colorkey((255,0,255))
         img.blit(text, (sizex/2-text.get_size()[0]/2, 5))
 
         #remaining time
-        text=self.notifyfont.render("Complete in: "+underseed.remainstring, 0, (255,0,100),(255,0,255))
+        text="Complete in: "+underseed.remainstring
+        text=self.notifyfont.render(text, 0, (255,0,100),(255,0,255))
         text.set_colorkey((255,0,255))
         img.blit(text, (sizex/2-text.get_size()[0]/2, 25))
 
         #Quentity
-        text=self.notifyfont.render("Quantity:"+str(underseed.growquantity), 0, (255,255,150),(255,0,255))
+        text="Quantity:"+str(underseed.growquantity)
+        text=self.notifyfont.render(text, 0, (255,255,150),(255,0,255))
         text.set_colorkey((255,0,255))
         img.blit(text, (sizex/2-text.get_size()[0]/2, 45))
 

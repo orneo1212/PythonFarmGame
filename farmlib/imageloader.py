@@ -7,6 +7,9 @@ class ImageLoader:
         self.loaded={}
         self.empty=pygame.Surface((64, 32))
 
+    def __getitem__(self, name):
+        return self.loadimage(name)
+
     def loadimages(self):
         """Load all images"""
         for item in self.config.keys():
