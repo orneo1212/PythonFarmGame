@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-
-from FarmGameLib import *
-
 import pygame
+import os
+from xml.etree import ElementTree as ET
+
+from farmlib.farmfield import FarmField
+from farmlib.seed import Seed
 
 class FarmGamePygame:
 
@@ -329,9 +331,6 @@ class FarmGamePygame:
                 farmtileelem.append(seedelem)
 
             farmfield.append(farmtileelem)
-
-        #preetyprint
-        indent(farmfield)
         #save created node to file
         ET.ElementTree(farmfield).write(filename)
         return 1
@@ -352,7 +351,7 @@ class FarmGamePygame:
         for elem in rootelement:
             if elem.tag=="farmtile":
                 #if there is a children node (should be /seed/)
-                if elem:
+                if elem is not None:
                     #got seed
                     if elem[0].tag=="seed":
                         newseed=Seed()
