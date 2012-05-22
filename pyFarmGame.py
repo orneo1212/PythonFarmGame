@@ -297,7 +297,8 @@ class FarmGamePygame:
         mx,my=pygame.mouse.get_pos()
         xx=(mx-self.farmoffset[0])/32
         yy=(my-self.farmoffset[1])/32
-        if xx<0 or yy<0:
+        print xx,yy
+        if xx<0 or yy<0 or xx>11 or yy>11:
             return None
         else:
             xx=min(12-1,xx)
