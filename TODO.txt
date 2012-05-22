@@ -1,0 +1,5 @@
+1. Zrob okienka na kazde item w inventory
+2. Dodaj liczbę w inventory przy kazdym, ile sztuk lezy
+3. Dodaj mozliwosc sprzedaży warzyw
+4. Dodaj z prawej na gorze ilosc posiadanej gotowki
+5. Jedno podlanie to jedna woda, daj ilosc posiadanej wody, mozna kupic dodatkową
