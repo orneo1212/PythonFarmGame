@@ -1,10 +1,15 @@
 import pygame
 from farmlib.seed import seeds
 
-class PygameInventory:
-    def __init__(self, imgloader):
+class Inventory:
+    def __init__(self):
         self.inventoryoffset = (10, 400)
         self.inventorysize = (5, 5)
+
+
+class PygameInventory(Inventory):
+    def __init__(self, imgloader):
+        Inventory.__init__(self)
         self.images = imgloader
         self.notifyfont = pygame.font.Font("droidsansmono.ttf", 12)
 
