@@ -28,7 +28,7 @@ class PygameInventory(Inventory):
 
         #Draw seed
         seedimg = self.images["seed" + str(index)]
-        img.blit(seedimg, (sizex / 2 - 32, sizey - 32))
+        img.blit(seedimg, (sizex / 2 - 32, 60))
 
         #Name
         text = seeds[index]['name'] + " x" + str(player.itemscounter[str(index)])
