@@ -239,7 +239,7 @@ class FarmGamePygame:
 
         #Draw seed
         seedimg = self.images["seed" + str(underseed.id)]
-        img.blit(seedimg, (sizex / 2 - 32, 60))
+        img.blit(seedimg, (sizex / 2 - 32, 65))
 
         #name
         text = "" + underseed.name + ""
