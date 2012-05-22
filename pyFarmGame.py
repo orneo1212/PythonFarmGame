@@ -208,19 +208,29 @@ class FarmGamePygame:
 
         mx,my=pygame.mouse.get_pos()
 
+        #Draw current tool
+        if self.currenttool=="plant":
+            img=self.images.loadimage('seed'+str(self.currentseed))
+        if self.currenttool=="harvest":
+            img=self.images.loadimage('sickle')
+        if self.currenttool=="watering":
+            img=self.images.loadimage('wateringcan')
+        screen.blit(img, (mx, my))
+
         #draw notify window if mouse under seed
         pos=self.get_farmtile_pos_under_mouse()
         if pos:
             seed=self.farm.get_farmtile(pos[0], pos[1])['seed']
             if seed:
-                self.render_notify(screen,mx,my,seed)
+                self.render_notify(screen,mx+5,my+5,seed)
 
         #draw inventory notify window
         index=self.get_index_inventory_under_mouse()
         if index:
             itemid=index[1]*self.inventorysize[0]+index[0]
             if itemid<len(self.inventory):
-                self.render_inventory_notify(screen, mx, my, self.inventory[itemid])
+                self.render_inventory_notify(screen, mx+5, my+5,
+                    self.inventory[itemid])
 
         #draw selected seed
         screen.blit(
