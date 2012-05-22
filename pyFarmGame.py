@@ -42,7 +42,7 @@ class FarmGamePygame:
 
         self.running=True
         self.farmoffset=(212,50)
-        self.inventoryoffset=(10,120)
+        self.inventoryoffset=(10,400)
         self.inventorysize=(5,5)
 
         self.notifyfont=pygame.font.Font("droidsansmono.ttf",12)
@@ -125,26 +125,26 @@ class FarmGamePygame:
         group.add(sprite)
 
         #frame
-        sprite=pygame.sprite.Sprite()
-        sprite.image=self.images.loadimage('frame')
-        sprite.rect=(
-            self.farmoffset[0]-30,
-            self.farmoffset[1]-30,
-            800,
-            600
-            )
-        group.add(sprite)
+        #sprite=pygame.sprite.Sprite()
+        #sprite.image=self.images.loadimage('frame')
+        #sprite.rect=(
+        #    self.farmoffset[0]-30,
+        #    self.farmoffset[1]-30,
+        #    800,
+        #    600
+        #    )
+        #group.add(sprite)
 
         for y in range(12):
             for x in range(12):
                 farmtile=self.farm.get_farmtile(x,y)
 
-                posx=x*32+self.farmoffset[0]
-                posy=y*32+self.farmoffset[1]
+                posx=(x-y)*32+self.farmoffset[0]+3*64
+                posy=(x+y)*16+self.farmoffset[1]
 
                 #draw ground
                 sprite=pygame.sprite.Sprite()
-                sprite.rect=(posx, posy, 32, 32)
+                sprite.rect=(posx, posy, 64, 32)
                 if farmtile['water']>20:
                     sprite.image=self.images['wetground']
                 else:
@@ -156,7 +156,7 @@ class FarmGamePygame:
 
                 if seed:
                     sprite=pygame.sprite.Sprite()
-                    sprite.rect=(posx, posy, 32, 32)
+                    sprite.rect=(posx, posy, 64, 32)
                     if not seed.to_harvest:
                         sprite.image=self.images['seed']
                     else:
@@ -221,6 +221,10 @@ class FarmGamePygame:
                 self.render_inventory_notify(screen, mx, my, self.inventory[itemid])
 
         #draw selected seed
+        screen.blit(
+            self.images.loadimage('dryground'),
+            (65,65)
+            )
         screen.blit(
             self.images.loadimage('seed'+str(self.currentseed)),
             (65,65)
@@ -295,8 +299,9 @@ class FarmGamePygame:
         """Get FarmTile position under mouse"""
 
         mx,my=pygame.mouse.get_pos()
-        xx=(mx-self.farmoffset[0])/32
-        yy=(my-self.farmoffset[1])/32
+        mx-=3*64+32+self.farmoffset[0]
+        my-=self.farmoffset[1]
+        xx,yy=self.screen2iso(mx,my)
 
         if xx<0 or yy<0 or xx>11 or yy>11:
             return None
@@ -340,6 +345,17 @@ class FarmGamePygame:
             seed=Seed()
             seed.apply_dict(seeds[index])
             return seed
+
+    def iso2screen(self,x,y):
+        xx = (x-y)*(64/2)
+        yy = (x+y)*(32/2)
+        return xx,yy
+
+    def screen2iso(self,x,y):
+        x = x/2
+        xx = (y+x)/(32)
+        yy = (y-x)/(32)
+        return xx,yy
 
     def main(self):
         """Main"""
