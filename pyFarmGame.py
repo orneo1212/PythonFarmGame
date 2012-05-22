@@ -32,7 +32,7 @@ class FarmGamePygame:
         self.itemscounter={'0':1,'1':1,'2':1,'3':1}
         self.timer=pygame.time.Clock()
 
-        self.groups=[pygame.sprite.Group()] # view groups
+        self.groups=[pygame.sprite.OrderedUpdates()] # view groups
         self.images=ImageLoader(imagesdata)
 
         self.currenttool='harvest'
@@ -132,35 +132,31 @@ class FarmGamePygame:
 
                 #draw ground
                 sprite=pygame.sprite.Sprite()
+                sprite.rect=(posx, posy, 32, 32)
                 if farmtile['water']>20:
-                    sprite.image=self.images.loadimage('wetground')
-                    sprite.rect=(posx, posy, 32, 32)
+                    sprite.image=self.images['wetground']
                 else:
-                    sprite.image=self.images.loadimage('dryground')
-                    sprite.rect=(posx, posy, 32, 32)
+                    sprite.image=self.images['dryground']
                 group.add(sprite)
 
                 #draw plant or seed
                 seed=farmtile['seed']
+
                 if seed:
                     sprite=pygame.sprite.Sprite()
+                    sprite.rect=(posx, posy, 32, 32)
                     if not seed.to_harvest:
                         sprite.image=self.images['seed']
-                        sprite.rect=(posx, posy, 32, 32)
                     else:
                         sprite.image=self.images['seed'+str(seed.id)]
-                        sprite.rect=(posx, posy, 32, 32)
                     #add sprite
                     group.add(sprite)
-        #
-        print "Sprites generated", len(group)
 
     def redraw(self,screen):
         """Redraw screen"""
 
         #Draw Farmfeld
-        for g in self.groups:
-            g.draw(screen)
+        self.groups[0].draw(screen)
 
         #draw tools
         #SICKLE Harvest (10,10,48,48)
@@ -203,7 +199,6 @@ class FarmGamePygame:
         if pos:
             seed=self.farm.get_farmtile(pos[0], pos[1])['seed']
             if seed:
-
                 self.render_notify(screen,mx,my,seed)
 
         #draw inventory notify window
@@ -228,7 +223,7 @@ class FarmGamePygame:
         sizex=200
         sizey=150
 
-        img=pygame.Surface((sizex,150))
+        img=pygame.Surface((sizex,sizey))
         img.fill((48,80,80))
         pygame.draw.rect(img, (255,255,255),(0, 0, sizex-1,sizey-1),1)
 
@@ -343,8 +338,8 @@ class FarmGamePygame:
         while self.running:
             self.events()
             self.update()
-            self.timer.tick(30)
             self.redraw(self.screen)
+            self.timer.tick(30)
 
         self.farm.save_farmfield('field.xml')
 
