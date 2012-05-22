@@ -179,7 +179,7 @@ class FarmGamePygame:
         screen.blit(self.images.loadimage('wateringcan'), (110, 10))
 
         text = "Money:%s" % self.player.money
-        text = self.font2.render(text, 0, (255, 255, 255), (255, 0, 255))
+        text = self.font2.render(text, 1, (255, 255, 255))
         text.set_colorkey((255, 0, 255))
         screen.blit(text, (400 - text.get_size()[0] / 2, 5))
 
