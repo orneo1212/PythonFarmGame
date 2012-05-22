@@ -46,10 +46,13 @@ class FarmField:
             if not farmtile['seed'].growing and farmtile['seed'].to_harvest:
                 #harvest seeds
                 for i in range(farmtile['seed'].growquantity):
+                    #
+                    player.event_harvest(farmtile['seed'])
+
                     itemid = farmtile['seed'].id
                     if itemid not in player.inventory:
                         player.inventory.append(itemid)
-                        player.itemscounter[str(itemid)] += 1
+                        player.itemscounter[str(itemid)] = 1
                     else:
                         player.itemscounter[str(itemid)] += 1
                 #TODO: add feature to many years seeds

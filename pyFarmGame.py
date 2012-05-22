@@ -177,6 +177,12 @@ class FarmGamePygame:
         screen.blit(self.images.loadimage('plant'), (60, 10))
         screen.blit(self.images.loadimage('wateringcan'), (110, 10))
 
+        text = "Money:%s" % self.player.money
+        text = self.notifyfont.render(text, 0, (255, 0, 100), (255, 0, 255))
+        text.set_colorkey((255, 0, 255))
+        screen.blit(text, (12, 570))
+
+
         if self.currenttool == 'harvest':
             pygame.draw.rect(screen, (255, 255, 255), (10, 10, 48, 48), 1)
         if self.currenttool == 'plant':

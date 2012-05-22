@@ -23,3 +23,7 @@ class Player:
             seed = Seed()
             seed.apply_dict(seeds[index])
             return seed
+
+    def event_harvest(self, seedharvested):
+        #self.money += seedharvested.growtime / 120
+        pass
