@@ -36,6 +36,7 @@ class FarmGamePygame:
         self.groups = [pygame.sprite.OrderedUpdates()] # view groups
         self.images = ImageLoader(imagesdata)
         self.notifyfont = pygame.font.Font("droidsansmono.ttf", 12)
+        self.font2 = pygame.font.Font("droidsansmono.ttf", 18)
 
         self.currenttool = 'harvest'
         self.currentseed = 0
@@ -178,9 +179,9 @@ class FarmGamePygame:
         screen.blit(self.images.loadimage('wateringcan'), (110, 10))
 
         text = "Money:%s" % self.player.money
-        text = self.notifyfont.render(text, 0, (255, 0, 100), (255, 0, 255))
+        text = self.font2.render(text, 0, (255, 255, 255), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
-        screen.blit(text, (12, 570))
+        screen.blit(text, (400 - text.get_size()[0] / 2, 5))
 
 
         if self.currenttool == 'harvest':
