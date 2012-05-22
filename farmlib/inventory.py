@@ -43,7 +43,7 @@ class PygameInventory:
         if index:
             itemid = index[1] * self.inventorysize[0] + index[0]
             if itemid < len(player.inventory):
-                self.render_inventory_notify(surface, mx + 5, my + 5,
+                self.render_inventory_notify(surface, mx + 5, my + 10,
                     player.inventory[itemid], player)
 
     def get_index_inventory_under_mouse(self):

@@ -224,6 +224,7 @@ class FarmGamePygame:
 
         sizex = 200
         sizey = 150
+        posy += 5
 
         img = pygame.Surface((sizex, sizey))
         img.fill((48, 80, 80))
