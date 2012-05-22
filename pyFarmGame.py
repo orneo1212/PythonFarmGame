@@ -139,7 +139,7 @@ class FarmGamePygame:
             for x in range(12):
                 farmtile=self.farm.get_farmtile(x,y)
 
-                posx=(x-y)*32+self.farmoffset[0]+3*64
+                posx=(x-y)*32+self.farmoffset[0]+150
                 posy=(x+y)*16+self.farmoffset[1]
 
                 #draw ground
@@ -299,7 +299,7 @@ class FarmGamePygame:
         """Get FarmTile position under mouse"""
 
         mx,my=pygame.mouse.get_pos()
-        mx-=3*64+32+self.farmoffset[0]
+        mx-=150+32+self.farmoffset[0]
         my-=self.farmoffset[1]
         xx,yy=self.screen2iso(mx,my)
 
