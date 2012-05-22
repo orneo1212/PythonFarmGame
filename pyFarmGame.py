@@ -75,9 +75,6 @@ class FarmGamePygame:
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 self.running=False
-            if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_ESCAPE:
-                    self.running=False
 
         #Mouse motion
         mx,my=pygame.mouse.get_pos()
@@ -395,16 +392,18 @@ class FarmGamePygame:
 
     def main(self):
         """Main"""
+        frame=0
+        if frame>2000:frame=0
 
         result=self.load_farmfield('field.xml')
         if not result:print "No save game found. Starting new one"
 
         while self.running:
-
             self.events()
             self.update()
             self.timer.tick(30)
-            self.redraw(self.screen)
+            if frame%2==0:self.redraw(self.screen)
+            frame+=1
 
         self.save_farmfield('field.xml')
 
