@@ -10,12 +10,13 @@ class Widget:
     '''
 
 
-    def __init__(self, width, height):
+    def __init__(self, (width, height)):
         self.width = width
         self.height = height
+        self.size = [self.width, self.height]
         self.visible = True
 
-    def render(self, surface):
+    def redraw(self, surface):
         pass
 
     def update(self):

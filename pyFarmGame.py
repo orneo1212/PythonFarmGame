@@ -7,6 +7,7 @@ from farmlib.imageloader import ImageLoader
 from farmlib.inventory import PygameInventory
 from farmlib.player import Player
 from farmlib.window import Window
+from farmlib.widgetlabel import Label
 
 pygame.init()
 
@@ -45,6 +46,12 @@ class FarmGamePygame:
         self.inventory = PygameInventory(self.images)
         self.sellwindow = Window((400, 400))
         self.sellwindow.hide()
+        self.sellwindow.addwidget(Label("Market place",
+                                        (200, 0),
+                                        size = 18,
+                                        color = (255, 255, 0),
+                                        align = "center")
+                                        )
         pygame.display.set_caption("PyFarmGame")
 
         self.running = True

@@ -42,3 +42,6 @@ class Window:
             if not widget.visible:
                 continue
             widget.poll_event(event)
+
+    def addwidget(self , widget):
+        self.widgets.append(widget)
