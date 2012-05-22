@@ -3,3 +3,8 @@
 3. Dodaj mozliwosc sprzedaży warzyw
 4. Dodaj z prawej na gorze ilosc posiadanej gotowki
 5. Jedno podlanie to jedna woda, daj ilosc posiadanej wody, mozna kupic dodatkową
+6. Podlanie wiecej niz raz, daje 50% szans ze zrobi sie kaluza
+7. Zasypanie kaluzy wymaga szpadla i troche kasy
+8. Na niektorych polach leza konary, usuniecie kosztuje troche kasy
+9. Losowo czasem pojawiaja sie mrowiska, max 2 na cala plansze, nie da sie uch usunac, zmieniaja miejsca co jakis czas
+
