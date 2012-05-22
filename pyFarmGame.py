@@ -42,9 +42,9 @@ class FarmGamePygame:
         pygame.display.set_caption("PyFarmGame")
 
         self.running=True
-        self.farmoffset=(212,50)
-        self.inventoryoffset=(10,400)
-        self.inventorysize=(5,5)
+        self.farmoffset=(212, 50)
+        self.inventoryoffset=(10, 400)
+        self.inventorysize=(5, 5)
 
         self.notifyfont=pygame.font.Font("droidsansmono.ttf",12)
 
@@ -57,7 +57,8 @@ class FarmGamePygame:
                 self.itemscounter[str(i)]=0
 
         #update a farm
-        self.farm.update()
+        modified=self.farm.update()
+        if modified:self.generate_field_sprites()
 
     def events(self):
         """Events handler"""
@@ -104,6 +105,7 @@ class FarmGamePygame:
                 itemid=index[1]*self.inventorysize[0]+index[0]
                 if itemid<len(self.inventory):
                     self.currentseed=self.inventory[itemid]
+                    self.currenttool='plant'
 
             #events for tools
             if pygame.Rect((10,10,48,48)).collidepoint((mx,my)):
@@ -187,7 +189,8 @@ class FarmGamePygame:
 
         #draw inventory
         img=self.images['inventory']
-        screen.blit(img, self.inventoryoffset)
+        invpos=self.inventoryoffset[0], self.inventoryoffset[1]-1
+        screen.blit(img, invpos)
         #draw inv items
         counterx=0
         countery=0

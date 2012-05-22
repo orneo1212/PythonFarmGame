@@ -76,10 +76,14 @@ class FarmField:
     def update(self):
         """update a farmtiles"""
 
+        modified=False
+
         #update each farmtile
         for farmtile in self.farmtiles.values():
             if farmtile['seed']:
-                farmtile['seed'].update(farmtile)
+                ret=farmtile['seed'].update(farmtile)
+                if ret:modified=True
+        return modified
 
     def save_farmfield(self, filename):
         """Save farmfield to xml file"""

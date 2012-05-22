@@ -47,6 +47,8 @@ class Seed:
             if self.growtimeremaining==0:
                 self.growing=False
                 self.to_harvest=True
+                return True
+        return False #  not updated
 
     def start_grow(self):
         """Start seed growing"""
