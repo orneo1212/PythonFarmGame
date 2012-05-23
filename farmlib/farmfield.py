@@ -119,6 +119,7 @@ class FarmField:
                     'growstarttime':str(seed.growstarttime),
                     'growendtime':str(seed.growendtime),
                     'growing':str(int(seed.growing)),
+                    'wilted':str(int(seed.wilted)),
                     'to_harvest':str(int(seed.to_harvest)),
                     'id':str(seed.id),
                     })
@@ -158,6 +159,9 @@ class FarmField:
                         newseed.growing = int(elem[0].attrib['growing'])
                         newseed.to_harvest = int(elem[0].attrib['to_harvest'])
                         newseed.id = int(elem[0].attrib['id'])
+                        try:
+                            newseed.wilted = int(elem[0].attrib['wilted'])
+                        except:pass
                         newseed.apply_dict(seeds[newseed.id])
 
                     #there no seed on the farmtile (wrong tag name)

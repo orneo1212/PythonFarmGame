@@ -18,6 +18,7 @@ class Seed:
         self.growing = False
 
         self.to_harvest = False
+        self.wilted = False
 
         self.price = 0
 
@@ -48,6 +49,10 @@ class Seed:
                 self.growing = False
                 self.to_harvest = True
                 return True
+        if self.to_harvest:
+            if time.time() > self.growendtime + 12 * 3600:
+                self.to_harvest = False
+                self.wilted = True
         return False #  not updated
 
     def start_grow(self):

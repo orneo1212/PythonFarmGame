@@ -24,6 +24,7 @@ imagesdata = {
     'frame':'images/frame.png',
     'sickle':'images/sickle.png',
     'plant':'images/plant.png',
+    'wiltedplant':'images/wiltedplant.png',
     'wateringcan':'images/wateringcan.png',
     'inventory':'images/inventory.png',
     }

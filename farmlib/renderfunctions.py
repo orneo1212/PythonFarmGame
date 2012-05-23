@@ -123,7 +123,10 @@ def generate_field_sprites(imgloader, farmfield, farmoffset):
                 sprite = pygame.sprite.Sprite()
                 sprite.rect = (posx, posy, 64, 32)
                 if not seed.to_harvest:
-                    sprite.image = imgloader['seed']
+                    if not seed.wilted:
+                        sprite.image = imgloader['seed']
+                    else:
+                        sprite.image = imgloader['wiltedplant']
                 else:
                     sprite.image = imgloader['seed' + str(seed.id)]
                 #add sprite
