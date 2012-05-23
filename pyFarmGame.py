@@ -61,14 +61,16 @@ class FarmGamePygame:
 
     def update(self):
         """Update farm"""
-
+        #Clear current seed if user dont have it
+        if self.currentseed != None:
+            if self.currentseed not in self.player.inventory:
+                self.currentseed = None
         self.inventory.update()
 
         #update a farm
         modified = self.farm.update()
         if modified:
             self.regenerate_groups()
-            self.currentseed = None
 
     def regenerate_groups(self):
         self.groups[0] = generate_field_sprites(
@@ -101,9 +103,12 @@ class FarmGamePygame:
             #there no seed under mouse
             else:
                 if self.currenttool == 'plant' and pos:
-                    self.farm.plant(pos[0], pos[1],
-                        self.player.create_new_seed_by_id(self.currentseed)
-                        )
+                    #Plant seed if user have it and its empty field
+                    newseed = self.player.create_new_seed_by_id(self.currentseed)
+                    if not newseed:
+                        self.currentseed = None
+                    else:
+                        self.farm.plant(pos[0], pos[1], newseed)
                     #regenerate sprites
                     self.regenerate_groups()
 

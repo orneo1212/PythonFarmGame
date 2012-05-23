@@ -23,6 +23,8 @@ class Player:
             seed = Seed()
             seed.apply_dict(seeds[index])
             return seed
+        #There no seed in inventory
+        return False
 
     def event_harvest(self, seedharvested):
         #self.money += seedharvested.growtime / 120

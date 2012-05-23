@@ -18,8 +18,11 @@ def draw_tools(surface, currenttool, currentseed, imgloader):
 
     #Draw current tool
     if currenttool == "plant":
-        if currentseed == None:img = None
-        img = imgloader.loadimage('seed' + str(currentseed))
+        #draw seed only when correct is selected
+        if currentseed == None:
+            img = None
+        else:
+            img = imgloader.loadimage('seed' + str(currentseed))
     if currenttool == "harvest":
         img = imgloader.loadimage('sickle')
     if currenttool == "watering":
