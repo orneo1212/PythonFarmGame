@@ -22,7 +22,7 @@ class Widget:
     def update(self):
         pass
 
-    def events(self):
+    def poll_event(self, event):
         pass
 
     def hide(self):

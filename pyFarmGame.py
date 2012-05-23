@@ -66,27 +66,7 @@ class FarmGamePygame:
         modified = self.farm.update()
         if modified:self.generate_field_sprites()
 
-    def events(self):
-        """Events handler"""
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.running = False
-                if event.key == pygame.K_1:
-                    self.currenttool = "harvest"
-                if event.key == pygame.K_2:
-                    self.currenttool = "plant"
-                if event.key == pygame.K_3:
-                    self.currenttool = "watering"
-                if event.key == pygame.K_s:
-                    if self.sellwindow.visible:
-                        self.sellwindow.hide()
-                    else:
-                        self.sellwindow.show()
-
+    def handle_farmfield_events(self, event):
         #Mouse motion
         mx, my = pygame.mouse.get_pos()
 
@@ -99,9 +79,13 @@ class FarmGamePygame:
             if seed:
                 if self.currenttool == 'harvest' and pos:
                     self.farm.harvest(pos[0], pos[1], self.player)
+                    #regenerate sprites
+                    self.generate_field_sprites()
 
                 if self.currenttool == 'watering' and pos:
                     self.farm.water(pos[0], pos[1])
+                    #regenerate sprites
+                    self.generate_field_sprites()
 
             #there no seed under mouse
             else:
@@ -109,6 +93,8 @@ class FarmGamePygame:
                     self.farm.plant(pos[0], pos[1],
                         self.player.create_new_seed_by_id(self.currentseed)
                         )
+                    #regenerate sprites
+                    self.generate_field_sprites()
 
             #events for inventory
             index = self.inventory.get_index_inventory_under_mouse()
@@ -117,16 +103,52 @@ class FarmGamePygame:
                 if itemid < len(self.player.inventory):
                     self.currentseed = self.player.inventory[itemid]
                     self.currenttool = 'plant'
+                    #regenerate sprites
+                    self.generate_field_sprites()
 
             #events for tools
             if pygame.Rect((10, 10, 48, 48)).collidepoint((mx, my)):
                 self.currenttool = 'harvest'
+                #regenerate sprites
+                self.generate_field_sprites()
             if pygame.Rect((60, 10, 48, 48)).collidepoint((mx, my)):
                 self.currenttool = 'plant'
+                #regenerate sprites
+                self.generate_field_sprites()
             if pygame.Rect((110, 10, 48, 48)).collidepoint((mx, my)):
                 self.currenttool = 'watering'
-            #regenerate sprites
-            self.generate_field_sprites()
+                #regenerate sprites
+                self.generate_field_sprites()
+
+    def events(self):
+        """Events handler"""
+
+        for event in pygame.event.get():
+            #poll events to sell window
+            self.sellwindow.poll_event(event)
+
+            if event.type == pygame.QUIT:
+                self.running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.running = False
+                #Events only for active game 
+                if not self.sellwindow.visible:
+                    if event.key == pygame.K_1:
+                        self.currenttool = "harvest"
+                    if event.key == pygame.K_2:
+                        self.currenttool = "plant"
+                    if event.key == pygame.K_3:
+                        self.currenttool = "watering"
+                #
+                if event.key == pygame.K_s:
+                    if self.sellwindow.visible:
+                        self.sellwindow.hide()
+                    else:
+                        self.sellwindow.show()
+            #
+            if not self.sellwindow.visible:
+                self.handle_farmfield_events(event)
 
     def generate_field_sprites(self):
         group = self.groups[0]
@@ -204,27 +226,28 @@ class FarmGamePygame:
         if self.currenttool == 'watering':
             pygame.draw.rect(screen, (255, 255, 255), (110, 10, 48, 48), 1)
 
-        self.inventory.draw_inventory(screen, self.player)
+        if not self.sellwindow.visible:
+            self.inventory.draw_inventory(screen, self.player)
 
-        mx, my = pygame.mouse.get_pos()
+            mx, my = pygame.mouse.get_pos()
 
-        #Draw current tool
-        if self.currenttool == "plant":
-            img = self.images.loadimage('seed' + str(self.currentseed))
-        if self.currenttool == "harvest":
-            img = self.images.loadimage('sickle')
-        if self.currenttool == "watering":
-            img = self.images.loadimage('wateringcan')
-        screen.blit(img, (mx, my - 48))
+            #Draw current tool
+            if self.currenttool == "plant":
+                img = self.images.loadimage('seed' + str(self.currentseed))
+            if self.currenttool == "harvest":
+                img = self.images.loadimage('sickle')
+            if self.currenttool == "watering":
+                img = self.images.loadimage('wateringcan')
+            screen.blit(img, (mx, my - 48))
 
-        #draw notify window if mouse under seed
-        pos = self.get_farmtile_pos_under_mouse()
-        if pos:
-            seed = self.farm.get_farmtile(pos[0], pos[1])['seed']
-            if seed:
-                self.render_notify(screen, mx + 5, my + 5, seed)
-
-        self.inventory.draw_inventory_notify(self.screen, self.player)
+            #draw notify window if mouse under seed
+            pos = self.get_farmtile_pos_under_mouse()
+            if pos:
+                seed = self.farm.get_farmtile(pos[0], pos[1])['seed']
+                if seed:
+                    self.render_notify(screen, mx + 5, my + 5, seed)
+            #draw inventory
+            self.inventory.draw_inventory_notify(self.screen, self.player)
 
         #draw selected seed
         screen.blit(
