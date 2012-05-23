@@ -200,6 +200,36 @@ class FarmGamePygame:
                     #add sprite
                     group.add(sprite)
 
+    def draw_tools(self, surface):
+        #Draw selection on selected tool
+        if self.currenttool == 'harvest':
+            pygame.draw.rect(surface, (255, 255, 255), (10, 10, 48, 48), 1)
+        if self.currenttool == 'plant':
+            pygame.draw.rect(surface, (255, 255, 255), (60, 10, 48, 48), 1)
+        if self.currenttool == 'watering':
+            pygame.draw.rect(surface, (255, 255, 255), (110, 10, 48, 48), 1)
+
+        mx, my = pygame.mouse.get_pos()
+
+        #Draw current tool
+        if self.currenttool == "plant":
+            img = self.images.loadimage('seed' + str(self.currentseed))
+        if self.currenttool == "harvest":
+            img = self.images.loadimage('sickle')
+        if self.currenttool == "watering":
+            img = self.images.loadimage('wateringcan')
+        surface.blit(img, (mx, my - 48))
+
+    def draw_seed(self, surface, seedid, position):
+        img = self.images.loadimage('seed' + str(seedid))
+        surface.blit(img, position)
+
+    def draw_selected_seed(self, surface):
+        #draw selected seed
+        img = self.images.loadimage('dryground')
+        surface.blit(img, (65, 65))
+        self.draw_seed(surface, self.currentseed, (65, 65))
+
     def redraw(self, screen):
         """Redraw screen"""
 
@@ -218,27 +248,12 @@ class FarmGamePygame:
         text.set_colorkey((255, 0, 255))
         screen.blit(text, (400 - text.get_size()[0] / 2, 5))
 
-
-        if self.currenttool == 'harvest':
-            pygame.draw.rect(screen, (255, 255, 255), (10, 10, 48, 48), 1)
-        if self.currenttool == 'plant':
-            pygame.draw.rect(screen, (255, 255, 255), (60, 10, 48, 48), 1)
-        if self.currenttool == 'watering':
-            pygame.draw.rect(screen, (255, 255, 255), (110, 10, 48, 48), 1)
+        self.draw_tools(screen)
 
         if not self.sellwindow.visible:
             self.inventory.draw_inventory(screen, self.player)
 
             mx, my = pygame.mouse.get_pos()
-
-            #Draw current tool
-            if self.currenttool == "plant":
-                img = self.images.loadimage('seed' + str(self.currentseed))
-            if self.currenttool == "harvest":
-                img = self.images.loadimage('sickle')
-            if self.currenttool == "watering":
-                img = self.images.loadimage('wateringcan')
-            screen.blit(img, (mx, my - 48))
 
             #draw notify window if mouse under seed
             pos = self.get_farmtile_pos_under_mouse()
@@ -249,21 +264,14 @@ class FarmGamePygame:
             #draw inventory
             self.inventory.draw_inventory_notify(self.screen, self.player)
 
-        #draw selected seed
-        screen.blit(
-            self.images.loadimage('dryground'),
-            (65, 65)
-            )
-        screen.blit(
-            self.images.loadimage('seed' + str(self.currentseed)),
-            (65, 65)
-            )
+        self.draw_selected_seed(screen)
+
         #redraw sell window
         self.sellwindow.render(screen, (200, 40))
         #update screen
         pygame.display.flip()
 
-    def render_notify(self, screenobj, posx, posy, underseed):
+    def render_notify(self, screen, posx, posy, underseed):
         """Render notification about planted seed"""
 
         sizex = 200
@@ -275,8 +283,7 @@ class FarmGamePygame:
         pygame.draw.rect(img, (255, 255, 255), (0, 0, sizex - 1, sizey - 1), 1)
 
         #Draw seed
-        seedimg = self.images["seed" + str(underseed.id)]
-        img.blit(seedimg, (sizex / 2 - 32, 65))
+        self.draw_seed(img, underseed.id, (sizex / 2 - 32, 65))
 
         #name
         text = "" + underseed.name + ""
@@ -305,7 +312,7 @@ class FarmGamePygame:
         #alpha
         img.set_alpha(128 + 64)
         if posx > (640 - sizex):posx -= sizex
-        screenobj.blit(img, (posx, posy))
+        screen.blit(img, (posx, posy))
 
     def get_farmtile_pos_under_mouse(self):
         """Get FarmTile position under mouse"""
