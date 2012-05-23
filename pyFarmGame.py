@@ -53,6 +53,7 @@ class FarmGamePygame:
                                         color = (255, 255, 0),
                                         align = "center")
                                         )
+        self.moneylabel = Label("", (0, 0), align = "center")
         pygame.display.set_caption("PyFarmGame")
 
         self.running = True
@@ -65,7 +66,7 @@ class FarmGamePygame:
 
         #update a farm
         modified = self.farm.update()
-        if modified:self.generate_field_sprites()
+        if modified:self.regenerate_groups()
 
     def regenerate_groups(self):
         self.groups[0] = generate_field_sprites(
@@ -128,6 +129,15 @@ class FarmGamePygame:
                 #regenerate sprites
                 self.regenerate_groups()
 
+    def active_game_events(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                self.currenttool = "harvest"
+            if event.key == pygame.K_2:
+                self.currenttool = "plant"
+            if event.key == pygame.K_3:
+                self.currenttool = "watering"
+
     def events(self):
         """Events handler"""
 
@@ -142,12 +152,7 @@ class FarmGamePygame:
                     self.running = False
                 #Events only for active game 
                 if not self.sellwindow.visible:
-                    if event.key == pygame.K_1:
-                        self.currenttool = "harvest"
-                    if event.key == pygame.K_2:
-                        self.currenttool = "plant"
-                    if event.key == pygame.K_3:
-                        self.currenttool = "watering"
+                    self.active_game_events(event)
                 #
                 if event.key == pygame.K_s:
                     if self.sellwindow.visible:
@@ -164,10 +169,11 @@ class FarmGamePygame:
         #Draw Farmfeld
         self.groups[0].draw(screen)
 
+        #Render current money
         text = "Money:%s" % self.player.money
-        text = self.font2.render(text, 1, (255, 255, 255))
-        text.set_colorkey((255, 0, 255))
-        screen.blit(text, (400 - text.get_size()[0] / 2, 5))
+        self.moneylabel.settext(text)
+        self.moneylabel.setposition((400, 5))
+        self.moneylabel.redraw(screen)
 
         #Draw tools and selected tool rectangle
         draw_tools(screen, self.currenttool, self.currentseed, self.images)
