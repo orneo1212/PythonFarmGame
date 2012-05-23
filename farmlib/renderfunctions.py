@@ -18,12 +18,14 @@ def draw_tools(surface, currenttool, currentseed, imgloader):
 
     #Draw current tool
     if currenttool == "plant":
+        if currentseed == None:img = None
         img = imgloader.loadimage('seed' + str(currentseed))
     if currenttool == "harvest":
         img = imgloader.loadimage('sickle')
     if currenttool == "watering":
         img = imgloader.loadimage('wateringcan')
-    surface.blit(img, (mx, my - 48))
+    if img:
+        surface.blit(img, (mx, my - 48))
 
     #draw tools
     #SICKLE Harvest (10,10,48,48)
@@ -37,6 +39,7 @@ def draw_seed(surface, seedid, position, imgloader):
         surface.blit(img, position)
 
 def draw_selected_seed(surface, selectedseed, imgloader):
+    if  selectedseed == None:return
     #draw selected seed
     img = imgloader.loadimage('dryground')
     surface.blit(img, (65, 65))

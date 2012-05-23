@@ -66,7 +66,9 @@ class FarmGamePygame:
 
         #update a farm
         modified = self.farm.update()
-        if modified:self.regenerate_groups()
+        if modified:
+            self.regenerate_groups()
+            self.currentseed = None
 
     def regenerate_groups(self):
         self.groups[0] = generate_field_sprites(
@@ -199,7 +201,8 @@ class FarmGamePygame:
             #draw inventory
             self.inventory.draw_inventory_notify(self.screen, self.player)
 
-        draw_selected_seed(screen, self.currentseed, self.images)
+        if self.currentseed != None:
+            draw_selected_seed(screen, self.currentseed, self.images)
 
         #redraw sell window
         self.sellwindow.render(screen, (200, 40))
