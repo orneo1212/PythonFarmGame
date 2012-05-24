@@ -13,6 +13,8 @@ def draw_tools(surface, currenttool, currentseed, imgloader):
         pygame.draw.rect(surface, (255, 255, 255), (60, 10, 48, 48), 1)
     if currenttool == 'watering':
         pygame.draw.rect(surface, (255, 255, 255), (110, 10, 48, 48), 1)
+    if currenttool == 'shovel':
+        pygame.draw.rect(surface, (255, 255, 255), (160, 10, 48, 48), 1)
 
     mx, my = pygame.mouse.get_pos()
 
@@ -27,6 +29,8 @@ def draw_tools(surface, currenttool, currentseed, imgloader):
         img = imgloader.loadimage('sickle')
     if currenttool == "watering":
         img = imgloader.loadimage('wateringcan')
+    if currenttool == "shovel":
+        img = imgloader.loadimage('shovel')
     if img:
         surface.blit(img, (mx, my - 48))
 
@@ -36,6 +40,7 @@ def draw_tools(surface, currenttool, currentseed, imgloader):
     surface.blit(imgloader.loadimage('sickle'), (10, 10))
     surface.blit(imgloader.loadimage('plant'), (60, 10))
     surface.blit(imgloader.loadimage('wateringcan'), (110, 10))
+    surface.blit(imgloader.loadimage('shovel'), (160, 10))
 
 def draw_seed(surface, seedid, position, imgloader):
         img = imgloader.loadimage('seed' + str(seedid))

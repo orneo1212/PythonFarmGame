@@ -26,6 +26,7 @@ imagesdata = {
     'plant':'images/plant.png',
     'wiltedplant':'images/wiltedplant.png',
     'wateringcan':'images/wateringcan.png',
+    'shovel':'images/shovel.png',
     'inventory':'images/inventory.png',
     }
 
@@ -145,6 +146,8 @@ class FarmGamePygame:
                 self.currenttool = "plant"
             if event.key == pygame.K_3:
                 self.currenttool = "watering"
+            if event.key == pygame.K_4:
+                self.currenttool = "shovel"
 
     def events(self):
         """Events handler"""
