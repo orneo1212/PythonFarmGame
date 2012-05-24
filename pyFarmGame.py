@@ -186,6 +186,9 @@ class FarmGamePygame:
             #
             if not self.sellwindow.visible:
                 self.handle_farmfield_events(event)
+            #Send events to market
+            else:
+                self.sellwindow.poll_event(event)
 
     def redraw(self, screen):
         """Redraw screen"""

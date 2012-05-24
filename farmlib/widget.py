@@ -15,6 +15,7 @@ class Widget:
         self.height = height
         self.size = [self.width, self.height]
         self.visible = True
+        self.callbacks = {}  # key=signal name value= function
 
     def redraw(self, surface):
         pass
@@ -30,3 +31,6 @@ class Widget:
 
     def show(self):
         self.visible = True
+
+    def connect(self, signal, function):
+        self.callbacks[signal] = function

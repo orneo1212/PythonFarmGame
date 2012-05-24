@@ -6,6 +6,8 @@ Created on 24-05-2012
 from window import Window
 from widgetlabel import Label
 from widgetimage import Image
+from widgetbutton import Button
+
 from seed import seeds
 
 class MarketWindow(Window):
@@ -33,5 +35,10 @@ class MarketWindow(Window):
             if posx > 1:
                 posx = 0
                 posy += 1
+        #add buttons
+        self.buybutton = Button("Buy", (80, 380))
+        self.sellbutton = Button("Sell", (300, 380))
+        self.addwidget(self.buybutton)
+        self.addwidget(self.sellbutton)
         #hide market at load
         self.hide()

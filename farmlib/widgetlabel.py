@@ -21,6 +21,8 @@ class Label(Widget):
 
     def render_text(self):
         self.image = self.labelfont.render(self.text, 1, self.color)
+        self.width = self.image.get_size()[0]
+        self.height = self.image.get_size()[1]
 
     def setposition(self, position):
         if self.align == "center":
