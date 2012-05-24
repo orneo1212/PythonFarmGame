@@ -10,6 +10,7 @@ from farmlib.window import Window
 from farmlib.widgetlabel import Label
 from farmlib.renderfunctions import *
 
+from farmlib.marketwindow import MarketWindow
 pygame.init()
 
 #SETTINGS
@@ -51,14 +52,10 @@ class FarmGamePygame:
 
         self.player = Player()
         self.inventory = PygameInventory(self.images)
-        self.sellwindow = Window((400, 400))
-        self.sellwindow.hide()
-        self.sellwindow.addwidget(Label("Market place",
-                                        (200, 0),
-                                        size = 18,
-                                        color = (255, 255, 0),
-                                        align = "center")
-                                        )
+
+        #create marketwindow
+        self.sellwindow = MarketWindow((400, 400), self.images)
+
         self.moneylabel = Label("", (0, 0), align = "center")
         self.versionlabel = Label("v. " + __VERSION__, (5, 580))
         pygame.display.set_caption("PyFarmGame")

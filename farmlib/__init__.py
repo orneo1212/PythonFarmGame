@@ -7,3 +7,8 @@ import player
 #GUI
 import window
 import widget
+
+import widgetimage
+import widgetlabel
+
+import marketwindow
