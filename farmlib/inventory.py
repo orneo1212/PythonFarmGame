@@ -84,6 +84,16 @@ class PygameInventory(Inventory):
                 counterx * 64 + self.inventoryoffset[0],
                 countery * 32 + self.inventoryoffset[1])
                 )
+            #Render count
+            text = str(player.itemscounter[str(item)])
+            text = self.notifyfont.render(text, 0, (255, 255, 0))
+            surface.blit(
+                        text,
+                        (
+                        counterx * 64 + self.inventoryoffset[0] + 48,
+                        countery * 32 + self.inventoryoffset[1] + 16
+                        )
+                        )
             counterx += 1
             if counterx == self.inventorysize[0]:
                 counterx = 0
