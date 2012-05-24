@@ -97,6 +97,12 @@ class FarmGamePygame:
                     #regenerate sprites
                     self.regenerate_groups()
 
+                if self.currenttool == 'shovel' and pos:
+                    if seed.wilted:
+                        self.farm.removewilted(pos[0], pos[1], self.player)
+                    #regenerate sprites
+                    self.regenerate_groups()
+
                 if self.currenttool == 'watering' and pos:
                     self.farm.water(pos[0], pos[1])
                     #regenerate sprites

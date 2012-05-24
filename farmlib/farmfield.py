@@ -58,6 +58,11 @@ class FarmField:
                 farmtile['seed'] = None
                 farmtile['water'] = 0
 
+    def removewilted(self, posx, posy, player):
+        farmtile = self.get_farmtile(posx, posy)
+        farmtile['seed'] = None
+        farmtile['water'] = None
+
     def water(self, posx, posy):
         """Watering a farm tile"""
 
