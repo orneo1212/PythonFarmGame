@@ -137,6 +137,10 @@ class FarmGamePygame:
                 self.currenttool = 'watering'
                 #regenerate sprites
                 self.regenerate_groups()
+            if pygame.Rect((160, 10, 48, 48)).collidepoint((mx, my)):
+                self.currenttool = 'shovel'
+                #regenerate sprites
+                self.regenerate_groups()
 
     def active_game_events(self, event):
         if event.type == pygame.KEYDOWN:
