@@ -13,6 +13,7 @@ from farmlib.renderfunctions import *
 pygame.init()
 
 #SETTINGS
+__VERSION__ = "0.3"
 REMOVEWILTEDCOST = 0
 
 imagesdata = {
@@ -59,6 +60,7 @@ class FarmGamePygame:
                                         align = "center")
                                         )
         self.moneylabel = Label("", (0, 0), align = "center")
+        self.versionlabel = Label("v. " + __VERSION__, (5, 580))
         pygame.display.set_caption("PyFarmGame")
 
         self.running = True
@@ -223,7 +225,10 @@ class FarmGamePygame:
                                       )
             #draw inventory
             self.inventory.draw_inventory_notify(self.screen, self.player)
+        #Draw wersion
+        self.versionlabel.redraw(screen)
 
+        #draw selected seed
         if self.currentseed != None:
             draw_selected_seed(screen, self.currentseed, self.images)
 
