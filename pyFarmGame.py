@@ -38,6 +38,7 @@ imagesdata = {
     'inventory':'images/inventory.png',
     'grid':'images/grid.png',
     'grid2':'images/grid2.png',
+    'marketbg':'images/marketbg.png',
     }
 
 class FarmGamePygame:

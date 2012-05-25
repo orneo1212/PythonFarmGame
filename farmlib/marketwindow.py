@@ -22,6 +22,8 @@ class MarketWindow(Window):
         #selected item
         self.selecteditem = None
 
+        self.showborder = False
+
         #Create gui
         self.create_gui()
 
@@ -34,6 +36,13 @@ class MarketWindow(Window):
         columns = (self.width / 64)
         rows = (self.height / 32)
 
+        #Background
+        bgimage = self.imgloader["marketbg"]
+        bgimage = Image(bgimage, (0, 0))
+        self.addwidget(bgimage)
+
+
+        #Add items
         gridimg = self.imgloader['grid2']
         for seeddef in seeds:
             itemid = seeddef['id']
@@ -53,17 +62,20 @@ class MarketWindow(Window):
             if posx > columns:
                 posx = 0
                 posy += 1
-        #===================
-        # DRAW ITEM DETAILS
-        #===================
+
         #Title
         titlelabel = Label("Market place", (200, 0), size = 18,
                            color = (255, 255, 0), align = "center")
         self.addwidget(titlelabel)
 
+
+        #===================
+        # DRAW ITEM DETAILS
+        #===================
+
         #Costlabel
         costlabel = Label("Cost:", (80, 340), size = 12,
-                           color = (200, 0, 200), align = "center")
+                           color = (255, 255, 255), align = "center")
         self.addwidget(costlabel)
         #Cost value
         self.costvalue = Label("", (100, 340), size = 12,
@@ -72,7 +84,7 @@ class MarketWindow(Window):
 
         #Selllabel
         selllabel = Label("Sell value:", (280, 340), size = 12,
-                           color = (200, 0, 200), align = "center")
+                           color = (255, 255, 255), align = "center")
         self.addwidget(selllabel)
         #Sell value
         self.sellvalue = Label("", (320, 340), size = 12,
@@ -81,7 +93,7 @@ class MarketWindow(Window):
 
         #Name label
         namelabel = Label("Name:", (80, 300), size = 12,
-                           color = (200, 0, 200), align = "center")
+                           color = (255, 255, 255), align = "center")
         self.addwidget(namelabel)
         #Name value
         self.namevalue = Label("", (100, 300), size = 12,
@@ -90,7 +102,7 @@ class MarketWindow(Window):
 
         #Quantity label
         quantitylabel = Label("Quantity:", (80, 320), size = 12,
-                           color = (200, 0, 200), align = "center")
+                           color = (255, 255, 255), align = "center")
         self.addwidget(quantitylabel)
         #Quantity value
         self.quantityvalue = Label("", (120, 320), size = 12,
@@ -99,7 +111,7 @@ class MarketWindow(Window):
 
         #grow label
         growlabel = Label("Grow in: ", (280, 320), size = 12,
-                           color = (200, 0, 200), align = "center")
+                           color = (255, 255, 255), align = "center")
         self.addwidget(growlabel)
         #grow value
         self.growvalue = Label("", (320, 320), size = 12,
@@ -108,7 +120,7 @@ class MarketWindow(Window):
 
         #Message
         self.message = Label("", (10, 360), size = 12,
-                           color = (255, 0, 255), align = "center")
+                           color = (250, 0, 250), align = "center")
         self.addwidget(self.message)
         #Selected item icon
         self.selectedicon = Image(None, (160, 332))
