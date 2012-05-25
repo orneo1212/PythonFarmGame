@@ -18,6 +18,11 @@ class Widget:
         self.visible = True
         self.callbacks = {}  # key=signal name value= function
 
+    def _setsize(self, newsize):
+        self.width = newsize[0]
+        self.height = newsize[1]
+        self.size = newsize[:]
+
     def redraw(self, surface):
         pass
 
@@ -33,5 +38,5 @@ class Widget:
     def show(self):
         self.visible = True
 
-    def connect(self, signal, function):
-        self.callbacks[signal] = function
+    def connect(self, signal, function, **data):
+        self.callbacks[signal] = [function, data]

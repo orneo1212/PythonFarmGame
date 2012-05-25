@@ -20,11 +20,6 @@ class Button(Widget):
             self._setsize(self._calculate_size(self.bgimage))
         Widget.__init__(self, (self.width, self.height))
 
-    def _setsize(self, newsize):
-        self.width = newsize[0]
-        self.height = newsize[1]
-        self.size = newsize[:]
-
     def _render_text(self):
         return self.labelfont.render(self.label, 1, self.color)
 
@@ -49,15 +44,17 @@ class Button(Widget):
             surface.blit(self.bgimage, self.position)
         elif not self.bgimage:
             surface.blit(self.image, self.position)
+        elif not self.label and self.bgimage:
+            surface.blit(self.bgimage, self.position)
 
     def settext(self, newtext):
         self.text = newtext
         self.render_text()
 
-    def _call_callback(self, signal, **data):
+    def _call_callback(self, signal):
         if signal in self.callbacks:
             if self.callbacks[signal]:
-                self.callbacks[signal](self, **data)
+                self.callbacks[signal][0](self, **self.callbacks[signal][1])
 
     def poll_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -66,6 +63,6 @@ class Button(Widget):
                 if pos != None:
                     if pygame.Rect(self.position[0], self.position[1],
                                    self.width, self.height).collidepoint(pos):
-                        self._call_callback("clicked", pos = pos)
+                        self._call_callback("clicked")
 
 
