@@ -4,10 +4,10 @@ from widget import Widget
 
 class Button(Widget):
     def __init__(self, label, position, bgimage = None, labelsize = 12,
-                 labelcolor = (255, 255, 0)):
+                 color = (255, 255, 0)):
         self.bgimage = bgimage
         self.label = label
-        self.color = labelcolor
+        self.color = color
         #self.image = image
         self.position = position
         self.labelsize = labelsize

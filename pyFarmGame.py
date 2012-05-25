@@ -202,8 +202,10 @@ class FarmGamePygame:
         #Draw tools and selected tool rectangle
         draw_tools(screen, self.currenttool, self.currentseed, self.images)
 
+        #draw inventory
+        self.inventory.draw_inventory(screen, self.player)
+
         if not self.sellwindow.visible:
-            self.inventory.draw_inventory(screen, self.player)
 
             mx, my = pygame.mouse.get_pos()
 

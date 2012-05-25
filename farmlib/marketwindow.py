@@ -14,8 +14,9 @@ class MarketWindow(Window):
     def __init__(self, size, imgloader, player):
         self.player = player
         self.imgloader = imgloader
-        Window.__init__(self, size, (200, 40))
-
+        Window.__init__(self, size, (350, 40))
+        #set window alpha
+        self.alphavalue = 250 * 0.85
         #items offset for gui buttons
         self.itemsoffset = [32, 20]
         #selected item
@@ -66,8 +67,8 @@ class MarketWindow(Window):
         self.addwidget(self.selectedicon)
 
         #add buttons
-        self.buybutton = Button("Buy", (80, 380))
-        self.sellbutton = Button("Sell", (300, 380))
+        self.buybutton = Button("Buy", (80, 380), color = (0, 255, 0))
+        self.sellbutton = Button("Sell", (300, 380), color = (0, 255, 0))
         self.addwidget(self.buybutton)
         self.addwidget(self.sellbutton)
         self.buybutton.connect("clicked", self.on_buy_clicked)

@@ -18,12 +18,22 @@ class Window:
         self.widgets = []
         self.position = position
         self.visible = True
+        self.alphavalue = 255
+        #border
+        self.showborder = True
+        self.bordercolor = (128, 128, 0)
+        self.bordersize = 2
+        self.backgroundcolor = (80, 80, 80)
 
     def render(self, surface):
         if not self.visible:return
         img = pygame.surface.Surface((self.width, self.height))
-        img.fill((80, 80, 80))
-        pygame.draw.rect(img, (255, 255, 0), (0, 0, self.width, self.height), 1)
+        img.set_alpha(self.alphavalue)
+        img.fill(self.backgroundcolor)
+        #draw border
+        if self.showborder:
+            pygame.draw.rect(img, self.bordercolor,
+                             (0, 0, self.width, self.height), self.bordersize)
         for widget in self.widgets:
             widget.redraw(img)
         surface.blit(img, self.position)
