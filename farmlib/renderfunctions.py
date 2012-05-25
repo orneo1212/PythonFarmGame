@@ -55,7 +55,8 @@ def draw_selected_seed(surface, selectedseed, imgloader):
     surface.blit(img, (65, 65))
     draw_seed(surface, selectedseed, (65, 65), imgloader)
 
-def render_seed_notify(surface, font, posx, posy, underseed, imgloader):
+def render_seed_notify(surface, font, posx, posy, underseed, farmtile,
+                       imgloader):
     """Render notification about planted seed"""
 
     sizex = 200
@@ -67,7 +68,7 @@ def render_seed_notify(surface, font, posx, posy, underseed, imgloader):
     pygame.draw.rect(img, (255, 255, 255), (0, 0, sizex - 1, sizey - 1), 1)
 
     #Draw seed
-    draw_seed(img, underseed.id, (sizex / 2 - 32, 65), imgloader)
+    draw_seed(img, underseed.id, (sizex / 2 - 32, 80), imgloader)
 
     #name
     text = "" + underseed.name + ""
@@ -82,10 +83,16 @@ def render_seed_notify(surface, font, posx, posy, underseed, imgloader):
     img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
 
     #Quentity
-    text = "Quantity:" + str(underseed.growquantity)
+    text = "Quantity: " + str(underseed.growquantity)
     text = font.render(text, 0, (255, 255, 150), (255, 0, 255))
     text.set_colorkey((255, 0, 255))
     img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 45))
+
+    #Water
+    text = "Water: " + str(farmtile["water"]) + " %"
+    text = font.render(text, 0, (0, 128, 255), (255, 0, 255))
+    text.set_colorkey((255, 0, 255))
+    img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 65))
 
     #ready to harvest
     if underseed.to_harvest:

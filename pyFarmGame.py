@@ -217,7 +217,8 @@ class FarmGamePygame:
             #draw notify window if mouse under seed
             pos = self.get_farmtile_pos_under_mouse()
             if pos:
-                seed = self.farm.get_farmtile(pos[0], pos[1])['seed']
+                farmtile = self.farm.get_farmtile(pos[0], pos[1])
+                seed = farmtile['seed']
                 if seed:
                     render_seed_notify(
                                        screen,
@@ -225,6 +226,7 @@ class FarmGamePygame:
                                        mx + 5,
                                        my + 5,
                                        seed,
+                                       farmtile,
                                        self.images
                                       )
             #draw inventory
