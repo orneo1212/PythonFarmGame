@@ -59,6 +59,9 @@ class FarmField:
                 farmtile['water'] = 0
 
     def removewilted(self, posx, posy, player):
+        self.remove(posx, posy, player)
+
+    def remove(self, posx, posy, player):
         farmtile = self.get_farmtile(posx, posy)
         farmtile['seed'] = None
         farmtile['water'] = None
