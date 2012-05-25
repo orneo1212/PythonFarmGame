@@ -57,12 +57,11 @@ class Button(Widget):
                 self.callbacks[signal][0](self, **self.callbacks[signal][1])
 
     def poll_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                pos = self.parent.get_relative_mousepos()
-                if pos != None:
-                    if pygame.Rect(self.position[0], self.position[1],
-                                   self.width, self.height).collidepoint(pos):
-                        self._call_callback("clicked")
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            pos = self.parent.get_relative_mousepos()
+            if pos != None:
+                if pygame.Rect(self.position[0], self.position[1],
+                               self.width, self.height).collidepoint(pos):
+                    self._call_callback("clicked")
 
 

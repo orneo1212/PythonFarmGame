@@ -72,6 +72,8 @@ class FarmField:
             farmtile['water'] = 100 #  min(farmtile['water']+10,100)
             watereffect = int(0.2 * farmtile['seed'].growtime)
             farmtile['seed'].growendtime -= watereffect
+            return True
+        else:return False
 
     def status(self, posx, posy):
         """Status"""

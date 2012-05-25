@@ -8,9 +8,11 @@ from farmlib.inventory import PygameInventory
 from farmlib.player import Player
 from farmlib.widgetlabel import Label
 from farmlib.renderfunctions import *
+from farmlib.timer import Timer
 
 from farmlib.marketwindow import MarketWindow
 pygame.init()
+pygame.key.set_repeat(100, 100)
 
 #SETTINGS
 __VERSION__ = "0.4"
@@ -42,6 +44,7 @@ class FarmGamePygame:
         self.screen = pygame.display.set_mode((800, 600), pygame.DOUBLEBUF)
         self.farm = FarmField()
         self.timer = pygame.time.Clock()
+        self.eventstimer = Timer()
 
         self.groups = [None] # view groups
         self.images = ImageLoader(imagesdata)
@@ -91,7 +94,9 @@ class FarmGamePygame:
         mx, my = pygame.mouse.get_pos()
 
         #left mouse button
-        if pygame.mouse.get_pressed()[0] == 1:
+        if pygame.mouse.get_pressed()[0] == 1 and \
+            self.eventstimer.tickpassed(1):
+
             seed = self.get_seed_under_cursor()
             pos = self.get_farmtile_pos_under_mouse()
 
@@ -110,9 +115,9 @@ class FarmGamePygame:
                     self.regenerate_groups()
 
                 if self.currenttool == 'watering' and pos:
-                    self.farm.water(pos[0], pos[1])
+                    done = self.farm.water(pos[0], pos[1])
                     #regenerate sprites
-                    self.regenerate_groups()
+                    if done:self.regenerate_groups()
 
             #there no seed under mouse
             else:
@@ -186,7 +191,7 @@ class FarmGamePygame:
                         self.sellwindow.hide()
                     else:
                         self.sellwindow.show()
-            #
+            #Handle farmfield events
             if not self.sellwindow.visible:
                 self.handle_farmfield_events(event)
 
@@ -299,7 +304,8 @@ class FarmGamePygame:
             self.events()
             self.update()
             self.redraw(self.screen)
-            self.timer.tick(30)
+            self.eventstimer.tick()
+            self.timer.tick()
 
         #Save game
         self.farm.save_farmfield('field.xml', self.player)
