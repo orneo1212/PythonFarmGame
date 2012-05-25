@@ -1,3 +1,7 @@
+Version 0.4.2
++ Added item info in market
++ ESC key close market window if opened
+
 Version 0.4
 + Market added
 + Added grid on farm field
