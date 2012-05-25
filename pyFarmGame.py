@@ -188,7 +188,7 @@ class FarmGamePygame:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.running = False
-                #Events only for active game 
+                #Events only for active game
                 if not self.sellwindow.visible:
                     self.active_game_events(event)
                 #
@@ -196,6 +196,7 @@ class FarmGamePygame:
                     if self.sellwindow.visible:
                         self.sellwindow.hide()
                     else:
+                        self.sellwindow.selecteditem=None
                         self.sellwindow.show()
             #Handle farmfield events
             if not self.sellwindow.visible:
