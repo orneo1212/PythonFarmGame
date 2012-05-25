@@ -22,11 +22,14 @@ class Seed:
 
         self.price = 0
 
+    def update_remainig_growing_time(self):
+        self.growtimeremaining = int(self.growendtime - time.time())
+        if self.growtimeremaining < 0:self.growtimeremaining = 0
+
     def update(self, farmtile):
         """update a seed"""
 
-        self.growtimeremaining = int(self.growendtime - time.time())
-        if self.growtimeremaining < 0:self.growtimeremaining = 0
+        self.update_remainig_growing_time()
 
         #calculate remaining time in hours, minutes and seconds
         remain = self.growtimeremaining

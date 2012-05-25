@@ -22,7 +22,8 @@ imagesdata = {
     'seed1':"images/onion.png",
     'seed2':"images/bean.png",
     'seed3':"images/carrot.png",
-    'seed':'images/seed.bmp',
+    'seed':'images/seed.png',
+    'seedhalfgrow':"images/seedhalfgrow.png",
     'dryground':'images/dryground.png',
     'wetground':'images/wetground.png',
     'background':'images/background.png',
@@ -62,6 +63,8 @@ class FarmGamePygame:
 
         self.running = True
         self.farmoffset = (212, 50)
+        #regenerate groups
+        self.regenerate_groups()
 
     def update(self):
         """Update farm"""

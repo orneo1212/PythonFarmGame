@@ -131,7 +131,13 @@ def generate_field_sprites(imgloader, farmfield, farmoffset):
                 sprite.rect = (posx, posy, 64, 32)
                 if not seed.to_harvest:
                     if not seed.wilted:
-                        sprite.image = imgloader['seed']
+                        seed.update_remainig_growing_time()
+                        #draw seeds on the ground
+                        if seed.growtimeremaining <= 60 * 60:
+                            sprite.image = imgloader['seedhalfgrow']
+                        else:
+                            sprite.image = imgloader['seed']
+                    #seed is wilted
                     else:
                         sprite.image = imgloader['wiltedplant']
                 else:
