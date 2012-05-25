@@ -39,6 +39,7 @@ class Window:
             widget.update()
 
     def poll_event(self, event):
+        if not self.visible:return
         for widget in self.widgets:
             if not widget.visible:
                 continue

@@ -11,7 +11,8 @@ from widgetbutton import Button
 from seed import seeds
 
 class MarketWindow(Window):
-    def __init__(self, size, imgloader):
+    def __init__(self, size, imgloader, player):
+        self.player = player
         self.imgloader = imgloader
         Window.__init__(self, size, (200, 40))
         titlelabel = Label(
@@ -46,7 +47,7 @@ class MarketWindow(Window):
         self.hide()
 
     def on_buy_clicked(self, widget, **data):
-        print widget.label
+        self.player.money -= 5
 
     def on_sell_clicked(self, widget, **data):
-        print widget.label
+        self.player.money += 5

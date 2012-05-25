@@ -54,7 +54,7 @@ class FarmGamePygame:
         self.inventory = PygameInventory(self.images)
 
         #create marketwindow
-        self.sellwindow = MarketWindow((400, 400), self.images)
+        self.sellwindow = MarketWindow((400, 400), self.images, self.player)
 
         self.moneylabel = Label("", (0, 0), align = "center")
         self.versionlabel = Label("v. " + __VERSION__, (5, 580))
@@ -166,7 +166,7 @@ class FarmGamePygame:
         """Events handler"""
 
         for event in pygame.event.get():
-            #poll events to sell window
+            #poll events to market window
             self.sellwindow.poll_event(event)
 
             if event.type == pygame.QUIT:
@@ -186,9 +186,6 @@ class FarmGamePygame:
             #
             if not self.sellwindow.visible:
                 self.handle_farmfield_events(event)
-            #Send events to market
-            else:
-                self.sellwindow.poll_event(event)
 
     def redraw(self, screen):
         """Redraw screen"""
