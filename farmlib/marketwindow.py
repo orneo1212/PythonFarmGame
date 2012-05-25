@@ -33,15 +33,22 @@ class MarketWindow(Window):
         posx, posy = [0, 0]
         columns = (self.width / 64)
         rows = (self.height / 32)
+
+        gridimg = self.imgloader['grid2']
         for seeddef in seeds:
             itemid = seeddef['id']
             #add seed image widget 
             img = self.imgloader['seed' + str(itemid)]
             px = self.width / columns * posx + self.itemsoffset[0]
             py = self.height / rows * posy + self.itemsoffset[1]
+            #add grid
+            grid = Image(gridimg, (px, py))
+            self.addwidget(grid)
+            #Add image button
             imagebutton = Button("", (px, py), bgimage = img)
             self.addwidget(imagebutton)
             imagebutton.connect("clicked", self.on_item_select, itemid = itemid)
+            #limit
             posx += 1
             if posx > columns:
                 posx = 0

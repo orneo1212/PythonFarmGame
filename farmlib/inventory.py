@@ -74,21 +74,15 @@ class PygameInventory:
         counterx = 0
         countery = 0
         for item in player.inventory:
-            surface.blit(self.images.loadimage('seed' + str(item)),
-                (
-                counterx * 64 + self.inventoryoffset[0],
-                countery * 32 + self.inventoryoffset[1])
-                )
+            px = counterx * 64 + self.inventoryoffset[0] + 4
+            py = countery * 32 + self.inventoryoffset[1] + 2
+            surface.blit(self.images['grid2'], (px, py))
+            surface.blit(self.images['seed' + str(item)], (px, py))
             #Render count
             text = str(player.itemscounter[str(item)])
             text = self.notifyfont.render(text, 0, (255, 255, 0))
-            surface.blit(
-                        text,
-                        (
-                        counterx * 64 + self.inventoryoffset[0] + 48,
-                        countery * 32 + self.inventoryoffset[1] + 16
-                        )
-                        )
+            surface.blit(text, (px + 48, py + 16))
+            #limit
             counterx += 1
             if counterx == self.inventorysize[0]:
                 counterx = 0

@@ -36,6 +36,7 @@ imagesdata = {
     'shovel':'images/shovel.png',
     'inventory':'images/inventory.png',
     'grid':'images/grid.png',
+    'grid2':'images/grid2.png',
     }
 
 class FarmGamePygame:
