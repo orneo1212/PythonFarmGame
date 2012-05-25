@@ -112,6 +112,8 @@ class FarmGamePygame:
                     if seed.wilted and self.player.money >= REMOVEWILTEDCOST:
                         self.player.money -= REMOVEWILTEDCOST
                         self.farm.removewilted(pos[0], pos[1], self.player)
+                    else:
+                        self.farm.removewilted(pos[0], pos[1], self.player)
                     #regenerate sprites
                     self.regenerate_groups()
 
