@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-import pygame
+import os
 
 from farmlib.farmfield import FarmField
 from farmlib.imageloader import ImageLoader
 from farmlib.inventory import PygameInventory
 from farmlib.player import Player
-from farmlib.window import Window
 from farmlib.widgetlabel import Label
 from farmlib.renderfunctions import *
 
@@ -280,7 +279,15 @@ class FarmGamePygame:
 
     def main(self):
         """Main"""
+        #check for lock file
+        if os.path.isfile("game.lock"):
+            print "Gamse is already running. If not manualy"\
+                " remove game.lock file and try again"
+            exit()
+        else:
+            open("game.lock", "w").close()
 
+        #Load game
         result = self.farm.load_farmfield('field.xml', self.player)
         if not result:print "No save game found. Starting new one"
 
@@ -292,7 +299,10 @@ class FarmGamePygame:
             self.redraw(self.screen)
             self.timer.tick(30)
 
+        #Save game
         self.farm.save_farmfield('field.xml', self.player)
+        #remove lock
+        os.remove("game.lock")
 
 if __name__ == '__main__':
     f = FarmGamePygame()
