@@ -37,7 +37,7 @@ class MarketWindow(Window):
         gridimg = self.imgloader['grid2']
         for seeddef in seeds:
             itemid = seeddef['id']
-            #add seed image widget 
+            #add seed image widget
             img = self.imgloader['seed' + str(itemid)]
             px = self.width / columns * posx + self.itemsoffset[0]
             py = self.height / rows * posy + self.itemsoffset[1]
@@ -53,7 +53,7 @@ class MarketWindow(Window):
             if posx > columns:
                 posx = 0
                 posy += 1
-        #Title 
+        #Title
         titlelabel = Label("Market place", (200, 0), size = 18,
                            color = (255, 255, 0), align = "center")
         self.addwidget(titlelabel)
@@ -112,6 +112,7 @@ class MarketWindow(Window):
         self.update_buy_sell_button(itemid)
 
     def on_buy_clicked(self, widget, **data):
+        if self.selecteditem is None:return
         itemid = self.selecteditem
         cost = self.get_item_cost(itemid)
         if self.player.money >= cost:
