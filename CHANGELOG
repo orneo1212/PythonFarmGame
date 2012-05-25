@@ -2,7 +2,9 @@ Version 0.4.2
 + Added item info in market
 + ESC key close market window if opened
 + Added potatos to game
++ New file format for saves (old not work)
 
 Version 0.4
 + Market added
 + Added grid on farm field
+

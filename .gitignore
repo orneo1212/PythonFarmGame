@@ -1,5 +1,5 @@
 *.pyc
 *~
-field.xml
+field.json
 game.lock
 

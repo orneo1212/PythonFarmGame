@@ -3,7 +3,7 @@ import os
 from xml.etree import ElementTree as ET
 
 from farmlib.seed import Seed, seeds
-
+from farmlib.seed import DictMapper
 
 class FarmField:
 
@@ -102,94 +102,57 @@ class FarmField:
         return modified
 
     def save_farmfield(self, filename, player):
-        """Save farmfield to xml file"""
+        data = DictMapper()
+        data["inventory"] = player.inventory
+        data["itemscounter"] = player.itemscounter
+        data["money"] = player.money
+        data["tiles"] = []
 
-        farmfield = ET.Element('FarmField',
-                               {'inventory':str(player.inventory),
-                                'itemscounter':str(player.itemscounter),
-                                'money':str(player.money),
-                                })
+        #fill tiles
+        for ftt in self.farmtiles.keys():
+            ft = self.farmtiles[ftt]
+            #skip when no seed
+            if not ft['seed']:continue
 
-        for ft in self.farmtiles.keys():
-            posx = ft.split('x')[0]
-            posy = ft.split('x')[1]
-
-            farmtile = self.farmtiles[ft]
-            if not farmtile['seed']:continue
-
-            farmtileelem = ET.Element('farmtile',
-                                      {'posx':posx,
-                                       'posy':posy,
-                                       'water':str(farmtile['water'])
-                                       })
-
-            #store seed if exist
-            if farmtile['seed']:
-
-                seed = farmtile['seed']
-
-                seedelem = ET.Element('seed',
-                    {
-                    'growstarttime':str(seed.growstarttime),
-                    'growendtime':str(seed.growendtime),
-                    'growing':str(int(seed.growing)),
-                    'wilted':str(int(seed.wilted)),
-                    'to_harvest':str(int(seed.to_harvest)),
-                    'id':str(seed.id),
-                    })
-                farmtileelem.append(seedelem)
-
-            farmfield.append(farmtileelem)
-        #save created node to file
-        ET.ElementTree(farmfield).write(filename)
-        return 1
+            seed = ft['seed']
+            tile = {}
+            tile["px"] = int(ftt.split('x')[0])
+            tile["py"] = int(ftt.split('x')[1])
+            tile["water"] = ft["water"]
+            tile["seed"] = {}
+            #seed data
+            tile["seed"]['growstarttime'] = seed.growstarttime
+            tile["seed"]['growendtime'] = seed.growendtime
+            tile["seed"]['growing'] = bool(seed.growing)
+            tile["seed"]['wilted'] = bool(seed.wilted)
+            tile["seed"]['to_harvest'] = bool(seed.to_harvest)
+            tile["seed"]['id'] = seed.id
+            #set tile
+            data["tiles"].append(tile)
+        #save data
+        data.save("field.json")
+        return True
 
     def load_farmfield(self, filename, player):
-        """Load farmfield from XML file"""
+        data = DictMapper()
+        data.load(filename)
+        player.inventory = data["inventory"]
+        player.itemscounter = data["itemscounter"]
+        player.money = data["money"]
+        #load tiles
+        for tile in data["tiles"]:
+            px = tile["px"]
+            py = tile["py"]
+            newseed = Seed()
+            newseed.id = tile["seed"]["id"]
+            newseed.to_harvest = tile["seed"]["to_harvest"]
+            newseed.wilted = tile["seed"]["wilted"]
+            newseed.growing = tile["seed"]["growing"]
+            newseed.growendtime = tile["seed"]["growendtime"]
+            newseed.growstarttime = tile["seed"]["growstarttime"]
 
-        if not os.path.isfile(filename):
-            return 0
-
-        rootelement = ET.parse(open(filename)).getroot()
-        if rootelement.tag != "FarmField":return 1
-
-        #load game information
-        player.inventory = eval(str(rootelement.attrib['inventory']))
-        player.itemscounter = eval(str(rootelement.attrib['itemscounter']))
-        try:
-            player.money = int(rootelement.attrib['money'])
-        except:pass
-
-
-        for elem in rootelement:
-            if elem.tag == "farmtile":
-                #if there is a children node (should be /seed/)
-                if elem is not None:
-                    #got seed
-                    if elem[0].tag == "seed":
-                        newseed = Seed()
-                        newseed.growstarttime = int(elem[0].attrib['growstarttime'])
-                        newseed.growendtime = int(elem[0].attrib['growendtime'])
-                        newseed.growing = int(elem[0].attrib['growing'])
-                        newseed.to_harvest = int(elem[0].attrib['to_harvest'])
-                        newseed.id = int(elem[0].attrib['id'])
-                        try:
-                            newseed.wilted = int(elem[0].attrib['wilted'])
-                        except:pass
-                        newseed.apply_dict(seeds[newseed.id])
-
-                    #there no seed on the farmtile (wrong tag name)
-                    else:newseed = None
-                #there no seed on the farmtile
-                else:newseed = None
-
-            #restore a farmtile
-            px = int(elem.attrib['posx'])
-            py = int(elem.attrib['posy'])
-            wa = int(elem.attrib['water'])
-            newfarmtile = {'water':wa, 'seed':newseed}
-
-            self.set_farmtile(px, py, newfarmtile)
-
-        #return 1 as done
-        return 1
+            farmtile = {"water":tile["water"], "seed":newseed}
+            newseed.apply_dict(seeds[newseed.id])
+            self.set_farmtile(px, py, farmtile)
+        #return
+        return True

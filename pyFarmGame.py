@@ -310,7 +310,7 @@ class FarmGamePygame:
             open("game.lock", "w").close()
 
         #Load game
-        result = self.farm.load_farmfield('field.xml', self.player)
+        result = self.farm.load_farmfield('field.json', self.player)
         if not result:print "No save game found. Starting new one"
 
         self.regenerate_groups()
@@ -323,7 +323,7 @@ class FarmGamePygame:
             self.timer.tick(30)
 
         #Save game
-        self.farm.save_farmfield('field.xml', self.player)
+        self.farm.save_farmfield('field.json', self.player)
         #remove lock
         os.remove("game.lock")
 
