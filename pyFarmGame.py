@@ -92,8 +92,7 @@ class FarmGamePygame:
 
     def handle_farmfield_events(self, event):
         #left mouse button
-        if pygame.mouse.get_pressed()[0] == 1 and \
-            self.eventstimer.tickpassed(1):
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
 
             #Mouse motion
             mx, my = pygame.mouse.get_pos()
