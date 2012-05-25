@@ -48,6 +48,7 @@ class MarketWindow(Window):
 
     def on_buy_clicked(self, widget, **data):
         self.player.money -= 5
+        self.player.add_item(0)
 
     def on_sell_clicked(self, widget, **data):
         self.player.money += 5

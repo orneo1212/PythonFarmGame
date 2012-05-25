@@ -12,16 +12,51 @@ class Player:
             if not self.itemscounter.has_key(str(i)):
                 self.itemscounter[str(i)] = 0
 
-    def create_new_seed_by_id(self, index):
+    def item_in_inventory(self, itemid):
+        if itemid is None:return False
+        itemid = int(itemid)
+        stritemid = str(itemid)
+        if itemid in self.inventory:
+            #itemid must be in itemscounter dict
+            if stritemid not in self.itemscounter:
+                self.itemscounter[stritemid] = 1
+            return True
+        else:return False
+
+    def remove_item(self, itemid):
+        itemid = int(itemid)
+        stritemid = str(itemid)
+        if self.item_in_inventory(itemid):
+            #if there is more items in stackremove one item
+            if self.itemscounter[stritemid] > 1:
+                self.itemscounter[stritemid] -= 1
+            #remove item 
+            else:
+                del self.itemscounter[stritemid]
+                self.inventory.remove(itemid)
+            return True
+        else:
+            return False
+
+    def add_item(self, itemid):
+        itemid = int(itemid)
+        stritemid = str(itemid)
+        if self.item_in_inventory(itemid):
+            self.itemscounter[stritemid] += 1
+            return True
+        else:
+            #add item to inventory and set counter to 1
+            self.inventory.append(itemid)
+            self.itemscounter[stritemid] = 1
+
+
+    def create_new_seed_by_id(self, itemid):
         """Create new seed from seeds dictionary"""
 
-        if index in self.inventory and self.itemscounter[str(index)] > 0:
-            self.itemscounter[str(index)] -= 1
-            #remove index from inventory if there no seeds in itemscounter
-            if self.itemscounter[str(index)] == 0:
-                self.inventory.remove(index)
+        if self.item_in_inventory(itemid):
+            self.remove_item(itemid)
             seed = Seed()
-            seed.apply_dict(seeds[index])
+            seed.apply_dict(seeds[itemid])
             return seed
         #There no seed in inventory
         return False
