@@ -24,6 +24,7 @@ imagesdata = {
     'seed3':"images/carrot.png",
     'seed':'images/seed.png',
     'seedhalfgrow':"images/seedhalfgrow.png",
+    'seedfullgrow':"images/seedfullgrow.png",
     'dryground':'images/dryground.png',
     'wetground':'images/wetground.png',
     'background':'images/background.png',
