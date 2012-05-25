@@ -82,8 +82,9 @@ class MarketWindow(Window):
         self.costvalue.settext(cost)
 
     def on_buy_clicked(self, widget, **data):
-        if self.player.money >= 5:
-            self.player.money -= 5
+        itemid = self.selecteditem
+        if self.player.money >= seeds[itemid]["growtime"]:
+            self.player.money -= seeds[itemid]["growtime"]
             self.player.add_item(self.selecteditem)
             self.message.settext("You bought item")
         else:
