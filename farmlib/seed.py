@@ -77,4 +77,5 @@ seeds = [
     {'id':1, 'name':"Onion", "description":"Grow in 1 hour.", 'growtime':3600 * 1, 'growquantity':4, 'price':80},
     {'id':2, 'name':"Bean", "description":"Grow in 8 hours.", 'growtime':3600 * 8, 'growquantity':5, 'price':10},
     {'id':3, 'name':"Carrot", "description":"Grow in 30 minutes.", 'growtime':30 * 60, 'growquantity':4, 'price':5},
+    {'id':4, 'name':"Potato", "description":"Grow in 5 hours.", 'growtime':5 * 3600, 'growquantity':8, 'price':100},
     ]

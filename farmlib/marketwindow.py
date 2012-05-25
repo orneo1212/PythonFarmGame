@@ -90,7 +90,7 @@ class MarketWindow(Window):
         self.sellbutton.connect("clicked", self.on_sell_clicked)
 
     def get_item_cost(self, itemid):
-        cost = int(seeds[itemid]["growtime"] / 4)
+        cost = int(seeds[itemid]["price"])
         return cost
 
     def update_buy_sell_button(self, itemid):

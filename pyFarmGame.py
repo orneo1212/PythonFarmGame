@@ -23,6 +23,7 @@ imagesdata = {
     'seed1':"images/onion.png",
     'seed2':"images/bean.png",
     'seed3':"images/carrot.png",
+    'seed4':"images/potato.png",
     'seed':'images/seed.png',
     'seedhalfgrow':"images/seedhalfgrow.png",
     'seedfullgrow':"images/seedfullgrow.png",
