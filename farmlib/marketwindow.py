@@ -89,6 +89,10 @@ class MarketWindow(Window):
         self.buybutton.connect("clicked", self.on_buy_clicked)
         self.sellbutton.connect("clicked", self.on_sell_clicked)
 
+    def get_item_cost(self, itemid):
+        cost = int(seeds[itemid]["growtime"] / 4)
+        return cost
+
     def update_buy_sell_button(self, itemid):
         have = 0
         if self.player.item_in_inventory(itemid):
@@ -102,15 +106,16 @@ class MarketWindow(Window):
         #set image
         self.selectedicon.setimage(img)
         #update values
-        cost = seeds[itemid]["growtime"]
+        cost = self.get_item_cost(itemid)
         self.costvalue.settext(cost)
         self.sellvalue.settext(int(cost / 2))
         self.update_buy_sell_button(itemid)
 
     def on_buy_clicked(self, widget, **data):
         itemid = self.selecteditem
-        if self.player.money >= seeds[itemid]["growtime"]:
-            self.player.money -= seeds[itemid]["growtime"]
+        cost = self.get_item_cost(itemid)
+        if self.player.money >= cost:
+            self.player.money -= cost
             self.player.add_item(self.selecteditem)
             self.message.settext("You bought item")
             self.update_buy_sell_button(itemid)
@@ -120,11 +125,12 @@ class MarketWindow(Window):
     def on_sell_clicked(self, widget, **data):
         if self.selecteditem is None:return
         itemid = self.selecteditem
+        cost = self.get_item_cost(itemid)
 
         #remove item if player have it
         done = self.player.remove_item(itemid)
         if done:
-            self.player.money += int(seeds[itemid]["growtime"] / 2)
+            self.player.money += cost / 2
             self.message.settext("You sold item")
             self.update_buy_sell_button(itemid)
         else:
