@@ -92,7 +92,8 @@ class FarmGamePygame:
 
     def handle_farmfield_events(self, event):
         #left mouse button
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+        if pygame.mouse.get_pressed()[0] == 1 and \
+            self.eventstimer.tickpassed(1):
 
             #Mouse motion
             mx, my = pygame.mouse.get_pos()
@@ -134,7 +135,8 @@ class FarmGamePygame:
                     #regenerate sprites
                     self.regenerate_groups()
 
-            #events for inventory
+        #events for inventory
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             index = self.inventory.get_index_inventory_under_mouse()
             if index:
                 itemid = index[1] * self.inventory.inventorysize[0] + index[0]
