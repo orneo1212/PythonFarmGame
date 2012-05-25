@@ -233,7 +233,7 @@ class FarmGamePygame:
             draw_selected_seed(screen, self.currentseed, self.images)
 
         #redraw sell window
-        self.sellwindow.render(screen, (200, 40))
+        self.sellwindow.render(screen)
         #update screen
         pygame.display.flip()
 

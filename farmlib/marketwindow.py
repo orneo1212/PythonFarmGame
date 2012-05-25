@@ -13,7 +13,7 @@ from seed import seeds
 class MarketWindow(Window):
     def __init__(self, size, imgloader):
         self.imgloader = imgloader
-        Window.__init__(self, size)
+        Window.__init__(self, size, (200, 40))
         titlelabel = Label(
                            "Market place",
                            (200, 0),
@@ -40,5 +40,13 @@ class MarketWindow(Window):
         self.sellbutton = Button("Sell", (300, 380))
         self.addwidget(self.buybutton)
         self.addwidget(self.sellbutton)
+        self.buybutton.connect("clicked", self.on_buy_clicked)
+        self.sellbutton.connect("clicked", self.on_sell_clicked)
         #hide market at load
         self.hide()
+
+    def on_buy_clicked(self, widget, **data):
+        print widget.label
+
+    def on_sell_clicked(self, widget, **data):
+        print widget.label

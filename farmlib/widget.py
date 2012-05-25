@@ -11,6 +11,7 @@ class Widget:
 
 
     def __init__(self, (width, height)):
+        self.parent = None
         self.width = width
         self.height = height
         self.size = [self.width, self.height]

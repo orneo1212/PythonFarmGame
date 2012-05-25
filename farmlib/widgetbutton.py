@@ -15,29 +15,46 @@ class Button(Widget):
 
         #Setup image
         if not self.bgimage:
-            self.render_text()
+            self._settextimage()
         else:
-            self.width = self.bgimage.get_size()[0]
-            self.height = self.bgimage.get_size()[1]
+            self._setsize(self._calculate_size(self.bgimage))
         Widget.__init__(self, (self.width, self.height))
 
-    def render_text(self):
-        self.image = self.labelfont.render(self.label, 1, self.color)
-        self.width = self.image.get_size()[0]
-        self.height = self.image.get_size()[1]
+    def _setsize(self, newsize):
+        self.width = newsize[0]
+        self.height = newsize[1]
+        self.size = newsize[:]
+
+    def _render_text(self):
+        return self.labelfont.render(self.label, 1, self.color)
+
+    def _calculate_size(self, image):
+        width = image.get_size()[0]
+        height = image.get_size()[1]
+        return (width, height)
+
+    def _settextimage(self):
+        self.image = self._render_text()
+        self._setsize(self._calculate_size(self.image))
+
 
     def setimage(self, newimage):
         self.image = newimage
+        self._setsize(self._calculate_size(self.image))
 
     def redraw(self, surface):
-        surface.blit(self.image, self.position)
+        if self.label and self.bgimage:
+            img = self._render_text()
+            surface.blit(img, self.position)
+            surface.blit(self.bgimage, self.position)
+        elif not self.bgimage:
+            surface.blit(self.image, self.position)
 
     def settext(self, newtext):
         self.text = newtext
         self.render_text()
 
-    def _call_callback(self, signal, callback, data = {}):
-        print "clicked"
+    def _call_callback(self, signal, **data):
         if signal in self.callbacks:
             if self.callbacks[signal]:
                 self.callbacks[signal](self, **data)
@@ -45,9 +62,10 @@ class Button(Widget):
     def poll_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                kx, ky = event.pos
-                if pygame.Rect(self.position[0], self.position[1],
-                               self.width, self.height).collidepoint(kx, ky):
-                    self._call_callback((kx, ky))
+                pos = self.parent.get_relative_mousepos()
+                if pos != None:
+                    if pygame.Rect(self.position[0], self.position[1],
+                                   self.width, self.height).collidepoint(pos):
+                        self._call_callback("clicked", pos = pos)
 
 
