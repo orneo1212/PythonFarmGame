@@ -6,10 +6,13 @@ from farmlib.farmfield import FarmField
 from farmlib.imageloader import ImageLoader
 from farmlib.inventory import PygameInventory
 from farmlib.player import Player
-from farmlib.widgetlabel import Label
 from farmlib.renderfunctions import *
 from farmlib.timer import Timer
 from farmlib.seed import seeds
+
+from farmlib.widgetlabel import Label
+from farmlib.widgetbutton import Button
+from farmlib.container import Container
 
 from farmlib.marketwindow import MarketWindow
 
@@ -63,6 +66,10 @@ class FarmGamePygame:
         self.player = Player()
         self.inventory = PygameInventory(self.images)
 
+        #create game window
+        self.gamewindow = Container((800, 600), (0, 0))
+        self.create_game_window()
+
         #create marketwindow
         self.sellwindow = MarketWindow((400, 400), self.images, self.player)
 
@@ -74,6 +81,13 @@ class FarmGamePygame:
         self.farmoffset = (212, 50)
         #regenerate groups
         self.regenerate_groups()
+
+    def create_game_window(self):
+        #close button
+        closebutton = Button("Market", (710, 0), labelsize = 25, \
+                             color = (253, 208, 23))
+        closebutton.connect("clicked", lambda x:self.sellwindow.togglevisible())
+        self.gamewindow.addwidget(closebutton)
 
     def update(self):
         """Update farm"""
@@ -185,6 +199,8 @@ class FarmGamePygame:
 
         for event in pygame.event.get():
             #poll events to market window
+            self.gamewindow.poll_event(event)
+            #poll events to market window
             self.sellwindow.poll_event(event)
 
             if event.type == pygame.QUIT:
@@ -258,6 +274,8 @@ class FarmGamePygame:
         if self.currentseed != None:
             draw_selected_seed(screen, self.currentseed, self.images)
 
+        #redraw game window
+        self.gamewindow.redraw(screen)
         #redraw sell window
         self.sellwindow.redraw(screen)
         #update screen

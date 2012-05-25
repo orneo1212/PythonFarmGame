@@ -41,6 +41,11 @@ class MarketWindow(Window):
         bgimage = Image(bgimage, (0, 0))
         self.addwidget(bgimage)
 
+        #close button
+        closebutton = Button("X", (380, 0), labelsize = 15, \
+                             color = (255, 255, 255))
+        closebutton.connect("clicked", lambda x:self.hide())
+        self.addwidget(closebutton)
 
         #Add items
         gridimg = self.imgloader['grid2']

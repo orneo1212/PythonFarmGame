@@ -5,6 +5,7 @@ import inventory
 import player
 
 #GUI
+import container
 import window
 import widget
 

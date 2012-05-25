@@ -5,11 +5,9 @@ Created on 22-05-2012
 '''
 import pygame
 
-from container import Container
-
-class Window(Container):
+class Container:
     '''
-    Window for gui
+    Container for gui
     '''
 
 
@@ -20,40 +18,12 @@ class Window(Container):
         self.widgets = []
         self.position = position
         self.visible = True
-        self.alphavalue = 255
-        #border
-        self.showborder = True
-        self.bordercolor = (128, 128, 0)
-        self.bordersize = 2
-        self.backgroundcolor = (80, 80, 80)
-
-    def _render(self):
-        group = pygame.sprite.OrderedUpdates()
-        #background
-        bgsprite = pygame.sprite.Sprite()
-        bgsprite.image = self._render_background()
-        bgsprite.rect = (self.position, self.size)
-        #add sprites to group
-        group.add(bgsprite)
-        #return group
-        return group
-
-    def _render_background(self):
-        img = pygame.surface.Surface((self.width, self.height))
-        img.set_alpha(self.alphavalue)
-        img.fill(self.backgroundcolor)
-        if self.showborder:
-            pygame.draw.rect(img, self.bordercolor,
-                             (0, 0, self.width, self.height), self.bordersize)
-        #render widgets
-        for widget in self.widgets:
-            widget.redraw(img)
-        return img
 
     def redraw(self, surface):
         if not self.visible:return
-        group = self._render()
-        group.draw(surface)
+        for widget in self.widgets:
+            if widget.visible:
+                widget.redraw(surface)
 
 
     def hide(self):
@@ -61,6 +31,12 @@ class Window(Container):
 
     def show(self):
         self.visible = True
+
+    def togglevisible(self):
+        if self.visible:
+            self.hide()
+        else:
+            self.show()
 
     def update(self):
         for widget in self.widgets:
