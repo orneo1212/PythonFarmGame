@@ -42,7 +42,7 @@ class MarketWindow(Window):
             self.addwidget(imagebutton)
             imagebutton.connect("clicked", self.on_item_select, itemid = itemid)
             posx += 1
-            if posx > 1:
+            if posx > columns:
                 posx = 0
                 posy += 1
         #Title 
