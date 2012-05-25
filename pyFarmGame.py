@@ -14,7 +14,7 @@ from farmlib.marketwindow import MarketWindow
 pygame.init()
 
 #SETTINGS
-__VERSION__ = "0.3"
+__VERSION__ = "0.4"
 REMOVEWILTEDCOST = 0
 
 imagesdata = {
