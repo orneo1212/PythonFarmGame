@@ -5,7 +5,8 @@ Created on 23-05-2012
 '''
 import pygame
 
-def draw_tools(surface, currenttool, currentseed, imgloader):
+def draw_tools(surface, currenttool, currentseed, imgloader,
+               drawnearcursor = True):
     #Draw selection on selected tool
     if currenttool == 'harvest':
         pygame.draw.rect(surface, (255, 255, 255), (10, 10, 48, 48), 1)
@@ -18,21 +19,22 @@ def draw_tools(surface, currenttool, currentseed, imgloader):
 
     mx, my = pygame.mouse.get_pos()
 
-    #Draw current tool
-    if currenttool == "plant":
-        #draw seed only when correct is selected
-        if currentseed == None:
-            img = None
-        else:
-            img = imgloader.loadimage('seed' + str(currentseed))
-    if currenttool == "harvest":
-        img = imgloader.loadimage('sickle')
-    if currenttool == "watering":
-        img = imgloader.loadimage('wateringcan')
-    if currenttool == "shovel":
-        img = imgloader.loadimage('shovel')
-    if img:
-        surface.blit(img, (mx, my - 48))
+    if drawnearcursor:
+        #Draw current tool
+        if currenttool == "plant":
+            #draw seed only when correct is selected
+            if currentseed == None:
+                img = None
+            else:
+                img = imgloader.loadimage('seed' + str(currentseed))
+        if currenttool == "harvest":
+            img = imgloader.loadimage('sickle')
+        if currenttool == "watering":
+            img = imgloader.loadimage('wateringcan')
+        if currenttool == "shovel":
+            img = imgloader.loadimage('shovel')
+        if img:
+            surface.blit(img, (mx, my - 48))
 
     #draw tools
     #SICKLE Harvest (10,10,48,48)

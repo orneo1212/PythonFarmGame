@@ -16,7 +16,7 @@ class MarketWindow(Window):
         self.imgloader = imgloader
         Window.__init__(self, size, (350, 40))
         #set window alpha
-        self.alphavalue = 250 * 0.85
+        self.alphavalue = 250 * 0.95
         #items offset for gui buttons
         self.itemsoffset = [32, 20]
         #selected item

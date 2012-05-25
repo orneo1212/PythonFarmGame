@@ -25,18 +25,34 @@ class Window:
         self.bordersize = 2
         self.backgroundcolor = (80, 80, 80)
 
-    def render(self, surface):
-        if not self.visible:return
+    def _render(self):
+        group = pygame.sprite.OrderedUpdates()
+        #background
+        bgsprite = pygame.sprite.Sprite()
+        bgsprite.image = self._render_background()
+        bgsprite.rect = (self.position, self.size)
+        #add sprites to group
+        group.add(bgsprite)
+        #return group
+        return group
+
+    def _render_background(self):
         img = pygame.surface.Surface((self.width, self.height))
         img.set_alpha(self.alphavalue)
         img.fill(self.backgroundcolor)
-        #draw border
         if self.showborder:
             pygame.draw.rect(img, self.bordercolor,
                              (0, 0, self.width, self.height), self.bordersize)
+        #render widgets
         for widget in self.widgets:
             widget.redraw(img)
-        surface.blit(img, self.position)
+        return img
+
+    def redraw(self, surface):
+        if not self.visible:return
+        group = self._render()
+        group.draw(surface)
+
 
     def hide(self):
         self.visible = False

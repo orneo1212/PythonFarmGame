@@ -199,8 +199,10 @@ class FarmGamePygame:
         self.moneylabel.setposition((400, 5))
         self.moneylabel.redraw(screen)
 
+        drawnearcursor = not self.sellwindow.visible
         #Draw tools and selected tool rectangle
-        draw_tools(screen, self.currenttool, self.currentseed, self.images)
+        draw_tools(screen, self.currenttool, self.currentseed, self.images,
+                   drawnearcursor = drawnearcursor)
 
         #draw inventory
         self.inventory.draw_inventory(screen, self.player)
@@ -232,7 +234,7 @@ class FarmGamePygame:
             draw_selected_seed(screen, self.currentseed, self.images)
 
         #redraw sell window
-        self.sellwindow.render(screen)
+        self.sellwindow.redraw(screen)
         #update screen
         pygame.display.flip()
 
