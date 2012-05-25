@@ -48,8 +48,8 @@ class Button(Widget):
             surface.blit(self.bgimage, self.position)
 
     def settext(self, newtext):
-        self.text = newtext
-        self.render_text()
+        self.label = newtext
+        self._settextimage()
 
     def _call_callback(self, signal):
         if signal in self.callbacks:

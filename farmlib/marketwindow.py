@@ -14,7 +14,7 @@ class MarketWindow(Window):
     def __init__(self, size, imgloader, player):
         self.player = player
         self.imgloader = imgloader
-        Window.__init__(self, size, (350, 40))
+        Window.__init__(self, size, (200, 40))
         #set window alpha
         self.alphavalue = 250 * 0.95
         #items offset for gui buttons
@@ -51,35 +51,54 @@ class MarketWindow(Window):
                            color = (255, 255, 0), align = "center")
         self.addwidget(titlelabel)
         #Costlabel
-        costlabel = Label("Buy cost:", (80, 340), size = 12,
+        costlabel = Label("Cost:", (80, 340), size = 12,
                            color = (200, 0, 200), align = "center")
         self.addwidget(costlabel)
         #Cost value
-        self.costvalue = Label("0", (120, 340), size = 12,
+        self.costvalue = Label("0", (100, 340), size = 12,
                            color = (200, 200, 50), align = "center")
         self.addwidget(self.costvalue)
+        #Selllabel
+        selllabel = Label("Sell value:", (280, 340), size = 12,
+                           color = (200, 0, 200), align = "center")
+        self.addwidget(selllabel)
+        #Sell value
+        self.sellvalue = Label("0", (320, 340), size = 12,
+                           color = (200, 200, 50), align = "center")
+        self.addwidget(self.sellvalue)
         #Message
         self.message = Label("", (10, 360), size = 12,
                            color = (255, 0, 255), align = "center")
         self.addwidget(self.message)
         #Selected item icon
-        self.selectedicon = Image(None, (0, 332))
+        self.selectedicon = Image(None, (160, 332))
         self.addwidget(self.selectedicon)
 
         #add buttons
-        self.buybutton = Button("Buy", (80, 380), color = (0, 255, 0))
+        self.buybutton = Button("Buy", (60, 380), color = (0, 255, 0))
         self.sellbutton = Button("Sell", (300, 380), color = (0, 255, 0))
         self.addwidget(self.buybutton)
         self.addwidget(self.sellbutton)
         self.buybutton.connect("clicked", self.on_buy_clicked)
         self.sellbutton.connect("clicked", self.on_sell_clicked)
 
+    def update_buy_sell_button(self, itemid):
+        have = 0
+        if self.player.item_in_inventory(itemid):
+            have = self.player.itemscounter[str(itemid)]
+        self.buybutton.settext("Buy (%s)" % have)
+        self.sellbutton.settext("Sell (%s)" % have)
+
     def on_item_select(self, widget, itemid):
         self.selecteditem = itemid
         img = self.imgloader["seed" + str(self.selecteditem)]
+        #set image
         self.selectedicon.setimage(img)
+        #update values
         cost = seeds[itemid]["growtime"]
         self.costvalue.settext(cost)
+        self.sellvalue.settext(int(cost / 2))
+        self.update_buy_sell_button(itemid)
 
     def on_buy_clicked(self, widget, **data):
         itemid = self.selecteditem
@@ -87,6 +106,7 @@ class MarketWindow(Window):
             self.player.money -= seeds[itemid]["growtime"]
             self.player.add_item(self.selecteditem)
             self.message.settext("You bought item")
+            self.update_buy_sell_button(itemid)
         else:
             self.message.settext("You dont have enought money")
 
@@ -97,7 +117,8 @@ class MarketWindow(Window):
         #remove item if player have it
         done = self.player.remove_item(itemid)
         if done:
-            self.player.money += seeds[itemid]["growtime"] / 2
+            self.player.money += int(seeds[itemid]["growtime"] / 2)
             self.message.settext("You sold item")
+            self.update_buy_sell_button(itemid)
         else:
             self.message.settext("You don\'t have this item")

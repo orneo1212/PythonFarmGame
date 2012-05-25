@@ -212,12 +212,12 @@ class FarmGamePygame:
         draw_tools(screen, self.currenttool, self.currentseed, self.images,
                    drawnearcursor = drawnearcursor)
 
-        #draw inventory
-        self.inventory.draw_inventory(screen, self.player)
-
         if not self.sellwindow.visible:
 
             mx, my = pygame.mouse.get_pos()
+
+            #draw inventory
+            self.inventory.draw_inventory(screen, self.player)
 
             #draw notify window if mouse under seed
             pos = self.get_farmtile_pos_under_mouse()
