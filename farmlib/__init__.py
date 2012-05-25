@@ -12,3 +12,5 @@ import widgetimage
 import widgetlabel
 
 import marketwindow
+
+from dictmapper import DictMapper
