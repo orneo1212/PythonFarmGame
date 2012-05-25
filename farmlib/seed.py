@@ -1,7 +1,10 @@
 import time
 import os
+import random
 
 from dictmapper import DictMapper
+
+DESTROY_CHANCE = 3 # from 0% to 100%
 
 class Seed:
 
@@ -54,7 +57,13 @@ class Seed:
             if self.growtimeremaining == 0:
                 self.growing = False
                 self.to_harvest = True
+                chance = random.randint(0, 100)
+                if chance <= DESTROY_CHANCE:
+                    farmtile["seed"] = None
+                    farmtile["water"] = 0
                 return True
+
+        #ready to harvest
         if self.to_harvest:
             if time.time() > self.growendtime + 12 * 3600:
                 self.to_harvest = False
