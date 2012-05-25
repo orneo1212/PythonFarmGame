@@ -9,8 +9,10 @@ from farmlib.player import Player
 from farmlib.widgetlabel import Label
 from farmlib.renderfunctions import *
 from farmlib.timer import Timer
+from farmlib.seed import seeds
 
 from farmlib.marketwindow import MarketWindow
+
 pygame.init()
 pygame.key.set_repeat(100, 100)
 
@@ -19,12 +21,7 @@ __VERSION__ = "0.4.2"
 REMOVEWILTEDCOST = 0
 
 imagesdata = {
-    'seed0':"images/strawberry.png",
-    'seed1':"images/onion.png",
-    'seed2':"images/bean.png",
-    'seed3':"images/carrot.png",
-    'seed4':"images/potato.png",
-    'seed':'images/seed.png',
+    'seed':'images/seedstartgrow.png',
     'seedhalfgrow':"images/seedhalfgrow.png",
     'seedfullgrow':"images/seedfullgrow.png",
     'dryground':'images/dryground.png',
@@ -40,6 +37,12 @@ imagesdata = {
     'grid2':'images/grid2.png',
     'marketbg':'images/marketbg.png',
     }
+
+#merge seeds images data (seed image have seeds/seed+id.png)
+for seed in seeds:
+    name = "seed" + str(seed['id']) + ".png"
+    seedimagepath = os.path.join("images", os.path.join("seeds", name))
+    imagesdata["seed" + str(seed['id'])] = seedimagepath
 
 class FarmGamePygame:
     def __init__(self):
