@@ -29,13 +29,13 @@ imagesdata = {
     'dryground':'images/dryground.png',
     'wetground':'images/wetground.png',
     'background':'images/background.png',
-    'frame':'images/frame.png',
     'sickle':'images/sickle.png',
     'plant':'images/plant.png',
     'wiltedplant':'images/wiltedplant.png',
     'wateringcan':'images/wateringcan.png',
     'shovel':'images/shovel.png',
     'inventory':'images/inventory.png',
+    'grid':'images/grid.png',
     }
 
 class FarmGamePygame:

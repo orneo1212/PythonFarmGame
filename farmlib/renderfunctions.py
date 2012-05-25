@@ -130,6 +130,12 @@ def generate_field_sprites(imgloader, farmfield, farmoffset):
                 sprite.image = imgloader['dryground']
             group.add(sprite)
 
+            #draw grid
+            sprite = pygame.sprite.Sprite()
+            sprite.rect = (posx, posy, 64, 32)
+            sprite.image = imgloader['grid']
+            group.add(sprite)
+
             #draw plant or seed
             seed = farmtile['seed']
 
