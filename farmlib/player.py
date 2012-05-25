@@ -2,8 +2,8 @@ from farmlib.seed import Seed, seeds
 
 class Player:
     def __init__(self):
-        self.inventory = [0, 1, 2, 3]
-        self.itemscounter = {'0':1, '1':1, '2':1, '3':1}
+        self.inventory = [3]
+        self.itemscounter = {'3':2}
         self.money = 0
 
     def update(self):
