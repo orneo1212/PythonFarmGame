@@ -15,7 +15,7 @@ pygame.init()
 pygame.key.set_repeat(100, 100)
 
 #SETTINGS
-__VERSION__ = "0.4"
+__VERSION__ = "0.4.2"
 REMOVEWILTEDCOST = 0
 
 imagesdata = {
