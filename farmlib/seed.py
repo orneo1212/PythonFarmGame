@@ -74,5 +74,5 @@ class Seed:
         self.__dict__.update(dictionary)
 
 #load seeds from json file
-seeds=DictMapper()
+seeds = DictMapper()
 seeds.load(os.path.join("data", "seeds.json"))
