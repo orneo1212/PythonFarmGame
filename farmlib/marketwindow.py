@@ -131,9 +131,9 @@ class MarketWindow(Window):
         self.addwidget(self.selectedicon)
 
         #add buttons
-        self.buybutton = Button("BUY", (60, 380), color = (0, 255, 0), \
+        self.buybutton = Button("BUY", (60, 375), color = (0, 255, 0), \
                                 labelsize = 13)
-        self.sellbutton = Button("SELL", (300, 380), color = (0, 255, 0), \
+        self.sellbutton = Button("SELL", (300, 375), color = (0, 255, 0), \
                                  labelsize = 13)
         self.addwidget(self.buybutton)
         self.addwidget(self.sellbutton)
