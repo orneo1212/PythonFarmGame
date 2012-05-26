@@ -5,12 +5,7 @@ import inventory
 import player
 
 #GUI
-import container
-import window
-import widget
-
-import widgetimage
-import widgetlabel
+import gui
 
 import marketwindow
 

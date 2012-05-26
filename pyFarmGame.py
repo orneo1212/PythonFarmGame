@@ -9,10 +9,7 @@ from farmlib.player import Player
 from farmlib.renderfunctions import *
 from farmlib.timer import Timer
 from farmlib.seed import seeds
-
-from farmlib.widgetlabel import Label
-from farmlib.widgetbutton import Button
-from farmlib.container import Container
+from farmlib.gui import Label, Container, Button
 
 from farmlib.marketwindow import MarketWindow
 

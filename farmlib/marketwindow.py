@@ -3,11 +3,7 @@ Created on 24-05-2012
 
 @author: orneo1212
 '''
-from window import Window
-from widgetlabel import Label
-from widgetimage import Image
-from widgetbutton import Button
-
+from gui import Label, Image, Window, Button
 from seed import seeds
 
 class MarketWindow(Window):
