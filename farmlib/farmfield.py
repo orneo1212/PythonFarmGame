@@ -20,7 +20,7 @@ class FarmField:
             return self.farmtiles[arg]
 
         else:
-            self.farmtiles[arg] = {'water':0, 'seed':None}
+            self.farmtiles[arg] = {'water':0, 'object':None}
             return self.farmtiles[arg]
 
     def set_farmtile(self, posx, posy, farmtile):
@@ -29,13 +29,18 @@ class FarmField:
         arg = str(posx) + 'x' + str(posy)
         self.farmtiles[arg] = farmtile
 
+    def newfarmtile(self, farmobject = None):
+        """return new farmtile with keys set"""
+        ft = {"water":0, "object":farmobject}
+        return ft
+
     def plant(self, posx, posy, seed):
         """Plant a seed on the given farmtile position"""
 
         farmtile = self.get_farmtile(posx, posy)
-        if not farmtile['seed'] and seed:
+        if not farmtile['object'] and seed:
             #plant a new seed on empty place
-            farmtile['seed'] = seed
+            farmtile['object'] = seed
             seed.start_grow()
         else:
             return 1 #  error there something on that position
@@ -44,21 +49,22 @@ class FarmField:
         """Harvest growed seed from farmtile"""
 
         farmtile = self.get_farmtile(posx, posy)
-        if farmtile['seed']:
-            if not farmtile['seed'].growing and farmtile['seed'].to_harvest:
+        if isinstance(farmtile["object"], Seed):
+            if not farmtile['object'].growing and \
+                farmtile['object'].to_harvest:
                 #harvest seeds
-                for i in range(farmtile['seed'].growquantity):
+                for i in range(farmtile['object'].growquantity):
                     #
-                    player.event_harvest(farmtile['seed'])
+                    player.event_harvest(farmtile['object'])
 
-                    itemid = farmtile['seed'].id
+                    itemid = farmtile['object'].id
                     if itemid not in player.inventory:
                         player.inventory.append(itemid)
                         player.itemscounter[str(itemid)] = 1
                     else:
                         player.itemscounter[str(itemid)] += 1
                 #TODO: add feature to many years seeds
-                farmtile['seed'] = None
+                farmtile['object'] = None
                 farmtile['water'] = 0
 
     def removewilted(self, posx, posy, player):
@@ -66,7 +72,7 @@ class FarmField:
 
     def remove(self, posx, posy, player):
         farmtile = self.get_farmtile(posx, posy)
-        farmtile['seed'] = None
+        farmtile['object'] = None
         farmtile['water'] = None
 
     def water(self, posx, posy):
@@ -76,17 +82,10 @@ class FarmField:
         #only one per seed
         if farmtile['water'] < 100:
             farmtile['water'] = 100 #  min(farmtile['water']+10,100)
-            watereffect = int(0.2 * farmtile['seed'].growtime)
-            farmtile['seed'].growendtime -= watereffect
+            watereffect = int(0.2 * farmtile['object'].growtime)
+            farmtile['object'].growendtime -= watereffect
             return True
         else:return False
-
-    def status(self, posx, posy):
-        """Status"""
-
-        farmtile = self.get_farmtile(posx, posy)
-        if farmtile['seed']:
-            print farmtile['seed'].name, "-", farmtile['seed'].description, "[ End in.", farmtile['seed'].remainstring, "]"
 
     #UPDATE
     def update(self):
@@ -96,8 +95,8 @@ class FarmField:
 
         #update each farmtile
         for farmtile in self.farmtiles.values():
-            if farmtile['seed']:
-                ret = farmtile['seed'].update(farmtile)
+            if farmtile['object']:
+                ret = farmtile['object'].update(farmtile)
                 if ret:modified = True
         return modified
 
@@ -112,29 +111,23 @@ class FarmField:
         for ftt in self.farmtiles.keys():
             ft = self.farmtiles[ftt]
             #skip when no seed
-            if not ft['seed']:continue
+            if not ft['object']:continue
 
-            gameobject = ft['seed']
+            gameobject = ft['object']
             tile = {}
             tile["px"] = int(ftt.split('x')[0])
             tile["py"] = int(ftt.split('x')[1])
             tile["water"] = ft["water"]
 
-            #Store seed if present
-            if isinstance(gameobject, Seed):
-                tile["seed"] = {}
-                #seed data
-                tile["seed"]['growstarttime'] = gameobject.growstarttime
-                tile["seed"]['growendtime'] = gameobject.growendtime
-                tile["seed"]['growing'] = bool(gameobject.growing)
-                tile["seed"]['wilted'] = bool(gameobject.wilted)
-                tile["seed"]['to_harvest'] = bool(gameobject.to_harvest)
-                tile["seed"]['id'] = gameobject.id
-            #Farm object
-            else:
-                tile["object"] = {}
-                #seed data
-                tile["object"]['id'] = gameobject.id
+            tile["object"] = {}
+            #seed data
+            tile["object"]["type"] = gameobject.type
+            tile["object"]['growstarttime'] = gameobject.growstarttime
+            tile["object"]['growendtime'] = gameobject.growendtime
+            tile["object"]['growing'] = bool(gameobject.growing)
+            tile["object"]['wilted'] = bool(gameobject.wilted)
+            tile["object"]['to_harvest'] = bool(gameobject.to_harvest)
+            tile["object"]['id'] = gameobject.id
             #set tile
             data["tiles"].append(tile)
         #save data
@@ -152,20 +145,25 @@ class FarmField:
         for tile in data["tiles"]:
             px = tile["px"]
             py = tile["py"]
+            #Port from old saves
             if "seed" in tile:
+                tile["object"] = tile["seed"]
+            #
+            if tile["object"] and tile["object"]["type"] == "seed":
                 newseed = Seed()
-                newseed.id = tile["seed"]["id"]
-                newseed.to_harvest = tile["seed"]["to_harvest"]
-                newseed.wilted = tile["seed"]["wilted"]
-                newseed.growing = tile["seed"]["growing"]
-                newseed.growendtime = tile["seed"]["growendtime"]
-                newseed.growstarttime = tile["seed"]["growstarttime"]
+                newseed.id = tile["object"]["id"]
+                newseed.to_harvest = tile["object"]["to_harvest"]
+                newseed.wilted = tile["object"]["wilted"]
+                newseed.growing = tile["object"]["growing"]
+                newseed.growendtime = tile["object"]["growendtime"]
+                newseed.growstarttime = tile["object"]["growstarttime"]
 
-                farmtile = {"water":tile["water"], "seed":newseed}
+                farmtile = self.newfarmtile(newseed)
                 newseed.apply_dict(seeds[newseed.id])
             else:
                 #TODO: load farm object
-                pass
+                farmtile = self.newfarmtile()
+            #set farmtile
             self.set_farmtile(px, py, farmtile)
         #return
         return True

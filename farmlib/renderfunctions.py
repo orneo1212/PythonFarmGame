@@ -5,6 +5,8 @@ Created on 23-05-2012
 '''
 import pygame
 
+from seed import Seed
+
 def draw_tools(surface, currenttool, currentseed, imgloader,
                drawnearcursor = True):
     #Draw selection on selected tool
@@ -137,9 +139,10 @@ def generate_field_sprites(imgloader, farmfield, farmoffset):
             group.add(sprite)
 
             #draw plant or seed
-            seed = farmtile['seed']
+            farmobject = farmtile['object']
 
-            if seed:
+            if isinstance(farmobject, Seed):
+                seed = farmobject
                 sprite = pygame.sprite.Sprite()
                 sprite.rect = (posx, posy, 64, 32)
                 if not seed.to_harvest:

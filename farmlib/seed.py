@@ -11,6 +11,7 @@ class Seed(FarmObject):
     def __init__(self):
         """Init new seed"""
         FarmObject.__init__(self)
+        self.type = "seed"
 
         self.growtime = 60 # grow time in seconds
         self.growstarttime = 0 # when grow was been started

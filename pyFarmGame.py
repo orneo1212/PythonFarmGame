@@ -9,7 +9,7 @@ from farmlib.player import Player
 from farmlib.renderfunctions import *
 from farmlib.timer import Timer
 
-from farmlib.seed import seeds
+from farmlib.seed import seeds, Seed
 from farmlib.farmobject import objects
 
 from farmlib.gui import Label, Container, Button
@@ -135,7 +135,7 @@ class FarmGamePygame:
         if pygame.mouse.get_pressed()[0] == 1 and \
             self.eventstimer.tickpassed(1):
 
-            seed = self.get_seed_under_cursor()
+            seed = self.get_farmobject_under_cursor()
             pos = self.get_farmtile_pos_under_mouse()
 
             #there is a seed under mouse
@@ -272,14 +272,14 @@ class FarmGamePygame:
             pos = self.get_farmtile_pos_under_mouse()
             if pos:
                 farmtile = self.farm.get_farmtile(pos[0], pos[1])
-                seed = farmtile['seed']
-                if seed:
+                farmobject = farmtile['object']
+                if isinstance(farmobject, Seed):
                     render_seed_notify(
                                        screen,
                                        self.notifyfont,
                                        mx + 5,
                                        my + 5,
-                                       seed,
+                                       farmobject,
                                        farmtile,
                                        self.images
                                       )
@@ -314,13 +314,13 @@ class FarmGamePygame:
             yy = min(12 - 1, yy)
             return (xx, yy)
 
-    def get_seed_under_cursor(self):
+    def get_farmobject_under_cursor(self):
         """Get Seed under mouse cursor"""
 
         pos = self.get_farmtile_pos_under_mouse()
         if pos:
-            seed = self.farm.get_farmtile(pos[0], pos[1])['seed']
-            return seed
+            farmobject = self.farm.get_farmtile(pos[0], pos[1])['object']
+            return farmobject
 
         return None
 

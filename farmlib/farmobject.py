@@ -14,6 +14,7 @@ class FarmObject:
         self.id = 0
 
         self.price = 0
+        self.type = ""
 
     def apply_dict(self, dictionary):
         """apply dictionary to object"""
