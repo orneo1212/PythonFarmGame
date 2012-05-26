@@ -25,10 +25,10 @@
   },
   "3": {
     "growquantity": 2,
-    "description": "Grow in 30 minutes.",
+    "description": "Grow in 10 minutes.",
     "price": 8,
     "id": 3,
-    "growtime": 1800,
+    "growtime": 600,
     "name": "Carrot"
   },
   "4": {
