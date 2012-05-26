@@ -82,6 +82,18 @@ class FarmGamePygame:
         #regenerate groups
         self.regenerate_groups()
 
+    def run_game(self):
+        """
+            Run game. Remove lock when error
+        """
+        try:
+            self.main()
+        except:
+            import traceback
+            traceback.print_exc()
+            self.remove_game_lock()
+            exit(1)
+
     def create_game_window(self):
         #close button
         closebutton = Button("Market", (710, 0), labelsize = 25, \
@@ -317,15 +329,22 @@ class FarmGamePygame:
         yy = (y - x) / (32)
         return xx, yy
 
-    def main(self):
-        """Main"""
-        #check for lock file
+    def check_game_lock(self):
         if os.path.isfile("game.lock"):
-            print "Gamse is already running. If not manualy"\
-                " remove game.lock file and try again"
+            raise Exception("Game is already running. If not manualy"\
+                " remove game.lock file and try again")
             exit()
         else:
             open("game.lock", "w").close()
+
+    def remove_game_lock(self):
+        if os.path.isfile("game.lock"):
+            os.remove("game.lock")
+
+    def main(self):
+        """Main"""
+        #check for lock file
+        self.check_game_lock()
 
         #Load game
         result = self.farm.load_farmfield('field.json', self.player)
@@ -343,9 +362,9 @@ class FarmGamePygame:
         #Save game
         self.farm.save_farmfield('field.json', self.player)
         #remove lock
-        os.remove("game.lock")
+        self.remove_game_lock()
 
 if __name__ == '__main__':
     f = FarmGamePygame()
-    f.main()
+    f.run_game()
 

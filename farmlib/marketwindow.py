@@ -35,7 +35,6 @@ class MarketWindow(Window):
         posx, posy = [0, 0]
         columns = (self.width / 64) - 1
         rows = (self.height / 32) - 1
-        print columns, rows
         #Background
         bgimage = self.imgloader["marketbg"]
         bgimage = Image(bgimage, (0, 0))
