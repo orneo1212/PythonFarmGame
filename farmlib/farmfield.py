@@ -114,19 +114,27 @@ class FarmField:
             #skip when no seed
             if not ft['seed']:continue
 
-            seed = ft['seed']
+            gameobject = ft['seed']
             tile = {}
             tile["px"] = int(ftt.split('x')[0])
             tile["py"] = int(ftt.split('x')[1])
             tile["water"] = ft["water"]
-            tile["seed"] = {}
-            #seed data
-            tile["seed"]['growstarttime'] = seed.growstarttime
-            tile["seed"]['growendtime'] = seed.growendtime
-            tile["seed"]['growing'] = bool(seed.growing)
-            tile["seed"]['wilted'] = bool(seed.wilted)
-            tile["seed"]['to_harvest'] = bool(seed.to_harvest)
-            tile["seed"]['id'] = seed.id
+
+            #Store seed if present
+            if isinstance(gameobject, Seed):
+                tile["seed"] = {}
+                #seed data
+                tile["seed"]['growstarttime'] = gameobject.growstarttime
+                tile["seed"]['growendtime'] = gameobject.growendtime
+                tile["seed"]['growing'] = bool(gameobject.growing)
+                tile["seed"]['wilted'] = bool(gameobject.wilted)
+                tile["seed"]['to_harvest'] = bool(gameobject.to_harvest)
+                tile["seed"]['id'] = gameobject.id
+            #Farm object
+            else:
+                tile["object"] = {}
+                #seed data
+                tile["object"]['id'] = gameobject.id
             #set tile
             data["tiles"].append(tile)
         #save data
@@ -144,16 +152,20 @@ class FarmField:
         for tile in data["tiles"]:
             px = tile["px"]
             py = tile["py"]
-            newseed = Seed()
-            newseed.id = tile["seed"]["id"]
-            newseed.to_harvest = tile["seed"]["to_harvest"]
-            newseed.wilted = tile["seed"]["wilted"]
-            newseed.growing = tile["seed"]["growing"]
-            newseed.growendtime = tile["seed"]["growendtime"]
-            newseed.growstarttime = tile["seed"]["growstarttime"]
+            if "seed" in tile:
+                newseed = Seed()
+                newseed.id = tile["seed"]["id"]
+                newseed.to_harvest = tile["seed"]["to_harvest"]
+                newseed.wilted = tile["seed"]["wilted"]
+                newseed.growing = tile["seed"]["growing"]
+                newseed.growendtime = tile["seed"]["growendtime"]
+                newseed.growstarttime = tile["seed"]["growstarttime"]
 
-            farmtile = {"water":tile["water"], "seed":newseed}
-            newseed.apply_dict(seeds[newseed.id])
+                farmtile = {"water":tile["water"], "seed":newseed}
+                newseed.apply_dict(seeds[newseed.id])
+            else:
+                #TODO: load farm object
+                pass
             self.set_farmtile(px, py, farmtile)
         #return
         return True

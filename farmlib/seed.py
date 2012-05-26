@@ -3,17 +3,14 @@ import os
 import random
 
 from dictmapper import DictMapper
-
+from farmobject import FarmObject
 DESTROY_CHANCE = 3 # from 0% to 100%
 
-class Seed:
+class Seed(FarmObject):
 
     def __init__(self):
         """Init new seed"""
-
-        self.name = "New Seed"
-        self.description = "New seed description"
-        self.id = 0
+        FarmObject.__init__(self)
 
         self.growtime = 60 # grow time in seconds
         self.growstarttime = 0 # when grow was been started
@@ -25,8 +22,6 @@ class Seed:
 
         self.to_harvest = False
         self.wilted = False
-
-        self.price = 0
 
     def update_remainig_growing_time(self):
         self.growtimeremaining = int(self.growendtime - time.time())
@@ -76,11 +71,6 @@ class Seed:
         self.growing = True
         self.growstarttime = int(time.time())
         self.growendtime = self.growstarttime + self.growtime
-
-    def apply_dict(self, dictionary):
-        """apply dictionary to object"""
-
-        self.__dict__.update(dictionary)
 
 #load seeds from json file
 seeds = DictMapper()

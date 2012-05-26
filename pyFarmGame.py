@@ -8,7 +8,10 @@ from farmlib.inventory import PygameInventory
 from farmlib.player import Player
 from farmlib.renderfunctions import *
 from farmlib.timer import Timer
+
 from farmlib.seed import seeds
+from farmlib.farmobject import objects
+
 from farmlib.gui import Label, Container, Button
 
 from farmlib.marketwindow import MarketWindow
@@ -43,6 +46,12 @@ for seed in seeds:
     name = "seed" + str(seed['id']) + ".png"
     seedimagepath = os.path.join("images", os.path.join("seeds", name))
     imagesdata["seed" + str(seed['id'])] = seedimagepath
+
+#merge objects images data (objects image have objects/objects+id.png)
+for gobject in objects:
+    name = "objects" + str(gobject['id']) + ".png"
+    objectsimagepath = os.path.join("images", os.path.join("object", name))
+    imagesdata["object" + str(gobject['id'])] = objectsimagepath
 
 class FarmGamePygame:
     def __init__(self):
