@@ -122,12 +122,12 @@ class FarmGamePygame:
                                                 )
 
     def handle_farmfield_events(self, event):
+        #Mouse motion
+        mx, my = pygame.mouse.get_pos()
+
         #left mouse button
         if pygame.mouse.get_pressed()[0] == 1 and \
             self.eventstimer.tickpassed(1):
-
-            #Mouse motion
-            mx, my = pygame.mouse.get_pos()
 
             seed = self.get_seed_under_cursor()
             pos = self.get_farmtile_pos_under_mouse()
