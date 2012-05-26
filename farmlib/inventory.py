@@ -38,7 +38,7 @@ class PygameInventory:
         img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
 
         #grow quantity
-        text="Quantity: "+str(seeds[index]['growquantity'])
+        text = "Quantity: " + str(seeds[index]['growquantity'])
         text = self.notifyfont.render(text,
                 0, (255, 255, 150), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
@@ -88,7 +88,8 @@ class PygameInventory:
             #Render count
             text = str(player.itemscounter[str(item)])
             text = self.notifyfont.render(text, 0, (255, 255, 0))
-            surface.blit(text, (px + 48, py + 16))
+            offsetx = 32 - text.get_size()[0] / 2
+            surface.blit(text, (px + offsetx, py + 16))
             #limit
             counterx += 1
             if counterx == self.inventorysize[0]:
