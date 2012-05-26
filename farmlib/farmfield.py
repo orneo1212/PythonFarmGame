@@ -49,7 +49,7 @@ class FarmField:
         """Harvest growed seed from farmtile"""
 
         farmtile = self.get_farmtile(posx, posy)
-        if farmtile["object"]["type"] == "seed":
+        if farmtile["object"].type == "seed":
             if not farmtile['object'].growing and \
                 farmtile['object'].to_harvest:
                 #harvest seeds
