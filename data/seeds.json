@@ -1,42 +1,50 @@
 {
   "0": {
-    "growquantity": 4, 
-    "description": "Grow in 2 hours.", 
-    "price": 20, 
-    "id": 0, 
-    "growtime": 7200, 
+    "growquantity": 4,
+    "description": "Grow in 2 hours.",
+    "price": 20,
+    "id": 0,
+    "growtime": 7200,
     "name": "Strawberry"
-  }, 
+  },
   "1": {
-    "growquantity": 4, 
-    "description": "Grow in 1 hour.", 
-    "price": 80, 
-    "id": 1, 
-    "growtime": 3600, 
+    "growquantity": 4,
+    "description": "Grow in 1 hour.",
+    "price": 80,
+    "id": 1,
+    "growtime": 3600,
     "name": "Onion"
-  }, 
+  },
   "2": {
-    "growquantity": 5, 
-    "description": "Grow in 8 hours.", 
-    "price": 10, 
-    "id": 2, 
-    "growtime": 28800, 
+    "growquantity": 5,
+    "description": "Grow in 8 hours.",
+    "price": 10,
+    "id": 2,
+    "growtime": 28800,
     "name": "Bean"
-  }, 
+  },
   "3": {
-    "growquantity": 4, 
-    "description": "Grow in 30 minutes.", 
-    "price": 5, 
-    "id": 3, 
-    "growtime": 1800, 
+    "growquantity": 2,
+    "description": "Grow in 30 minutes.",
+    "price": 8,
+    "id": 3,
+    "growtime": 1800,
     "name": "Carrot"
-  }, 
+  },
   "4": {
-    "growquantity": 8, 
-    "description": "Grow in 5 hours.", 
-    "price": 100, 
-    "id": 4, 
-    "growtime": 18000, 
+    "growquantity": 8,
+    "description": "Grow in 5 hours.",
+    "price": 100,
+    "id": 4,
+    "growtime": 18000,
     "name": "Potato"
+  },
+  "5": {
+    "growquantity": 10,
+    "description": "Grow in 12 hours.",
+    "price": 250,
+    "id": 5,
+    "growtime": 43200,
+    "name": "Tomato"
   }
 }

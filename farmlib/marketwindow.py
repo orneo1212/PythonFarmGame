@@ -33,9 +33,9 @@ class MarketWindow(Window):
     def create_gui(self):
         #Add images for seeds in market
         posx, posy = [0, 0]
-        columns = (self.width / 64)
-        rows = (self.height / 32)
-
+        columns = (self.width / 64) - 1
+        rows = (self.height / 32) - 1
+        print columns, rows
         #Background
         bgimage = self.imgloader["marketbg"]
         bgimage = Image(bgimage, (0, 0))
@@ -53,8 +53,8 @@ class MarketWindow(Window):
             itemid = seeddef['id']
             #add seed image widget
             img = self.imgloader['seed' + str(itemid)]
-            px = self.width / columns * posx + self.itemsoffset[0]
-            py = self.height / rows * posy + self.itemsoffset[1]
+            px = 64 * posx + self.itemsoffset[0]
+            py = 32 * posy + self.itemsoffset[1]
             #add grid
             grid = Image(gridimg, (px, py))
             self.addwidget(grid)
@@ -64,7 +64,7 @@ class MarketWindow(Window):
             imagebutton.connect("clicked", self.on_item_select, itemid = itemid)
             #limit
             posx += 1
-            if posx > columns:
+            if posx >= columns:
                 posx = 0
                 posy += 1
 
@@ -144,7 +144,7 @@ class MarketWindow(Window):
         return cost
 
     def get_item_sell_value(self, itemid):
-        sellcost = int(self.get_item_cost(itemid)/8)
+        sellcost = int(self.get_item_cost(itemid) / 8)
         return sellcost
 
     def update_buy_sell_button(self, itemid):
