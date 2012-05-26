@@ -134,6 +134,7 @@ class FarmField:
         return True
 
     def load_farmfield(self, filename, player):
+        if not os.path.isfile(filename):return False
         data = DictMapper()
         data.load(filename)
         player.inventory = data["inventory"]
