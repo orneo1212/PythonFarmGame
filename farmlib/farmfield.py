@@ -20,7 +20,7 @@ class FarmField:
             return self.farmtiles[arg]
 
         else:
-            self.farmtiles[arg] = {'water':0, 'object':None}
+            self.farmtiles[arg] = self.newfarmtile()
             return self.farmtiles[arg]
 
     def set_farmtile(self, posx, posy, farmtile):
@@ -49,7 +49,7 @@ class FarmField:
         """Harvest growed seed from farmtile"""
 
         farmtile = self.get_farmtile(posx, posy)
-        if isinstance(farmtile["object"], Seed):
+        if farmtile["object"]["type"] == "seed":
             if not farmtile['object'].growing and \
                 farmtile['object'].to_harvest:
                 #harvest seeds
@@ -71,14 +71,14 @@ class FarmField:
         self.remove(posx, posy, player)
 
     def remove(self, posx, posy, player):
-        farmtile = self.get_farmtile(posx, posy)
-        farmtile['object'] = None
-        farmtile['water'] = None
+        self.set_farmtile(posx, posy, self.newfarmtile())
 
     def water(self, posx, posy):
         """Watering a farm tile"""
 
         farmtile = self.get_farmtile(posx, posy)
+        if farmtile["object"].type != "seed":return False
+
         #only one per seed
         if farmtile['water'] < 100:
             farmtile['water'] = 100 #  min(farmtile['water']+10,100)
@@ -159,6 +159,7 @@ class FarmField:
                 newseed.growstarttime = tile["object"]["growstarttime"]
 
                 farmtile = self.newfarmtile(newseed)
+                farmtile["water"] = tile["water"]
                 newseed.apply_dict(seeds[newseed.id])
             else:
                 #TODO: load farm object
