@@ -34,7 +34,7 @@ class MarketWindow(Window):
         #Add images for seeds in market
         posx, posy = [0, 0]
         columns = (self.width / 64) - 1
-        rows = (self.height / 32) - 1
+        #rows = (self.height / 32) - 1
         #Background
         bgimage = self.imgloader["marketbg"]
         bgimage = Image(bgimage, (0, 0))
@@ -53,7 +53,7 @@ class MarketWindow(Window):
             #add seed image widget
             img = self.imgloader['seed' + str(itemid)]
             px = 64 * posx + self.itemsoffset[0]
-            py = 32 * posy + self.itemsoffset[1]
+            py = 32 * posy + self.itemsoffset[1] + 10
             #add grid
             grid = Image(gridimg, (px, py))
             self.addwidget(grid)
@@ -68,7 +68,7 @@ class MarketWindow(Window):
                 posy += 1
 
         #Title
-        titlelabel = Label("Market place", (200, 0), size = 18,
+        titlelabel = Label("Market place", (200, 5), size = 18,
                            color = (255, 255, 0), align = "center")
         self.addwidget(titlelabel)
 
@@ -131,8 +131,10 @@ class MarketWindow(Window):
         self.addwidget(self.selectedicon)
 
         #add buttons
-        self.buybutton = Button("Buy", (60, 380), color = (0, 255, 0))
-        self.sellbutton = Button("Sell", (300, 380), color = (0, 255, 0))
+        self.buybutton = Button("BUY", (60, 380), color = (0, 255, 0), \
+                                labelsize = 13)
+        self.sellbutton = Button("SELL", (300, 380), color = (0, 255, 0), \
+                                 labelsize = 13)
         self.addwidget(self.buybutton)
         self.addwidget(self.sellbutton)
         self.buybutton.connect("clicked", self.on_buy_clicked)
@@ -150,8 +152,8 @@ class MarketWindow(Window):
         have = 0
         if self.player.item_in_inventory(itemid):
             have = self.player.itemscounter[str(itemid)]
-        self.buybutton.settext("Buy (%s)" % have)
-        self.sellbutton.settext("Sell (%s)" % have)
+        self.buybutton.settext("BUY (you have %s)" % have)
+        self.sellbutton.settext("SELL")
 
     def on_item_select(self, widget, itemid):
         self.selecteditem = itemid
