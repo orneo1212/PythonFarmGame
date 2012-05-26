@@ -37,8 +37,15 @@ class PygameInventory:
         text.set_colorkey((255, 0, 255))
         img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
 
+        #grow quantity
+        text="Quantity: "+str(seeds[index]['growquantity'])
+        text = self.notifyfont.render(text,
+                0, (255, 255, 150), (255, 0, 255))
+        text.set_colorkey((255, 0, 255))
+        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 45))
+
         #alpha
-        img.set_alpha(250)
+        img.set_alpha(200)
         if posx > (640 - sizex):posx -= sizex
         screenobj.blit(img, (posx, posy))
 
