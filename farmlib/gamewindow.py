@@ -160,6 +160,12 @@ class GameWindow(Window):
                     #regenerate sprites
                     if done:self.regenerate_groups()
 
+                if self.currenttool == 'pickaxe' and pos:
+                    if farmobject.type != "seed":
+                        done = self.farm.remove(pos[0], pos[1], self.player)
+                        #regenerate sprites
+                        self.regenerate_groups()
+
             #there no seed under mouse
             else:
                 if self.currenttool == 'plant' and pos:
