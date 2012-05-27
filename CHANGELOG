@@ -3,6 +3,9 @@ Version 0.4.2
 + ESC key close market window if opened
 + Added potatos to game
 + Added tomatos to game
++ Added stones (farmobjects) to game
++ Added Pickaxe (used to remove stones from field)
++ Added Axe (used to remove planks from field)
 + New file format for saves (old not work)
 + Added market button on gamescreen (or S key)
 
