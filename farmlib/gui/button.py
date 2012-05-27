@@ -52,6 +52,7 @@ class Button(Widget):
     def settext(self, newtext):
         self.label = newtext
         self._settextimage()
+        self.repaint()
 
     def _call_callback(self, signal):
         if signal in self.callbacks:
