@@ -5,7 +5,7 @@ Created on 27-05-2012
 '''
 import pygame
 
-from farmlib.gui import Label, Button, Container
+from farmlib.gui import Label, Button, Container, Image
 
 class MenuWindow(Container):
     def __init__(self):
@@ -13,17 +13,25 @@ class MenuWindow(Container):
         Container.__init__(self, (800, 600), (0, 0))
         self.running = True
 
+        #background
+        bgimage = pygame.Surface((800, 600))
+        bgimage.fill((80, 80, 80))
+        bg = Image(bgimage, (0, 0))
+        self.addwidget(bg)
+
+        #Game label
         self.gamelabel = Label("Farm game", (400, 10), align = "center",
                                   color = (0, 0, 255), size = 48)
         self.addwidget(self.gamelabel)
 
+        #start button
         self.startbutton = Button("Start game / Continue", (320, 90),
                                   color = (255, 255, 200))
         self.startbutton.connect("clicked", self.on_startgame)
         self.addwidget(self.startbutton)
 
-        self.quitbutton = Button("Quit", (320, 110),
-                                  color = (255, 0, 0))
+        #Quit button
+        self.quitbutton = Button("Quit", (320, 110), color = (255, 0, 0))
         self.quitbutton.connect("clicked", self.on_quit)
         self.addwidget(self.quitbutton)
 

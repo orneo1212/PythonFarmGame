@@ -218,13 +218,14 @@ class GameWindow(Window):
 
             if event.type == pygame.QUIT:
                 self.running = False
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     #ESC close market window or exit from game
                     if self.sellwindow.visible:
                         self.sellwindow.hide()
                     else:
-                        self.running = False
+                        self.go_to_main_menu()
                 #Events only for active game
                 if not self.sellwindow.visible:
                     self.active_game_events(event)
@@ -331,7 +332,16 @@ class GameWindow(Window):
             farmtile = self.farm.newfarmtile(tree)
             self.farm.set_farmtile(xx, yy, farmtile)
 
+    def go_to_main_menu(self):
+        self.deinit()
+        self.parent.set_active_screen(self.parent.menuscreen)
+        self.parent.menuscreen.running = True
+        self.parent.menuscreen.show()
+        self.parent.inmenu = True
+        self.parent.ingame = False
+
     def init(self):
+        self.running = True
         #Load game
         result = self.farm.load_farmfield('field.json', self.player)
         if not result:
@@ -341,4 +351,5 @@ class GameWindow(Window):
         self.regenerate_groups()
 
     def deinit(self):
+        self.running = False
         self.farm.save_farmfield('field.json', self.player)
