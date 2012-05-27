@@ -108,13 +108,11 @@ def render_seed_notify(surface, font, posx, posy, underseed, farmtile,
     surface.blit(img, (posx, posy))
 
 
-def generate_field_sprites(imgloader, farmfield, farmoffset):
-    group = pygame.sprite.OrderedUpdates()
+def render_field(imgloader, farmfield, farmoffset):
+    mainimg = pygame.surface.Surface((800, 600))
+
     #background
-    sprite = pygame.sprite.Sprite()
-    sprite.image = imgloader['background']
-    sprite.rect = (0, 0, 800, 600)
-    group.add(sprite)
+    mainimg.blit(imgloader['background'], (0, 0))
 
     for y in range(12):
         for x in range(12):
@@ -123,45 +121,40 @@ def generate_field_sprites(imgloader, farmfield, farmoffset):
             posx = (x - y) * 32 + farmoffset[0] + 150
             posy = (x + y) * 16 + farmoffset[1]
 
+            rect = (posx, posy, 64, 32)
+
             #draw ground
-            sprite = pygame.sprite.Sprite()
-            sprite.rect = (posx, posy, 64, 32)
             if farmtile['water'] > 20:
-                sprite.image = imgloader['wetground']
+                img = imgloader['wetground']
             else:
-                sprite.image = imgloader['dryground']
-            group.add(sprite)
+                img = imgloader['dryground']
+            mainimg.blit(img, rect)
 
             #draw grid
-            sprite = pygame.sprite.Sprite()
-            sprite.rect = (posx, posy, 64, 32)
-            sprite.image = imgloader['grid']
-            group.add(sprite)
+            mainimg.blit(imgloader['grid'], rect)
 
             #draw plant or seed
             farmobject = farmtile['object']
 
             if isinstance(farmobject, Seed):
                 seed = farmobject
-                sprite = pygame.sprite.Sprite()
-                sprite.rect = (posx, posy, 64, 32)
                 if not seed.to_harvest:
                     if not seed.wilted:
                         seed.update_remainig_growing_time()
                         #draw seeds on the ground
                         if seed.growtimeremaining <= 30 * 60:
-                            sprite.image = imgloader['seedfullgrow']
+                            img = imgloader['seedfullgrow']
                         elif seed.growtimeremaining <= 60 * 60:
-                            sprite.image = imgloader['seedhalfgrow']
+                            img = imgloader['seedhalfgrow']
 
                         else:
-                            sprite.image = imgloader['seed']
+                            img = imgloader['seed']
                     #seed is wilted
                     else:
-                        sprite.image = imgloader['wiltedplant']
+                        img = imgloader['wiltedplant']
                 else:
-                    sprite.image = imgloader['seed' + str(seed.id)]
-                #add sprite
-                group.add(sprite)
-    #return group object
-    return group
+                    img = imgloader['seed' + str(seed.id)]
+                #Draw
+                mainimg.blit(img, rect)
+    #return mainimg object
+    return mainimg

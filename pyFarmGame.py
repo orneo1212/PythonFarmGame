@@ -57,6 +57,10 @@ class FarmGamePygame:
     def __init__(self):
         """Init game"""
         self.screen = pygame.display.set_mode((800, 600), pygame.DOUBLEBUF)
+        pygame.display.set_caption("PyFarmGame " + "v. " + __VERSION__)
+
+        self.lazyscreen = None
+
         self.farm = FarmField()
         self.timer = pygame.time.Clock()
         self.eventstimer = Timer()
@@ -66,9 +70,11 @@ class FarmGamePygame:
         self.notifyfont = pygame.font.Font("droidsansmono.ttf", 12)
         self.font2 = pygame.font.Font("droidsansmono.ttf", 18)
 
+        #selections
         self.currenttool = 'harvest'
         self.currentseed = 0
 
+        #player
         self.player = Player()
         self.inventory = PygameInventory(self.images)
 
@@ -79,12 +85,13 @@ class FarmGamePygame:
         #create marketwindow
         self.sellwindow = MarketWindow((400, 400), self.images, self.player)
 
-        self.moneylabel = Label("", (0, 0), align = "center")
+        #labels
+        self.moneylabel = Label("", (400, 5), align = "center")
         self.versionlabel = Label("v. " + __VERSION__, (5, 580))
-        pygame.display.set_caption("PyFarmGame")
 
         self.running = True
         self.farmoffset = (212, 50)
+
         #regenerate groups
         self.regenerate_groups()
 
@@ -121,7 +128,7 @@ class FarmGamePygame:
             self.regenerate_groups()
 
     def regenerate_groups(self):
-        self.groups[0] = generate_field_sprites(
+        self.lazyscreen = render_field(
                                                 self.images,
                                                 self.farm,
                                                 self.farmoffset
@@ -248,12 +255,11 @@ class FarmGamePygame:
         """Redraw screen"""
 
         #Draw Farmfeld
-        self.groups[0].draw(screen)
+        screen.blit(self.lazyscreen, (0, 0))
 
         #Render current money
         text = "Money:%s" % self.player.money
         self.moneylabel.settext(text)
-        self.moneylabel.setposition((400, 5))
         self.moneylabel.redraw(screen)
 
         drawnearcursor = not self.sellwindow.visible
