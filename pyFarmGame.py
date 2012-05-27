@@ -49,8 +49,8 @@ for seed in seeds:
 
 #merge objects images data (objects image have objects/objects+id.png)
 for gobject in objects:
-    name = "objects" + str(gobject['id']) + ".png"
-    objectsimagepath = os.path.join("images", os.path.join("object", name))
+    name = "object" + str(gobject['id']) + ".png"
+    objectsimagepath = os.path.join("images", os.path.join("objects", name))
     imagesdata["object" + str(gobject['id'])] = objectsimagepath
 
 class FarmGamePygame:
@@ -128,11 +128,7 @@ class FarmGamePygame:
             self.regenerate_groups()
 
     def regenerate_groups(self):
-        self.lazyscreen = render_field(
-                                        self.images,
-                                        self.farm,
-                                        self.farmoffset
-                                        )
+        self.lazyscreen = render_field(self.images, self.farm, self.farmoffset)
 
     def handle_farmfield_events(self, event):
         #Mouse motion
@@ -142,26 +138,28 @@ class FarmGamePygame:
         if pygame.mouse.get_pressed()[0] == 1 and \
             self.eventstimer.tickpassed(1):
 
-            seed = self.get_farmobject_under_cursor()
+            farmobject = self.get_farmobject_under_cursor()
             pos = self.get_farmtile_pos_under_mouse()
 
             #there is a seed under mouse
-            if seed:
+            if farmobject:
                 if self.currenttool == 'harvest' and pos:
-                    self.farm.harvest(pos[0], pos[1], self.player)
+                    done = self.farm.harvest(pos[0], pos[1], self.player)
                     #regenerate sprites
-                    self.regenerate_groups()
+                    if done:self.regenerate_groups()
 
                 if self.currenttool == 'shovel' and pos:
-                    #Remove wilted
-                    if seed.wilted and self.player.money >= REMOVEWILTEDCOST:
-                        self.player.money -= REMOVEWILTEDCOST
-                        self.farm.removewilted(pos[0], pos[1], self.player)
-                    #remove seed when is NOT ready
-                    elif not seed.to_harvest:
-                        self.farm.remove(pos[0], pos[1], self.player)
-                    #regenerate sprites
-                    self.regenerate_groups()
+                    if farmobject and farmobject.type == "seed":
+                        #Remove wilted
+                        if farmobject.wilted and \
+                                self.player.money >= REMOVEWILTEDCOST:
+                            self.player.money -= REMOVEWILTEDCOST
+                            self.farm.removewilted(pos[0], pos[1], self.player)
+                        #remove seed when is NOT ready
+                        elif not farmobject.to_harvest:
+                            self.farm.remove(pos[0], pos[1], self.player)
+                        #regenerate sprites
+                        self.regenerate_groups()
 
                 if self.currenttool == 'watering' and pos:
                     done = self.farm.water(pos[0], pos[1])
@@ -280,16 +278,10 @@ class FarmGamePygame:
             if pos:
                 farmtile = self.farm.get_farmtile(pos[0], pos[1])
                 farmobject = farmtile['object']
-                if isinstance(farmobject, Seed):
-                    render_seed_notify(
-                                       screen,
-                                       self.notifyfont,
-                                       mx + 5,
-                                       my + 5,
-                                       farmobject,
-                                       farmtile,
-                                       self.images
-                                      )
+                render_seed_notify(screen, self.notifyfont,
+                                   mx + 5, my + 5,
+                                   farmobject, farmtile, self.images
+                                  )
             #draw inventory
             self.inventory.draw_inventory_notify(self.screen, self.player)
         #Draw wersion

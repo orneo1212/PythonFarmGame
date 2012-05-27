@@ -4,6 +4,7 @@ from xml.etree import ElementTree as ET
 
 from farmlib.seed import Seed, seeds
 from farmlib.seed import DictMapper
+from farmlib.farmobject import FarmObject, objects
 
 class FarmField:
 
@@ -38,7 +39,7 @@ class FarmField:
         """Plant a seed on the given farmtile position"""
 
         farmtile = self.get_farmtile(posx, posy)
-        if not farmtile['object'] and seed:
+        if not farmtile['object'] and isinstance(seed, Seed):
             #plant a new seed on empty place
             farmtile['object'] = seed
             seed.start_grow()
@@ -49,6 +50,8 @@ class FarmField:
         """Harvest growed seed from farmtile"""
 
         farmtile = self.get_farmtile(posx, posy)
+        if not farmtile["object"]:return False
+
         if farmtile["object"].type == "seed":
             if not farmtile['object'].growing and \
                 farmtile['object'].to_harvest:
@@ -66,6 +69,7 @@ class FarmField:
                 #TODO: add feature to many years seeds
                 farmtile['object'] = None
                 farmtile['water'] = 0
+                return True
 
     def removewilted(self, posx, posy, player):
         self.remove(posx, posy, player)
@@ -77,6 +81,7 @@ class FarmField:
         """Watering a farm tile"""
 
         farmtile = self.get_farmtile(posx, posy)
+        if farmtile["object"] is None:return False
         if farmtile["object"].type != "seed":return False
 
         #only one per seed
@@ -122,12 +127,13 @@ class FarmField:
             tile["object"] = {}
             #seed data
             tile["object"]["type"] = gameobject.type
-            tile["object"]['growstarttime'] = gameobject.growstarttime
-            tile["object"]['growendtime'] = gameobject.growendtime
-            tile["object"]['growing'] = bool(gameobject.growing)
-            tile["object"]['wilted'] = bool(gameobject.wilted)
-            tile["object"]['to_harvest'] = bool(gameobject.to_harvest)
             tile["object"]['id'] = gameobject.id
+            if gameobject.type == "seed":
+                tile["object"]['growstarttime'] = gameobject.growstarttime
+                tile["object"]['growendtime'] = gameobject.growendtime
+                tile["object"]['growing'] = bool(gameobject.growing)
+                tile["object"]['wilted'] = bool(gameobject.wilted)
+                tile["object"]['to_harvest'] = bool(gameobject.to_harvest)
             #set tile
             data["tiles"].append(tile)
         #save data
@@ -148,10 +154,16 @@ class FarmField:
             #Port from old saves
             if "seed" in tile:
                 tile["object"] = tile["seed"]
-            #
-            if tile["object"] and tile["object"]["type"] == "seed":
+                tile["object"]["type"] == "seed"
+            #Avoid null objects
+            if not tile["object"]:continue
+
+            #Restore seed or object
+            if tile["object"]["type"] == "seed":
                 newseed = Seed()
                 newseed.id = tile["object"]["id"]
+                newseed.type = tile["object"]["type"]
+
                 newseed.to_harvest = tile["object"]["to_harvest"]
                 newseed.wilted = tile["object"]["wilted"]
                 newseed.growing = tile["object"]["growing"]
@@ -162,8 +174,11 @@ class FarmField:
                 farmtile["water"] = tile["water"]
                 newseed.apply_dict(seeds[newseed.id])
             else:
-                #TODO: load farm object
-                farmtile = self.newfarmtile()
+                newobject = FarmObject()
+                newobject.id = tile["object"]["id"]
+                newobject.type = tile["object"]["type"]
+                newobject.apply_dict(objects[newobject.id])
+                farmtile = self.newfarmtile(newobject)
             #set farmtile
             self.set_farmtile(px, py, farmtile)
         #return

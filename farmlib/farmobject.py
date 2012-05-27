@@ -18,8 +18,11 @@ class FarmObject:
 
     def apply_dict(self, dictionary):
         """apply dictionary to object"""
-
+        if dictionary is None:return
         self.__dict__.update(dictionary)
+
+    def update(self, farmtile):
+        return False
 
 #load objects from json file
 objects = DictMapper()

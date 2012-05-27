@@ -57,9 +57,11 @@ def draw_selected_seed(surface, selectedseed, imgloader):
     surface.blit(img, (65, 65))
     draw_seed(surface, selectedseed, (65, 65), imgloader)
 
-def render_seed_notify(surface, font, posx, posy, underseed, farmtile,
+def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
                        imgloader):
-    """Render notification about planted seed"""
+    """Render notification about farm object"""
+
+    if farmobject is None:return
 
     sizex = 200
     sizey = 150
@@ -69,38 +71,40 @@ def render_seed_notify(surface, font, posx, posy, underseed, farmtile,
     img.fill((48, 80, 80))
     pygame.draw.rect(img, (255, 255, 255), (0, 0, sizex - 1, sizey - 1), 1)
 
-    #Draw seed
-    draw_seed(img, underseed.id, (sizex / 2 - 32, 80), imgloader)
-
     #name
-    text = "" + underseed.name + ""
+    text = "" + farmobject.name + ""
     text = font.render(text, 0, (255, 255, 0), (255, 0, 255))
     text.set_colorkey((255, 0, 255))
     img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 5))
 
-    #remaining time
-    text = "Complete in: " + underseed.remainstring
-    text = font.render(text, 0, (255, 0, 100), (255, 0, 255))
-    text.set_colorkey((255, 0, 255))
-    img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
-
-    #Quentity
-    text = "Quantity: " + str(underseed.growquantity)
-    text = font.render(text, 0, (255, 255, 150), (255, 0, 255))
-    text.set_colorkey((255, 0, 255))
-    img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 45))
-
-    #Water
-    text = "Water: " + str(farmtile["water"]) + " %"
-    text = font.render(text, 0, (0, 128, 255), (255, 0, 255))
-    text.set_colorkey((255, 0, 255))
-    img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 65))
-
-    #ready to harvest
-    if underseed.to_harvest:
-        text = font.render("Ready to Harvest", 0, (255, 255, 255), (255, 0, 255))
+    #Draw Seed info
+    if farmobject.type == "seed":
+        #Draw seed
+        draw_seed(img, farmobject.id, (sizex / 2 - 32, 80), imgloader)
+        #remaining time
+        text = "Complete in: " + farmobject.remainstring
+        text = font.render(text, 0, (255, 0, 100), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
-        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, sizey - 20))
+        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
+
+        #Quentity
+        text = "Quantity: " + str(farmobject.growquantity)
+        text = font.render(text, 0, (255, 255, 150), (255, 0, 255))
+        text.set_colorkey((255, 0, 255))
+        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 45))
+
+        #Water
+        text = "Water: " + str(farmtile["water"]) + " %"
+        text = font.render(text, 0, (0, 128, 255), (255, 0, 255))
+        text.set_colorkey((255, 0, 255))
+        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 65))
+
+        #ready to harvest
+        if farmobject.to_harvest:
+            text = font.render("Ready to Harvest", 0, \
+                               (255, 255, 255), (255, 0, 255))
+            text.set_colorkey((255, 0, 255))
+            img.blit(text, (sizex / 2 - text.get_size()[0] / 2, sizey - 20))
 
     #alpha
     img.set_alpha(128 + 64)
@@ -136,15 +140,18 @@ def render_field(imgloader, farmfield, farmoffset):
             #draw plant or seed
             farmobject = farmtile['object']
 
+            #Avoid draw Null fieldobjects
+            if not farmobject:continue
+
             if isinstance(farmobject, Seed):
-                seed = farmobject
-                if not seed.to_harvest:
-                    if not seed.wilted:
-                        seed.update_remainig_growing_time()
+                #not ready to harvest
+                if not farmobject.to_harvest:
+                    if not farmobject.wilted:
+                        farmobject.update_remainig_growing_time()
                         #draw seeds on the ground
-                        if seed.growtimeremaining <= 30 * 60:
+                        if farmobject.growtimeremaining <= 30 * 60:
                             img = imgloader['seedfullgrow']
-                        elif seed.growtimeremaining <= 60 * 60:
+                        elif farmobject.growtimeremaining <= 60 * 60:
                             img = imgloader['seedhalfgrow']
 
                         else:
@@ -152,9 +159,14 @@ def render_field(imgloader, farmfield, farmoffset):
                     #seed is wilted
                     else:
                         img = imgloader['wiltedplant']
+                #ready to harvest
                 else:
-                    img = imgloader['seed' + str(seed.id)]
-                #Draw
-                mainimg.blit(img, rect)
+                    img = imgloader['seed' + str(farmobject.id)]
+            #Field object
+            else:
+                img = imgloader['object' + str(farmobject.id)]
+
+            #Draw gield image
+            if img:mainimg.blit(img, rect)
     #return mainimg object
     return mainimg
