@@ -1,7 +1,7 @@
 '''
 Created on 27-05-2012
 
-@author: orneo
+@author: orneo1212
 '''
 import random
 import os
@@ -284,8 +284,6 @@ class GameWindow(Window):
         self.gamewindow.redraw(screen)
         #redraw sell window
         self.sellwindow.redraw(screen)
-        #update screen
-        pygame.display.flip()
 
     def get_farmtile_pos_under_mouse(self):
         """Get FarmTile position under mouse"""
@@ -332,3 +330,15 @@ class GameWindow(Window):
             tree.apply_dict(objects[tree.id])
             farmtile = self.farm.newfarmtile(tree)
             self.farm.set_farmtile(xx, yy, farmtile)
+
+    def init(self):
+        #Load game
+        result = self.farm.load_farmfield('field.json', self.player)
+        if not result:
+            self.start_new_game()
+            print "No save game found. Starting new one"
+        #render game field
+        self.regenerate_groups()
+
+    def deinit(self):
+        self.farm.save_farmfield('field.json', self.player)

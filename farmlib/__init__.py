@@ -10,6 +10,4 @@ import player
 #GUI
 import gui
 
-import marketwindow
-
 from dictmapper import DictMapper

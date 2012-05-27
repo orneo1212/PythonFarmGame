@@ -5,6 +5,7 @@ import pygame
 
 from farmlib import __VERSION__
 from farmlib.gamewindow import GameWindow
+from farmlib.menuwindow import MenuWindow
 
 pygame.init()
 pygame.key.set_repeat(100, 100)
@@ -16,8 +17,19 @@ class FarmGamePygame:
         pygame.display.set_caption("PyFarmGame " + "v. " + __VERSION__)
         #timer
         self.timer = pygame.time.Clock()
-        #
-        self.activescr = GameWindow()
+        #screens
+        self.gamescreen = GameWindow()
+        self.menuscreen = MenuWindow()
+
+        self.activescr = None
+        self.set_active_screen(self.menuscreen)
+
+        self.ingame = False
+        self.inmenu = True
+
+    def set_active_screen(self, activescreen):
+        self.activescr = activescreen
+        self.activescr.parent = self
 
     def update(self):
         self.activescr.update()
@@ -58,24 +70,23 @@ class FarmGamePygame:
         #check for lock file
         self.check_game_lock()
 
-        player = self.activescr.player
-
-        #Load game
-        result = self.activescr.farm.load_farmfield('field.json', player)
-        if not result:
-            self.start_new_game()
-            print "No save game found. Starting new one"
-
-        self.activescr.regenerate_groups()
+        #IN GAME
+        if self.ingame:
+            self.activescr.init()
+        elif not self.ingame and self.inmenu:
+            pass
 
         while self.activescr.running:
             self.events()
             self.update()
             self.redraw(self.screen)
+            pygame.display.flip()
             self.timer.tick(30)
 
         #Save game
-        self.activescr.farm.save_farmfield('field.json', player)
+        if self.ingame:
+            self.activescr.deinit()
+
         #remove lock
         self.remove_game_lock()
 
