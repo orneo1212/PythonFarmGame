@@ -1,3 +1,5 @@
+__VERSION__ = "0.4.2"
+
 import farmobject
 import seed
 import farmfield
