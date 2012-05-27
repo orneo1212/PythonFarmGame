@@ -23,8 +23,14 @@ class Widget:
         self.visible = True
         self.callbacks = {}  # key=signal name value= function
         #
-        self._img = pygame.surface.Surface(self.size)
+        self.create_widget_image()
         self.repaint()
+
+    def create_widget_image(self):
+        self._img = pygame.surface.Surface(self.size)
+        self._img.set_colorkey((255, 0, 255))
+        self._img.fill((255, 0, 255))
+        return self._img
 
     def _setsize(self, newsize):
         self.width = newsize[0]

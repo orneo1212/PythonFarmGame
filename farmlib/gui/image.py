@@ -15,6 +15,7 @@ class Image(Widget):
 
     def setimage(self, newimage):
         self.image = newimage
+        self.repaint()
 
     def repaint(self):
         self._img = self.image

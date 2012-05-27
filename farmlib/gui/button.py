@@ -21,7 +21,7 @@ class Button(Widget):
         Widget.__init__(self, self.position, (self.width, self.height))
 
     def _render_text(self):
-        return self.labelfont.render(self.label, 1, self.color)
+        return self.labelfont.render(self.label, 0, self.color)
 
     def _calculate_size(self, image):
         width = image.get_size()[0]
@@ -36,16 +36,18 @@ class Button(Widget):
     def setimage(self, newimage):
         self.image = newimage
         self._setsize(self._calculate_size(self.image))
+        self.repaint()
 
-    def redraw(self, surface):
+    def repaint(self):
+        self.create_widget_image()
         if self.label and self.bgimage:
             img = self._render_text()
-            surface.blit(img, self.position)
-            surface.blit(self.bgimage, self.position)
+            self._img.blit(img, (0, 0))
+            self._img.blit(self.bgimage, (0, 0))
         elif not self.bgimage:
-            surface.blit(self.image, self.position)
+            self._img.blit(self.image, (0, 0))
         elif not self.label and self.bgimage:
-            surface.blit(self.bgimage, self.position)
+            self._img.blit(self.bgimage, (0, 0))
 
     def settext(self, newtext):
         self.label = newtext
