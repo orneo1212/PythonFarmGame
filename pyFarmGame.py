@@ -9,9 +9,6 @@ from farmlib.gamewindow import GameWindow
 pygame.init()
 pygame.key.set_repeat(100, 100)
 
-#SETTINGS
-REMOVEWILTEDCOST = 10
-
 class FarmGamePygame:
     def __init__(self):
         """Init game"""

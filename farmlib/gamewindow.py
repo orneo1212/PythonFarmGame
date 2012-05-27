@@ -22,7 +22,8 @@ from farmlib.gui import Label, Container, Button, Window
 
 from farmlib.marketwindow import MarketWindow
 
-
+#SETTINGS
+REMOVEWILTEDCOST = 10
 
 imagesdata = {
     'seed':'images/seedstartgrow.png',
