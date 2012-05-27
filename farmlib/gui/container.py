@@ -19,6 +19,10 @@ class Container:
         self.position = position
         self.visible = True
 
+    def repaint(self):
+        """Repaint internally"""
+        pass
+
     def redraw(self, surface):
         if not self.visible:return
         for widget in self.widgets:
@@ -30,6 +34,7 @@ class Container:
         self.visible = False
 
     def show(self):
+        self.repaint()
         self.visible = True
 
     def togglevisible(self):

@@ -17,7 +17,7 @@ class Label(Widget):
         self.width = self.image.get_size()[0]
         self.height = self.image.get_size()[1]
         self.setposition(self.position)
-        Widget.__init__(self, (self.width, self.height))
+        Widget.__init__(self, self.position, (self.width, self.height))
 
     def render_text(self):
         self.image = self.labelfont.render(self.text, 1, self.color)

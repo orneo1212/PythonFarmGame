@@ -27,18 +27,7 @@ class Window(Container):
         self.bordersize = 2
         self.backgroundcolor = (80, 80, 80)
 
-    def _render(self):
-        group = pygame.sprite.OrderedUpdates()
-        #background
-        bgsprite = pygame.sprite.Sprite()
-        bgsprite.image = self._render_background()
-        bgsprite.rect = (self.position, self.size)
-        #add sprites to group
-        group.add(bgsprite)
-        #return group
-        return group
-
-    def _render_background(self):
+    def render(self):
         img = pygame.surface.Surface((self.width, self.height))
         img.set_alpha(self.alphavalue)
         img.fill(self.backgroundcolor)
@@ -52,19 +41,8 @@ class Window(Container):
 
     def redraw(self, surface):
         if not self.visible:return
-        group = self._render()
-        group.draw(surface)
-
-
-    def hide(self):
-        self.visible = False
-
-    def show(self):
-        self.visible = True
-
-    def update(self):
-        for widget in self.widgets:
-            widget.update()
+        img = self.render()
+        surface.blit(img, self.position)
 
     def poll_event(self, event):
         if not self.visible:return
@@ -83,7 +61,3 @@ class Window(Container):
         my -= self.position[1]
         if mx > self.width or my > self.height:return None
         return (mx, my)
-
-    def addwidget(self , widget):
-        widget.parent = self
-        self.widgets.append(widget)

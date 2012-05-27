@@ -11,11 +11,11 @@ class Image(Widget):
             self.height = self.image.get_size()[1]
         else:
             self._setsize((0, 0))
-        Widget.__init__(self, (self.width, self.height))
+        Widget.__init__(self, self.position, (self.width, self.height))
 
     def setimage(self, newimage):
         self.image = newimage
 
-    def redraw(self, surface):
-        if self.image:
-            surface.blit(self.image, self.position)
+    def repaint(self):
+        self._img = self.image
+        print self.image

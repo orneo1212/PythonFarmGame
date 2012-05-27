@@ -18,7 +18,7 @@ class Button(Widget):
             self._settextimage()
         else:
             self._setsize(self._calculate_size(self.bgimage))
-        Widget.__init__(self, (self.width, self.height))
+        Widget.__init__(self, self.position, (self.width, self.height))
 
     def _render_text(self):
         return self.labelfont.render(self.label, 1, self.color)
