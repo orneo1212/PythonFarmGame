@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
 import os
+import random
 
 from farmlib.farmfield import FarmField
 from farmlib.imageloader import ImageLoader
@@ -9,8 +10,8 @@ from farmlib.player import Player
 from farmlib.renderfunctions import *
 from farmlib.timer import Timer
 
-from farmlib.seed import seeds, Seed
-from farmlib.farmobject import objects
+from farmlib.seed import seeds
+from farmlib.farmobject import objects, FarmObject
 
 from farmlib.gui import Label, Container, Button
 
@@ -346,6 +347,16 @@ class FarmGamePygame:
         if os.path.isfile("game.lock"):
             os.remove("game.lock")
 
+    def start_new_game(self):
+        for x in xrange(random.randint(10, 15)):
+            xx = random.randint(0, 11)
+            yy = random.randint(0, 11)
+            tree = FarmObject()
+            tree.id = 0
+            tree.apply_dict(objects[tree.id])
+            farmtile = self.farm.newfarmtile(tree)
+            self.farm.set_farmtile(xx, yy, farmtile)
+
     def main(self):
         """Main"""
         #check for lock file
@@ -353,7 +364,9 @@ class FarmGamePygame:
 
         #Load game
         result = self.farm.load_farmfield('field.json', self.player)
-        if not result:print "No save game found. Starting new one"
+        if not result:
+            self.start_new_game()
+            print "No save game found. Starting new one"
 
         self.regenerate_groups()
 
