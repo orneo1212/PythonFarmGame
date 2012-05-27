@@ -18,10 +18,15 @@ def draw_tools(surface, currenttool, currentseed, imgloader,
         pygame.draw.rect(surface, (255, 255, 255), (110, 10, 48, 48), 1)
     if currenttool == 'shovel':
         pygame.draw.rect(surface, (255, 255, 255), (160, 10, 48, 48), 1)
+    if currenttool == 'pickaxe':
+        pygame.draw.rect(surface, (255, 255, 255), (210, 10, 48, 48), 1)
+    if currenttool == 'axe':
+        pygame.draw.rect(surface, (255, 255, 255), (260, 10, 48, 48), 1)
 
     mx, my = pygame.mouse.get_pos()
 
     if drawnearcursor:
+        img = None
         #Draw current tool
         if currenttool == "plant":
             #draw seed only when correct is selected
@@ -35,6 +40,10 @@ def draw_tools(surface, currenttool, currentseed, imgloader,
             img = imgloader.loadimage('wateringcan')
         if currenttool == "shovel":
             img = imgloader.loadimage('shovel')
+        if currenttool == "pickaxe":
+            img = imgloader.loadimage('pickaxe')
+        if currenttool == "axe":
+            img = imgloader.loadimage('axe')
         if img:
             surface.blit(img, (mx, my - 48))
 
@@ -45,6 +54,8 @@ def draw_tools(surface, currenttool, currentseed, imgloader,
     surface.blit(imgloader.loadimage('plant'), (60, 10))
     surface.blit(imgloader.loadimage('wateringcan'), (110, 10))
     surface.blit(imgloader.loadimage('shovel'), (160, 10))
+    surface.blit(imgloader.loadimage('pickaxe'), (210, 10))
+    surface.blit(imgloader.loadimage('axe'), (260, 10))
 
 def draw_seed(surface, seedid, position, imgloader):
         img = imgloader.loadimage('seed' + str(seedid))

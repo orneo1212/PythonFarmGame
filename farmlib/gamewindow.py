@@ -25,6 +25,8 @@ from farmlib.marketwindow import MarketWindow
 #SETTINGS
 REMOVEWILTEDCOST = 10
 
+TOOLS = ["harvest", "plant", "watering", "shovel", "pickaxe", "axe"]
+
 imagesdata = {
     'seed':'images/seedstartgrow.png',
     'seedhalfgrow':"images/seedhalfgrow.png",
@@ -37,6 +39,8 @@ imagesdata = {
     'wiltedplant':'images/wiltedplant.png',
     'wateringcan':'images/wateringcan.png',
     'shovel':'images/shovel.png',
+    'pickaxe':'images/pickaxe.png',
+    'axe':'images/axe.png',
     'inventory':'images/inventory.png',
     'grid':'images/grid.png',
     'grid2':'images/grid2.png',
@@ -180,22 +184,13 @@ class GameWindow(Window):
                     self.regenerate_groups()
 
             #events for tools
-            if pygame.Rect((10, 10, 48, 48)).collidepoint((mx, my)):
-                self.currenttool = 'harvest'
-                #regenerate sprites
-                self.regenerate_groups()
-            if pygame.Rect((60, 10, 48, 48)).collidepoint((mx, my)):
-                self.currenttool = 'plant'
-                #regenerate sprites
-                self.regenerate_groups()
-            if pygame.Rect((110, 10, 48, 48)).collidepoint((mx, my)):
-                self.currenttool = 'watering'
-                #regenerate sprites
-                self.regenerate_groups()
-            if pygame.Rect((160, 10, 48, 48)).collidepoint((mx, my)):
-                self.currenttool = 'shovel'
-                #regenerate sprites
-                self.regenerate_groups()
+            for tool in TOOLS:
+                index = TOOLS.index(tool)
+                rect = (10 + 50 * index, 10, 48, 48)
+                if pygame.Rect(rect).collidepoint((mx, my)):
+                    self.currenttool = tool
+                    #regenerate sprites
+                    self.regenerate_groups()
 
     def active_game_events(self, event):
         if event.type == pygame.KEYDOWN:
@@ -207,6 +202,10 @@ class GameWindow(Window):
                 self.currenttool = "watering"
             if event.key == pygame.K_4:
                 self.currenttool = "shovel"
+            if event.key == pygame.K_5:
+                self.currenttool = "pickaxe"
+            if event.key == pygame.K_6:
+                self.currenttool = "axe"
 
     def events(self):
         """Events handler"""
