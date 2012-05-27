@@ -18,4 +18,3 @@ class Image(Widget):
 
     def repaint(self):
         self._img = self.image
-        print self.image

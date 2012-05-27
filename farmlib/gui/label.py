@@ -29,10 +29,14 @@ class Label(Widget):
             position = position[0] - self.width / 2, position[1]
         self.position = position
 
+    def repaint(self):
+        self.render_text()
+        self._img = self.image
+
     def redraw(self, surface):
         surface.blit(self.image, self.position)
 
     def settext(self, newtext):
         newtext = unicode(newtext)
         self.text = newtext
-        self.render_text()
+        self.repaint()
