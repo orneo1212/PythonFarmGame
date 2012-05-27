@@ -21,7 +21,7 @@ pygame.key.set_repeat(100, 100)
 
 #SETTINGS
 __VERSION__ = "0.4.2"
-REMOVEWILTEDCOST = 0
+REMOVEWILTEDCOST = 10
 
 imagesdata = {
     'seed':'images/seedstartgrow.png',
@@ -129,10 +129,10 @@ class FarmGamePygame:
 
     def regenerate_groups(self):
         self.lazyscreen = render_field(
-                                                self.images,
-                                                self.farm,
-                                                self.farmoffset
-                                                )
+                                        self.images,
+                                        self.farm,
+                                        self.farmoffset
+                                        )
 
     def handle_farmfield_events(self, event):
         #Mouse motion
@@ -153,6 +153,7 @@ class FarmGamePygame:
                     self.regenerate_groups()
 
                 if self.currenttool == 'shovel' and pos:
+                    #Remove wilted
                     if seed.wilted and self.player.money >= REMOVEWILTEDCOST:
                         self.player.money -= REMOVEWILTEDCOST
                         self.farm.removewilted(pos[0], pos[1], self.player)
