@@ -55,7 +55,7 @@ class Seed(FarmObject):
                 self.to_harvest = True
                 chance = random.randint(0, 100)
                 if chance <= DESTROY_CHANCE:
-                    farmtile["seed"] = None
+                    farmtile["object"] = None
                     farmtile["water"] = 0
                 return True
 
