@@ -14,6 +14,14 @@ class FarmField:
         """ Init FarmField"""
 
         self.farmtiles = {}
+        self.maxanthills = 10
+
+    def count_anthills(self):
+        anthills = 0
+        for f in self.farmtiles:
+            if f["object"] and f["object"].id == 1:
+                anthills += 1
+        return anthills
 
     def get_farmtile(self, posx, posy):
         """Get farmtile from given position"""
@@ -113,7 +121,8 @@ class FarmField:
                 if ret:modified = True
             else:
                 chance = random.randint(0, 20)
-                if chance == 1 and int(time.time()) % 1800 == 0:
+                if chance == 1 and int(time.time()) % 1800 == 0\
+                    and self.count_anthills() < self.maxanthills:
                     self.create_random_anthill(farmtile)
                     return True
         return modified
