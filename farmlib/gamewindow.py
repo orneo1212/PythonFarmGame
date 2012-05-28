@@ -147,10 +147,13 @@ class GameWindow(Window):
                         #Remove wilted
                         if farmobject.wilted and \
                                 self.player.money >= REMOVEWILTEDCOST:
+
                             self.player.money -= REMOVEWILTEDCOST
                             self.farm.removewilted(pos[0], pos[1], self.player)
                         #remove seed when is NOT ready
-                        elif not farmobject.to_harvest:
+                        elif not farmobject.to_harvest and \
+                            not farmobject.wilted:
+
                             self.farm.remove(pos[0], pos[1], self.player)
                         #regenerate sprites
                         self.regenerate_groups()
