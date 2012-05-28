@@ -13,11 +13,19 @@ class MenuWindow(Container):
         Container.__init__(self, (800, 600), (0, 0))
         self.running = True
 
+        self.menupos = 0
+        self.maxmenupos = 1
+
         #background
         bgimage = pygame.Surface((800, 600))
         bgimage.fill((80, 80, 80))
         bg = Image(bgimage, (0, 0))
         self.addwidget(bg)
+
+        #start button
+        self.menucursor = Label("-> ", (300, 90),
+                                  color = (255, 255, 0))
+        self.addwidget(self.menucursor)
 
         #Game label
         self.gamelabel = Label("Farm game", (400, 10), align = "center",
@@ -45,11 +53,27 @@ class MenuWindow(Container):
         self.parent.ingame = True
         self.running = False
 
+    def update_menu_cursor(self):
+        if self.menupos < 0:self.menupos = 0
+        if self.menupos > self.maxmenupos:self.menupos = self.maxmenupos
+        newpos = [300, 90 + 20 * self.menupos]
+        self.menucursor.position = newpos
+        self.repaint()
+
     def events(self):
         for event in pygame.event.get():
             #poll event to window
             self.poll_event(event)
-            self.repaint()
             #
             if event.type == pygame.QUIT:
                 self.running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    self.menupos += 1
+                    self.update_menu_cursor()
+                if event.key == pygame.K_UP:
+                    self.menupos -= 1
+                    self.update_menu_cursor()
+                if event.key == pygame.K_RETURN:
+                    if self.menupos == 0:self.on_startgame(None)
+                    if self.menupos == 1:self.running = False
