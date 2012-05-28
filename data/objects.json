@@ -1,11 +1,11 @@
 {
   "0": {
-    "description": "A huge stone",
+    "descriptions": "Use shovel to remove it ($100)",
     "id": 0,
     "name": "Stone"
   },
   "1": {
-    "description": "",
+    "descriptions": "Use shovel to remove it ($300)",
     "id": 1,
     "name": "Anthill"
   }

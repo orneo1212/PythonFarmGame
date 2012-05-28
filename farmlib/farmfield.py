@@ -8,7 +8,7 @@ from farmlib.seed import Seed, seeds
 from farmlib.seed import DictMapper
 from farmlib.farmobject import FarmObject, objects
 
-MAXANTHILLS=10
+MAXANTHILLS = 10
 
 class FarmField:
 
@@ -184,23 +184,26 @@ class FarmField:
 
             #Restore seed or object
             if tile["object"]["type"] == "seed":
-                newseed = Seed()
-                newseed.id = tile["object"]["id"]
-                newseed.type = tile["object"]["type"]
+                newobject = Seed()
 
-                newseed.to_harvest = tile["object"]["to_harvest"]
-                newseed.wilted = tile["object"]["wilted"]
-                newseed.growing = tile["object"]["growing"]
-                newseed.growendtime = tile["object"]["growendtime"]
-                newseed.growstarttime = tile["object"]["growstarttime"]
-
-                farmtile = self.newfarmtile(newseed)
-                farmtile["water"] = tile["water"]
-                newseed.apply_dict(seeds[newseed.id])
-            else:
-                newobject = FarmObject()
                 newobject.id = tile["object"]["id"]
                 newobject.type = tile["object"]["type"]
+
+                newobject.to_harvest = tile["object"]["to_harvest"]
+                newobject.wilted = tile["object"]["wilted"]
+                newobject.growing = tile["object"]["growing"]
+                newobject.growendtime = tile["object"]["growendtime"]
+                newobject.growstarttime = tile["object"]["growstarttime"]
+
+                farmtile = self.newfarmtile(newobject)
+                farmtile["water"] = tile["water"]
+                newobject.apply_dict(seeds[newobject.id])
+            else:
+                newobject = FarmObject()
+
+                newobject.id = tile["object"]["id"]
+                newobject.type = tile["object"]["type"]
+                #apply dict
                 newobject.apply_dict(objects[newobject.id])
                 farmtile = self.newfarmtile(newobject)
             #set farmtile

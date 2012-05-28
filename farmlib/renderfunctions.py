@@ -74,52 +74,61 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
 
     if farmobject is None:return
 
-    sizex = 200
-    sizey = 150
+    sizex = 250
+    sizey = 125
     posy += 5
 
     img = pygame.Surface((sizex, sizey))
     img.fill((48, 80, 80))
     pygame.draw.rect(img, (255, 255, 255), (0, 0, sizex - 1, sizey - 1), 1)
 
+    #half of the tooltip width
+    halfx = sizex / 2
+
     #name
     text = "" + farmobject.name + ""
     text = font.render(text, 0, (255, 255, 0), (255, 0, 255))
     text.set_colorkey((255, 0, 255))
-    img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 5))
+    img.blit(text, (halfx - text.get_size()[0] / 2, 5))
+
+    #Descriptions
+    text = "" + farmobject.descriptions + ""
+    text = font.render(text, 0, (255, 240, 40), (255, 0, 255))
+    text.set_colorkey((255, 0, 255))
+    img.blit(text, (halfx - text.get_size()[0] / 2, 25))
 
     #Draw Seed info
     if farmobject.type == "seed":
         #Draw seed
-        draw_seed(img, farmobject.id, (sizex / 2 - 32, 80), imgloader)
+        draw_seed(img, farmobject.id, (sizex / 2 - 32, 100), imgloader)
         #remaining time
         text = "Complete in: " + farmobject.remainstring
         text = font.render(text, 0, (255, 0, 100), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
-        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
+        img.blit(text, (halfx - text.get_size()[0] / 2, 45))
 
         #Quentity
         text = "Quantity: " + str(farmobject.growquantity)
         text = font.render(text, 0, (255, 255, 150), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
-        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 45))
+        img.blit(text, (halfx - text.get_size()[0] / 2, 65))
 
         #Water
         text = "Water: " + str(farmtile["water"]) + " %"
         text = font.render(text, 0, (0, 128, 255), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
-        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 65))
+        img.blit(text, (halfx - text.get_size()[0] / 2, 85))
 
         #ready to harvest
         if farmobject.to_harvest:
             text = font.render("Ready to Harvest", 0, \
                                (255, 255, 255), (255, 0, 255))
             text.set_colorkey((255, 0, 255))
-            img.blit(text, (sizex / 2 - text.get_size()[0] / 2, sizey - 20))
+            img.blit(text, (halfx - text.get_size()[0] / 2, sizey - 20))
 
     #alpha
     img.set_alpha(128 + 64)
-    if posx > (640 - sizex):posx -= sizex
+    if posx > 400:posx -= sizex
     surface.blit(img, (posx, posy))
 
 
