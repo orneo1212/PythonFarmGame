@@ -8,17 +8,18 @@ from farmlib.seed import Seed, seeds
 from farmlib.seed import DictMapper
 from farmlib.farmobject import FarmObject, objects
 
+MAXANTHILLS=10
+
 class FarmField:
 
     def __init__(self):
         """ Init FarmField"""
 
         self.farmtiles = {}
-        self.maxanthills = 10
 
     def count_anthills(self):
         anthills = 0
-        for f in self.farmtiles:
+        for f in self.farmtiles.values():
             if f["object"] and f["object"].id == 1:
                 anthills += 1
         return anthills
@@ -120,9 +121,9 @@ class FarmField:
                 ret = farmtile['object'].update(farmtile)
                 if ret:modified = True
             else:
-                chance = random.randint(0, 20)
-                if chance == 1 and int(time.time()) % 1800 == 0\
-                    and self.count_anthills() < self.maxanthills:
+                chance = random.randint(0, 10000)
+                if chance == 1 and int(time.time()) % 600 == 0\
+                    and self.count_anthills() < MAXANTHILLS:
                     self.create_random_anthill(farmtile)
                     return True
         return modified
