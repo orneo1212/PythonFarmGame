@@ -11,3 +11,8 @@ import player
 import gui
 
 from dictmapper import DictMapper
+
+
+#SETTINGS
+STONE_REMOVE_COST = 100
+ANTHILL_REMOVE_COST = 300

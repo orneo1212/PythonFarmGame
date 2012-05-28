@@ -75,7 +75,7 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
     if farmobject is None:return
 
     sizex = 250
-    sizey = 125
+    sizey = 150
     posy += 5
 
     img = pygame.Surface((sizex, sizey))
