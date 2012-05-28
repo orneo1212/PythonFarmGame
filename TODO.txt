@@ -6,5 +6,5 @@
 [ ] Podlanie wiecej niz raz, daje 50% szans ze zrobi sie kaluza
 [ ] Zasypanie kaluzy wymaga szpadla i troche kasy
 [-] Na niektorych polach leza konary, usuniecie kosztuje troche kasy
-[ ] Losowo czasem pojawiaja sie mrowiska, max 2 na cala plansze, nie da sie uch usunac, zmieniaja miejsca co jakis czas
+[-] Losowo czasem pojawiaja sie mrowiska, max 2 na cala plansze, nie da sie uch usunac, zmieniaja miejsca co jakis czas
 
