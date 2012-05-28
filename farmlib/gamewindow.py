@@ -335,10 +335,10 @@ class GameWindow(Window):
         for x in xrange(random.randint(10, 15)):
             xx = random.randint(0, 11)
             yy = random.randint(0, 11)
-            tree = FarmObject()
-            tree.id = 0
-            tree.apply_dict(objects[tree.id])
-            farmtile = self.farm.newfarmtile(tree)
+            fobject = FarmObject()
+            fobject.id = 0
+            fobject.apply_dict(objects[fobject.id])
+            farmtile = self.farm.newfarmtile(fobject)
             self.farm.set_farmtile(xx, yy, farmtile)
 
     def go_to_main_menu(self):

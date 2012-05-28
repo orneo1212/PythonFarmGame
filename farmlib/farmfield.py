@@ -1,4 +1,6 @@
 import os
+import random
+import time
 
 from xml.etree import ElementTree as ET
 
@@ -92,6 +94,12 @@ class FarmField:
             return True
         else:return False
 
+    def create_random_anthill(self, farmtile):
+        fobject = FarmObject()
+        fobject.id = 1
+        fobject.apply_dict(objects[fobject.id])
+        farmtile["object"] = fobject
+
     #UPDATE
     def update(self):
         """update a farmtiles"""
@@ -103,6 +111,11 @@ class FarmField:
             if farmtile['object']:
                 ret = farmtile['object'].update(farmtile)
                 if ret:modified = True
+            else:
+                chance = random.randint(0, 20)
+                if chance == 1 and int(time.time()) % 1800 == 0:
+                    self.create_random_anthill(farmtile)
+                    return True
         return modified
 
     def save_farmfield(self, filename, player):
@@ -128,6 +141,7 @@ class FarmField:
             #seed data
             tile["object"]["type"] = gameobject.type
             tile["object"]['id'] = gameobject.id
+
             if gameobject.type == "seed":
                 tile["object"]['growstarttime'] = gameobject.growstarttime
                 tile["object"]['growendtime'] = gameobject.growendtime

@@ -3,5 +3,10 @@
     "description": "A huge stone",
     "id": 0,
     "name": "Stone"
+  },
+  "1": {
+    "description": "",
+    "id": 1,
+    "name": "Anthill"
   }
 }
