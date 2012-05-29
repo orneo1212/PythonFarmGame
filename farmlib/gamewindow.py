@@ -25,6 +25,8 @@ from farmlib.marketwindow import MarketWindow
 
 #SETTINGS
 REMOVEWILTEDCOST = 10
+REMOVEANTHILLCOST = 300
+REMOVESTONECOST = 100
 
 TOOLS = ["harvest", "plant", "watering", "shovel", "pickaxe", "axe"]
 
@@ -118,6 +120,38 @@ class GameWindow(Window):
     def regenerate_groups(self):
         self.lazyscreen = render_field(self.images, self.farm, self.farmoffset)
 
+    def pickaxe_actions(self, farmobject, pos):
+        #Remove stones
+        if farmobject.type != "seed" and \
+            farmobject.id == 6 and self.player.money >= REMOVESTONECOST:
+            #
+            self.player.money -= REMOVESTONECOST
+            self.farm.remove(pos[0], pos[1], self.player)
+            #regenerate sprites
+            self.regenerate_groups()
+
+    def shovel_actions(self, farmobject, pos):
+        #Remove anthill
+        if farmobject.id == 7 and \
+                self.player.money >= REMOVEANTHILLCOST:
+
+            self.player.money -= REMOVEANTHILLCOST
+            self.farm.remove(pos[0], pos[1], self.player)
+            self.regenerate_groups()
+
+        #Remove wilted
+        if farmobject.id == 9 and self.player.money >= REMOVEWILTEDCOST:
+            self.player.money -= REMOVEWILTEDCOST
+            self.farm.removewilted(pos[0], pos[1], self.player)
+            self.regenerate_groups()
+        #remove seed 
+        if farmobject and farmobject.type == "seed":
+            #remove seed when is NOT ready
+            if not farmobject.to_harvest:
+                self.farm.remove(pos[0], pos[1], self.player)
+            #regenerate sprites
+            self.regenerate_groups()
+
     def handle_farmfield_events(self, event):
         #Mouse motion
         mx, my = pygame.mouse.get_pos()
@@ -137,20 +171,8 @@ class GameWindow(Window):
                     if done:self.regenerate_groups()
 
                 if self.currenttool == 'shovel' and pos:
-                    if farmobject and farmobject.type == "seed":
-                        #Remove wilted
-                        if farmobject.wilted and \
-                                self.player.money >= REMOVEWILTEDCOST:
-
-                            self.player.money -= REMOVEWILTEDCOST
-                            self.farm.removewilted(pos[0], pos[1], self.player)
-                        #remove seed when is NOT ready
-                        elif not farmobject.to_harvest and \
-                            not farmobject.wilted:
-
-                            self.farm.remove(pos[0], pos[1], self.player)
-                        #regenerate sprites
-                        self.regenerate_groups()
+                    if farmobject:
+                        self.shovel_actions(farmobject, pos)
 
                 if self.currenttool == 'watering' and pos:
                     done = self.farm.water(pos[0], pos[1])
@@ -158,10 +180,7 @@ class GameWindow(Window):
                     if done:self.regenerate_groups()
 
                 if self.currenttool == 'pickaxe' and pos:
-                    if farmobject.type != "seed":
-                        done = self.farm.remove(pos[0], pos[1], self.player)
-                        #regenerate sprites
-                        self.regenerate_groups()
+                    self.pickaxe_actions(farmobject, pos)
 
             #there no seed under mouse
             else:
@@ -250,7 +269,7 @@ class GameWindow(Window):
         screen.blit(self.lazyscreen, (0, 0))
 
         #Render current money
-        text = "Money:%s" % self.player.money
+        text = "Money: $%s " % self.player.money
         self.moneylabel.settext(text)
         self.moneylabel.redraw(screen)
 

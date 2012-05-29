@@ -20,7 +20,6 @@ class Seed(FarmObject):
         self.growing = False
 
         self.to_harvest = False
-        self.wilted = False
 
     def update_remainig_growing_time(self):
         self.growtimeremaining = int(self.growendtime - time.time())
