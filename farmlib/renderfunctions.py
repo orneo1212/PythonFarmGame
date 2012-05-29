@@ -163,28 +163,25 @@ def render_field(imgloader, farmfield, farmoffset):
             #Avoid draw Null fieldobjects
             if not farmobject:continue
 
-            if isinstance(farmobject, Seed):
+            if farmobject.type == "seed":
                 #not ready to harvest
                 if not farmobject.to_harvest:
-                    if not farmobject.wilted:
-                        farmobject.update_remainig_growing_time()
-                        #draw seeds on the ground
-                        if farmobject.growtimeremaining <= 30 * 60:
-                            img = imgloader['seedfullgrow']
-                        elif farmobject.growtimeremaining <= 60 * 60:
-                            img = imgloader['seedhalfgrow']
+                    farmobject.update_remainig_growing_time()
+                    #draw seeds on the ground
+                    if farmobject.growtimeremaining <= 30 * 60:
+                        img = imgloader['seedfullgrow']
+                    elif farmobject.growtimeremaining <= 60 * 60:
+                        img = imgloader['seedhalfgrow']
 
-                        else:
-                            img = imgloader['seed']
-                    #seed is wilted
                     else:
-                        img = imgloader['wiltedplant']
+                        img = imgloader['seed']
                 #ready to harvest
                 else:
                     img = imgloader['object' + str(farmobject.id)]
             #Field object
             else:
                 img = imgloader['object' + str(farmobject.id)]
+                print img
 
             #Draw gield image
             if img:mainimg.blit(img, rect)

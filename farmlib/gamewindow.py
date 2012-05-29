@@ -37,7 +37,6 @@ imagesdata = {
     'background':'images/gui/background.png',
     'sickle':'images/sickle.png',
     'plant':'images/plant.png',
-    'wiltedplant':'images/wiltedplant.png',
     'wateringcan':'images/wateringcan.png',
     'shovel':'images/shovel.png',
     'pickaxe':'images/pickaxe.png',

@@ -8,6 +8,7 @@ from farmlib.dictmapper import DictMapper
 from farmlib.farmobject import FarmObject, objects
 
 MAXANTHILLS = 10
+WILT_TIME = 12 # in hours
 
 class FarmField:
 
@@ -33,6 +34,17 @@ class FarmField:
         else:
             self.farmtiles[arg] = self.newfarmtile()
             return self.farmtiles[arg]
+
+    def get_farmtile_position(self, farmtile):
+        """
+            Return farmtile position by spliting farmtile key in 
+            farmtiles dict.
+        """
+        for ft in self.farmtiles.keys():
+            if self.farmtiles[ft] == farmtile:
+                px = int(ft.split('x')[0])
+                py = int(ft.split('x')[1])
+                return (px, py)
 
     def set_farmtile(self, posx, posy, farmtile):
         """Set farmtile at given position"""
@@ -81,6 +93,14 @@ class FarmField:
                 farmtile['water'] = 0
                 return True
 
+    def wilt_plant(self, posx, posy):
+        fobject = FarmObject()
+        fobject.id = 8 #  Wilted plant
+        fobject.apply_dict(objects[fobject.id])
+        farmtile = self.newfarmtile(fobject)
+        self.set_farmtile(posx, posy, farmtile)
+        return True
+
     def removewilted(self, posx, posy, player):
         self.remove(posx, posy, player)
 
@@ -107,6 +127,7 @@ class FarmField:
         fobject.id = 7 #  Anthill
         fobject.apply_dict(objects[fobject.id])
         farmtile["object"] = fobject
+        return fobject
 
     def generate_random_stones(self):
         for x in xrange(random.randint(10, 15)):
@@ -118,6 +139,24 @@ class FarmField:
             farmtile = self.newfarmtile(fobject)
             self.set_farmtile(xx, yy, farmtile)
 
+    def check_wilted(self, farmtile):
+        if not farmtile['object']:return False
+
+        fobject = farmtile['object']
+        if fobject.type != "seed":return False
+
+        if fobject.to_harvest:
+            if time.time() > fobject.growendtime + WILT_TIME * 3600:
+
+                #get position
+                position = self.get_farmtile_position(farmtile)
+                if not position:return False
+                posx, posy = position
+
+                self.wilt_plant(posx, posy)
+                return True
+        return False
+
     #UPDATE
     def update(self):
         """update a farmtiles"""
@@ -126,10 +165,16 @@ class FarmField:
 
         #update each farmtile
         for farmtile in self.farmtiles.values():
+
+            #Update objects
             if farmtile['object']:
                 ret = farmtile['object'].update(farmtile)
                 if ret:modified = True
+                ret = self.check_wilted(farmtile)
+                if ret:modified = True
+
             else:
+                #Create anthills
                 chance = random.randint(0, 10000)
                 if chance == 1 and int(time.time()) % 600 == 0\
                     and self.count_anthills() < MAXANTHILLS:

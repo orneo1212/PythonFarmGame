@@ -57,11 +57,6 @@ class Seed(FarmObject):
                     farmtile["water"] = 0
                 return True
 
-        #ready to harvest
-        if self.to_harvest:
-            if time.time() > self.growendtime + 12 * 3600:
-                self.to_harvest = False
-                self.wilted = True
         return False #  not updated
 
     def start_grow(self):
