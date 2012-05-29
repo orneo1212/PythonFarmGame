@@ -178,6 +178,7 @@ class FarmField:
         return modified
 
     def save_farmfield(self, filename, player):
+        print "Saveing game state..."
         data = DictMapper()
         data["inventory"] = player.inventory
         data["itemscounter"] = player.itemscounter
@@ -214,6 +215,7 @@ class FarmField:
 
     def load_farmfield(self, filename, player):
         if not os.path.isfile(filename):return False
+        print "Loading game state..."
         data = DictMapper()
         data.load(filename)
         player.inventory = data["inventory"]

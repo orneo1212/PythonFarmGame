@@ -358,6 +358,7 @@ class GameWindow(Window):
 
     def init(self):
         self.running = True
+        self.farm = FarmField()
         #Load game
         result = self.farm.load_farmfield('field.json', self.player)
         if not result:
