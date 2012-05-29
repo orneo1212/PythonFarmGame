@@ -8,7 +8,8 @@ Version 0.4.2
 + Added Axe (used to remove planks from field)
 + New file format for saves (old not work)
 + Added market button on gamescreen (or S key)
-+ Added anthills. (They appear with 1/1000 in each 10 minutes)
++ Added anthills.
++ Added ground drying
 
 Version 0.4
 + Added shovel
