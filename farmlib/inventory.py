@@ -1,5 +1,5 @@
 import pygame
-from farmlib.seed import seeds
+from farmlib.farmobject import objects
 
 class PygameInventory:
     def __init__(self, imgloader):
@@ -22,23 +22,23 @@ class PygameInventory:
         pygame.draw.rect(img, (255, 255, 255), (0, 0, sizex - 1, sizey - 1), 1)
 
         #Draw seed
-        seedimg = self.images["seed" + str(index)]
+        seedimg = self.images["object" + str(index)]
         img.blit(seedimg, (sizex / 2 - 32, 65))
 
         #Name
-        text = seeds[index]['name'] + " x" + str(player.itemscounter[str(index)])
+        text = objects[index]['name'] + " x" + str(player.itemscounter[str(index)])
         text = self.notifyfont.render(text, 0, (255, 255, 0), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
         img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 5))
 
         #Descriptions
-        text = self.notifyfont.render(seeds[index]['description'],
+        text = self.notifyfont.render(objects[index]['description'],
                                       0, (255, 0, 0), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
         img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
 
         #grow quantity
-        text = "Quantity: " + str(seeds[index]['growquantity'])
+        text = "Quantity: " + str(objects[index]['growquantity'])
         text = self.notifyfont.render(text,
                 0, (255, 255, 150), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
@@ -84,7 +84,7 @@ class PygameInventory:
             px = counterx * 64 + self.inventoryoffset[0] + 4
             py = countery * 32 + self.inventoryoffset[1] + 2
             surface.blit(self.images['grid2'], (px, py))
-            surface.blit(self.images['seed' + str(item)], (px, py))
+            surface.blit(self.images['object' + str(item)], (px, py))
             #Render count
             text = str(player.itemscounter[str(item)])
             text = self.notifyfont.render(text, 0, (255, 255, 0))

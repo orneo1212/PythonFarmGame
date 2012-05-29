@@ -3,20 +3,21 @@ Created on 27-05-2012
 
 @author: orneo1212
 '''
-import random
 import os
+
+import pygame
 
 from farmlib import __VERSION__
 from farmlib.farmfield import FarmField
 from farmlib.imageloader import ImageLoader
 from farmlib.inventory import PygameInventory
 from farmlib.player import Player
-
-from farmlib.renderfunctions import *
 from farmlib.timer import Timer
-
-from farmlib.seed import seeds
-from farmlib.farmobject import objects, FarmObject
+from farmlib.renderfunctions import render_field
+from farmlib.renderfunctions import render_seed_notify
+from farmlib.renderfunctions import draw_selected_seed
+from farmlib.renderfunctions import draw_tools
+from farmlib.farmobject import objects
 
 from farmlib.gui import Label, Container, Button, Window
 
@@ -46,12 +47,6 @@ imagesdata = {
     'grid2':'images/grid2.png',
     'marketbg':'images/marketbg.png',
     }
-
-#merge seeds images data (seed image have seeds/seed+id.png)
-for seed in seeds:
-    name = "seed" + str(seed['id']) + ".png"
-    seedimagepath = os.path.join("images", os.path.join("seeds", name))
-    imagesdata["seed" + str(seed['id'])] = seedimagepath
 
 #merge objects images data (objects image have objects/objects+id.png)
 for gobject in objects:
@@ -332,14 +327,7 @@ class GameWindow(Window):
         return xx, yy
 
     def start_new_game(self):
-        for x in xrange(random.randint(10, 15)):
-            xx = random.randint(0, 11)
-            yy = random.randint(0, 11)
-            fobject = FarmObject()
-            fobject.id = 0
-            fobject.apply_dict(objects[fobject.id])
-            farmtile = self.farm.newfarmtile(fobject)
-            self.farm.set_farmtile(xx, yy, farmtile)
+        self.farm.generate_random_stones()
 
     def go_to_main_menu(self):
         self.deinit()

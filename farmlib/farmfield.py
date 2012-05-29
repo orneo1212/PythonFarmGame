@@ -2,10 +2,9 @@ import os
 import random
 import time
 
-from xml.etree import ElementTree as ET
 
-from farmlib.seed import Seed, seeds
-from farmlib.seed import DictMapper
+from farmlib.seed import Seed
+from farmlib.dictmapper import DictMapper
 from farmlib.farmobject import FarmObject, objects
 
 MAXANTHILLS = 10
@@ -67,7 +66,7 @@ class FarmField:
             if not farmtile['object'].growing and \
                 farmtile['object'].to_harvest:
                 #harvest seeds
-                for i in range(farmtile['object'].growquantity):
+                for i in xrange(farmtile['object'].growquantity):
                     #
                     player.event_harvest(farmtile['object'])
 
@@ -105,9 +104,19 @@ class FarmField:
 
     def create_random_anthill(self, farmtile):
         fobject = FarmObject()
-        fobject.id = 1
+        fobject.id = 7 #  Anthill
         fobject.apply_dict(objects[fobject.id])
         farmtile["object"] = fobject
+
+    def generate_random_stones(self):
+        for x in xrange(random.randint(10, 15)):
+            xx = random.randint(0, 11)
+            yy = random.randint(0, 11)
+            fobject = FarmObject()
+            fobject.id = 6 #  Stone
+            fobject.apply_dict(objects[fobject.id])
+            farmtile = self.newfarmtile(fobject)
+            self.set_farmtile(xx, yy, farmtile)
 
     #UPDATE
     def update(self):
@@ -197,7 +206,7 @@ class FarmField:
 
                 farmtile = self.newfarmtile(newobject)
                 farmtile["water"] = tile["water"]
-                newobject.apply_dict(seeds[newobject.id])
+                newobject.apply_dict(objects[newobject.id])
             else:
                 newobject = FarmObject()
 

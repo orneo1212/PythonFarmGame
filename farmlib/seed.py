@@ -1,8 +1,6 @@
 import time
-import os
 import random
 
-from dictmapper import DictMapper
 from farmobject import FarmObject
 DESTROY_CHANCE = 3 # from 0% to 100%
 
@@ -72,7 +70,3 @@ class Seed(FarmObject):
         self.growing = True
         self.growstarttime = int(time.time())
         self.growendtime = self.growstarttime + self.growtime
-
-#load seeds from json file
-seeds = DictMapper()
-seeds.load(os.path.join("data", "seeds.json"))

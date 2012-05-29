@@ -33,7 +33,7 @@ def draw_tools(surface, currenttool, currentseed, imgloader,
             if currentseed == None:
                 img = None
             else:
-                img = imgloader.loadimage('seed' + str(currentseed))
+                img = imgloader.loadimage('object' + str(currentseed))
         if currenttool == "harvest":
             img = imgloader.loadimage('sickle')
         if currenttool == "watering":
@@ -58,7 +58,7 @@ def draw_tools(surface, currenttool, currentseed, imgloader,
     surface.blit(imgloader.loadimage('axe'), (260, 10))
 
 def draw_seed(surface, seedid, position, imgloader):
-        img = imgloader.loadimage('seed' + str(seedid))
+        img = imgloader.loadimage('object' + str(seedid))
         surface.blit(img, position)
 
 def draw_selected_seed(surface, selectedseed, imgloader):
@@ -181,7 +181,7 @@ def render_field(imgloader, farmfield, farmoffset):
                         img = imgloader['wiltedplant']
                 #ready to harvest
                 else:
-                    img = imgloader['seed' + str(farmobject.id)]
+                    img = imgloader['object' + str(farmobject.id)]
             #Field object
             else:
                 img = imgloader['object' + str(farmobject.id)]

@@ -1,4 +1,5 @@
-from farmlib.seed import Seed, seeds
+from farmlib.farmobject import objects
+from farmlib.seed import Seed
 
 class Player:
     def __init__(self):
@@ -56,7 +57,7 @@ class Player:
         if self.item_in_inventory(itemid):
             self.remove_item(itemid)
             seed = Seed()
-            seed.apply_dict(seeds[itemid])
+            seed.apply_dict(objects[itemid])
             return seed
         #There no seed in inventory
         return False

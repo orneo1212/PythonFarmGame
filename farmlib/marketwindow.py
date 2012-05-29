@@ -4,7 +4,7 @@ Created on 24-05-2012
 @author: orneo1212
 '''
 from gui import Label, Image, Window, Button
-from seed import seeds
+from farmlib.farmobject import objects
 
 class MarketWindow(Window):
     def __init__(self, size, imgloader, player):
@@ -44,10 +44,10 @@ class MarketWindow(Window):
 
         #Add items
         gridimg = self.imgloader['grid2']
-        for seeddef in seeds:
+        for seeddef in objects:
             itemid = seeddef['id']
             #add seed image widget
-            img = self.imgloader['seed' + str(itemid)]
+            img = self.imgloader['object' + str(itemid)]
             px = 64 * posx + self.itemsoffset[0]
             py = 32 * posy + self.itemsoffset[1] + 10
             #add grid
@@ -137,7 +137,7 @@ class MarketWindow(Window):
         self.sellbutton.connect("clicked", self.on_sell_clicked)
 
     def get_item_cost(self, itemid):
-        cost = int(seeds[itemid]["price"])
+        cost = int(objects[itemid]["price"])
         return cost
 
     def get_item_sell_value(self, itemid):
@@ -153,16 +153,16 @@ class MarketWindow(Window):
 
     def on_item_select(self, widget, itemid):
         self.selecteditem = itemid
-        img = self.imgloader["seed" + str(self.selecteditem)]
+        img = self.imgloader["object" + str(self.selecteditem)]
         #set image
         self.selectedicon.setimage(img)
         #update values
         cost = self.get_item_cost(itemid)
         self.costvalue.settext(cost)
         self.sellvalue.settext(self.get_item_sell_value(itemid))
-        self.namevalue.settext(seeds[itemid]["name"])
-        self.quantityvalue.settext(str(seeds[itemid]["growquantity"]))
-        self.growvalue.settext(str(seeds[itemid]["growtime"] / 60) + " min")
+        self.namevalue.settext(objects[itemid]["name"])
+        self.quantityvalue.settext(str(objects[itemid]["growquantity"]))
+        self.growvalue.settext(str(objects[itemid]["growtime"] / 60) + " min")
         self.update_buy_sell_button(itemid)
 
     def on_buy_clicked(self, widget, **data):
