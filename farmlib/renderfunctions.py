@@ -114,7 +114,7 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
         img.blit(text, (halfx - text.get_size()[0] / 2, 65))
 
         #Water
-        text = "Water: " + str(farmtile["water"]) + " %"
+        text = "Water: " + str(int(farmtile["water"])) + " %"
         text = font.render(text, 0, (0, 128, 255), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
         img.blit(text, (halfx - text.get_size()[0] / 2, 85))

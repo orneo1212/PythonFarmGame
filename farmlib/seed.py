@@ -21,14 +21,21 @@ class Seed(FarmObject):
 
         self.to_harvest = False
 
-    def update_remainig_growing_time(self):
-        self.growtimeremaining = int(self.growendtime - time.time())
+    def update_remainig_growing_time(self, waterlevel = 0):
+        if waterlevel > 0:
+            groundwet = float(waterlevel) / 100.0
+        else:
+            groundwet = 0.0
+        #calculate new groundtime. Lower growtime max 10%
+        tenperc = self.growtime * 0.10
+        newgrowendtime = self.growendtime - int(tenperc * groundwet)
+        self.growtimeremaining = int(newgrowendtime - time.time())
         if self.growtimeremaining < 0:self.growtimeremaining = 0
 
     def update(self, farmtile):
         """update a seed"""
 
-        self.update_remainig_growing_time()
+        self.update_remainig_growing_time(farmtile['water'])
 
         #calculate remaining time in hours, minutes and seconds
         remain = self.growtimeremaining
@@ -57,8 +64,8 @@ class Seed(FarmObject):
                 return True
             #If growing remove 1% water per 5 min.
             #TODO: Move drying to farmfield
-            elif self.growtimeremaining % 5 * 60 == 0:
-                farmtile["water"] -= int(farmtile["water"] * 0.01)
+            elif int(time.time()) % 5 == 0:
+                farmtile["water"] -= 0.03
                 if farmtile["water"] < 0:farmtile["water"] = 0
 
         return False #  not updated

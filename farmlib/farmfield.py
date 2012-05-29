@@ -111,14 +111,9 @@ class FarmField:
         """Watering a farm tile"""
 
         farmtile = self.get_farmtile(posx, posy)
-        if farmtile["object"] is None:return False
-        if farmtile["object"].type != "seed":return False
-
-        #only one per seed
+        #only water dry ground
         if farmtile['water'] < 30:
-            farmtile['water'] = 100 #  min(farmtile['water']+10,100)
-            watereffect = int(0.2 * farmtile['object'].growtime)
-            farmtile['object'].growendtime -= watereffect
+            farmtile['water'] = 100
             return True
         else:return False
 
@@ -210,7 +205,6 @@ class FarmField:
                 tile["object"]['growstarttime'] = gameobject.growstarttime
                 tile["object"]['growendtime'] = gameobject.growendtime
                 tile["object"]['growing'] = bool(gameobject.growing)
-                tile["object"]['wilted'] = bool(gameobject.wilted)
                 tile["object"]['to_harvest'] = bool(gameobject.to_harvest)
             #set tile
             data["tiles"].append(tile)
@@ -244,7 +238,6 @@ class FarmField:
                 newobject.type = tile["object"]["type"]
 
                 newobject.to_harvest = tile["object"]["to_harvest"]
-                newobject.wilted = tile["object"]["wilted"]
                 newobject.growing = tile["object"]["growing"]
                 newobject.growendtime = tile["object"]["growendtime"]
                 newobject.growstarttime = tile["object"]["growstarttime"]
