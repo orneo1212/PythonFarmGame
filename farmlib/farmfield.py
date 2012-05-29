@@ -115,7 +115,7 @@ class FarmField:
         if farmtile["object"].type != "seed":return False
 
         #only one per seed
-        if farmtile['water'] < 100:
+        if farmtile['water'] < 30:
             farmtile['water'] = 100 #  min(farmtile['water']+10,100)
             watereffect = int(0.2 * farmtile['object'].growtime)
             farmtile['object'].growendtime -= watereffect

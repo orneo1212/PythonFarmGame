@@ -55,6 +55,11 @@ class Seed(FarmObject):
                     farmtile["object"] = None
                     farmtile["water"] = 0
                 return True
+            #If growing remove 1% water per 5 min.
+            #TODO: Move drying to farmfield
+            elif self.growtimeremaining % 5 * 60 == 0:
+                farmtile["water"] -= int(farmtile["water"] * 0.01)
+                if farmtile["water"] < 0:farmtile["water"] = 0
 
         return False #  not updated
 
