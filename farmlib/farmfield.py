@@ -168,6 +168,10 @@ class FarmField:
                 ret = self.check_wilted(farmtile)
                 if ret:modified = True
 
+                #Drying
+                if int(time.time()) % 5 == 0:
+                    farmtile["water"] -= 0.03
+                    if farmtile["water"] < 0:farmtile["water"] = 0
             else:
                 #Create anthills
                 chance = random.randint(0, 10000)
