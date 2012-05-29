@@ -6,6 +6,8 @@ Created on 24-05-2012
 from gui import Label, Image, Window, Button
 from farmlib.farmobject import objects
 
+OBJECTSNOTINMARKET = [6, 7, 8]
+
 class MarketWindow(Window):
     def __init__(self, size, imgloader, player):
         self.player = player
@@ -45,6 +47,7 @@ class MarketWindow(Window):
         #Add items
         gridimg = self.imgloader['grid2']
         for seeddef in objects:
+            if seeddef["id"] in OBJECTSNOTINMARKET:continue
             itemid = seeddef['id']
             #add seed image widget
             img = self.imgloader['object' + str(itemid)]
