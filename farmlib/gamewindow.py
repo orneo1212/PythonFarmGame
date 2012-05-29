@@ -34,7 +34,7 @@ imagesdata = {
     'seedfullgrow':"images/seedfullgrow.png",
     'dryground':'images/dryground.png',
     'wetground':'images/wetground.png',
-    'background':'images/background.png',
+    'background':'images/gui/background.png',
     'sickle':'images/sickle.png',
     'plant':'images/plant.png',
     'wiltedplant':'images/wiltedplant.png',
@@ -42,10 +42,10 @@ imagesdata = {
     'shovel':'images/shovel.png',
     'pickaxe':'images/pickaxe.png',
     'axe':'images/axe.png',
-    'inventory':'images/inventory.png',
+    'inventory':'images/gui/inventory.png',
     'grid':'images/grid.png',
     'grid2':'images/grid2.png',
-    'marketbg':'images/marketbg.png',
+    'marketbg':'images/gui/marketbg.png',
     }
 
 #merge objects images data (objects image have objects/objects+id.png)
