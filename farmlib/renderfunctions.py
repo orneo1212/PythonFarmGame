@@ -148,7 +148,7 @@ def render_field(imgloader, farmfield, farmoffset):
             rect = (posx, posy, 64, 32)
 
             #draw ground
-            if farmtile['water'] > 20:
+            if farmtile['water'] >= 30:
                 img = imgloader['wetground']
             else:
                 img = imgloader['dryground']

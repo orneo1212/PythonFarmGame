@@ -163,6 +163,12 @@ class GameWindow(Window):
             farmobject = self.get_farmobject_under_cursor()
             pos = self.get_farmtile_pos_under_mouse()
 
+            #Watering not require any farmobject on the farmfield
+            if self.currenttool == 'watering' and pos:
+                done = self.farm.water(pos[0], pos[1])
+                #regenerate sprites
+                if done:self.regenerate_groups()
+
             #there is a seed under mouse
             if farmobject:
                 if self.currenttool == 'harvest' and pos:
@@ -173,11 +179,6 @@ class GameWindow(Window):
                 if self.currenttool == 'shovel' and pos:
                     if farmobject:
                         self.shovel_actions(farmobject, pos)
-
-                if self.currenttool == 'watering' and pos:
-                    done = self.farm.water(pos[0], pos[1])
-                    #regenerate sprites
-                    if done:self.regenerate_groups()
 
                 if self.currenttool == 'pickaxe' and pos:
                     self.pickaxe_actions(farmobject, pos)
