@@ -2,13 +2,10 @@ import os
 import random
 import time
 
-
+import farmlib
 from farmlib.seed import Seed
 from farmlib.dictmapper import DictMapper
 from farmlib.farmobject import FarmObject, objects
-
-MAXANTHILLS = 10
-WILT_TIME = 12 # in hours
 
 class FarmField:
 
@@ -140,8 +137,9 @@ class FarmField:
         fobject = farmtile['object']
         if fobject.type != "seed":return False
 
+        wiltime = farmlib.rules["WILT_TIME_HOURS"]
         if fobject.to_harvest:
-            if time.time() > fobject.growendtime + WILT_TIME * 3600:
+            if time.time() > fobject.growendtime + wiltime * 3600:
 
                 #get position
                 position = self.get_farmtile_position(farmtile)
@@ -175,8 +173,9 @@ class FarmField:
             else:
                 #Create anthills
                 chance = random.randint(0, 10000)
+                maxanthills = farmlib.rules["MAX_ANTHILLS"]
                 if chance == 1 and int(time.time()) % 600 == 0\
-                    and self.count_anthills() < MAXANTHILLS:
+                    and self.count_anthills() < maxanthills:
                     self.create_random_anthill(farmtile)
                     return True
         return modified
