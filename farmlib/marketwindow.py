@@ -25,6 +25,9 @@ class MarketWindow(Window):
 
         self.showborder = False
 
+        #Selection count
+        self.count = 1
+
         #Create gui
         self.create_gui()
 
@@ -149,7 +152,7 @@ class MarketWindow(Window):
 
     def get_item_cost(self, itemid):
         cost = int(objects[itemid]["price"])
-        return cost
+        return cost * self.count
 
     def get_item_sell_value(self, itemid):
         sellcost = int(self.get_item_cost(itemid) / 8)
@@ -159,10 +162,16 @@ class MarketWindow(Window):
         have = 0
         if self.player.item_in_inventory(itemid):
             have = self.player.itemscounter[str(itemid)]
-        self.buybutton.settext("BUY (you have %s)" % have)
-        self.sellbutton.settext("SELL")
+        self.buybutton.settext("BUY x%s (you have %s)" % \
+                               (str(self.count), have))
+        self.sellbutton.settext("SELL x%s " % str(self.count))
 
     def on_item_select(self, widget, itemid):
+
+        #increase count if the same item selected
+        if itemid == self.selecteditem:self.count += 1
+        else:self.count = 1
+
         self.selecteditem = itemid
         img = self.imgloader["object" + str(self.selecteditem)]
         #set image
@@ -182,7 +191,7 @@ class MarketWindow(Window):
         cost = self.get_item_cost(itemid)
         if self.player.money >= cost:
             self.player.money -= cost
-            self.player.add_item(self.selecteditem)
+            self.give_item(self.selecteditem, self.count)
             self.message.settext("You bought item")
             self.update_buy_sell_button(itemid)
         else:
@@ -193,13 +202,21 @@ class MarketWindow(Window):
         itemid = self.selecteditem
 
         #remove item if player have it
-        done = self.player.remove_item(itemid)
+        if self.player.item_in_inventory(itemid) \
+            and self.player.itemscounter[str(itemid)] >= self.count:
+            done = True
+        else:done = False
+
         if done:
+            #Remove items
+            for x in xrange(self.count):
+                self.player.remove_item(itemid)
+            #Add money
             self.player.money += self.get_item_sell_value(itemid)
             self.message.settext("You sold item")
             self.update_buy_sell_button(itemid)
         else:
-            self.message.settext("You don\'t have this item")
+            self.message.settext("You don\'t have this item (or not enought)")
 
     def on_water_buy(self, widget, **data):
         if self.player.watercanuses == 100:
@@ -211,3 +228,7 @@ class MarketWindow(Window):
             self.message.settext("You filled watercan")
         else:
             self.message.settext("You dont have money to refill watercan")
+
+    def give_item(self, itemid, count):
+        for x in xrange(count):
+            self.player.add_item(self.selecteditem)
