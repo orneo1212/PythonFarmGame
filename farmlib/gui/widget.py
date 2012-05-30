@@ -58,5 +58,12 @@ class Widget:
         self.repaint()
         self.visible = True
 
+    def pointinwidget(self, posx, posy):
+        rect = pygame.Rect(self.position[0], self.position[1],
+                           self.width, self.height)
+        if rect.collidepoint((posx, posy)):
+            return True
+        else:return False
+
     def connect(self, signal, function, **data):
         self.callbacks[signal] = [function, data]

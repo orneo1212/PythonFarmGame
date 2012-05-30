@@ -13,6 +13,8 @@ class Button(Widget):
         self.labelsize = labelsize
         self.labelfont = pygame.font.Font("droidsansmono.ttf", self.labelsize)
 
+        self.insidewidget = False
+
         #Setup image
         if not self.bgimage:
             self._settextimage()
@@ -48,6 +50,10 @@ class Button(Widget):
             self._img.blit(self.image, (0, 0))
         elif not self.label and self.bgimage:
             self._img.blit(self.bgimage, (0, 0))
+        #draw rectangle on hover
+        if self.insidewidget:
+            pygame.draw.line(self._img, self.color, (1, self.height - 1),
+                             (self.width, self.height - 1))
 
     def settext(self, newtext):
         self.label = newtext
@@ -60,11 +66,24 @@ class Button(Widget):
                 self.callbacks[signal][0](self, **self.callbacks[signal][1])
 
     def poll_event(self, event):
+        pos = self.parent.get_relative_mousepos()
+
+        #mouse button down
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            pos = self.parent.get_relative_mousepos()
+            #on_click event
             if pos != None:
-                if pygame.Rect(self.position[0], self.position[1],
-                               self.width, self.height).collidepoint(pos):
+                if self.pointinwidget(pos[0], pos[1]):
                     self._call_callback("clicked")
 
-
+        #Mouse motion
+        if event.type == pygame.MOUSEMOTION and pos:
+            #on_enter event
+            if not self.insidewidget and self.pointinwidget(pos[0], pos[1]):
+                self.insidewidget = True
+                self._call_callback("onenter")
+                self.repaint()
+            #on_leave event
+            elif self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
+                self.insidewidget = False
+                self._call_callback("onleave")
+                self.repaint()
