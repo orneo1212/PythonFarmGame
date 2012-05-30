@@ -5,8 +5,6 @@ Created on 23-05-2012
 '''
 import pygame
 
-from seed import Seed
-
 def draw_tools(surface, currenttool, currentseed, imgloader,
                drawnearcursor = True):
     #Draw selection on selected tool

@@ -7,6 +7,8 @@ import os
 
 import pygame
 
+import farmlib
+
 from farmlib import __VERSION__
 from farmlib.farmfield import FarmField
 from farmlib.imageloader import ImageLoader
@@ -24,30 +26,14 @@ from farmlib.gui import Label, Container, Button, Window
 from farmlib.marketwindow import MarketWindow
 
 #SETTINGS
-REMOVEWILTEDCOST = 10
-REMOVEANTHILLCOST = 300
-REMOVESTONECOST = 100
+REMOVEWILTEDCOST = farmlib.rules["REMOVEWILTEDCOST"]
+REMOVEANTHILLCOST = farmlib.rules["REMOVEANTHILLCOST"]
+REMOVESTONECOST = farmlib.rules["REMOVESTONECOST"]
 
 TOOLS = ["harvest", "plant", "watering", "shovel", "pickaxe", "axe"]
 
-imagesdata = {
-    'seed':'images/seedstartgrow.png',
-    'seedhalfgrow':"images/seedhalfgrow.png",
-    'seedfullgrow':"images/seedfullgrow.png",
-    'dryground':'images/dryground.png',
-    'wetground':'images/wetground.png',
-    'background':'images/gui/background.png',
-    'sickle':'images/sickle.png',
-    'plant':'images/plant.png',
-    'wateringcan':'images/wateringcan.png',
-    'shovel':'images/shovel.png',
-    'pickaxe':'images/pickaxe.png',
-    'axe':'images/axe.png',
-    'inventory':'images/gui/inventory.png',
-    'grid':'images/grid.png',
-    'grid2':'images/grid2.png',
-    'marketbg':'images/gui/marketbg.png',
-    }
+#Images data
+imagesdata = farmlib.images["imagesdata"]
 
 #merge objects images data (objects image have objects/objects+id.png)
 for gobject in objects:

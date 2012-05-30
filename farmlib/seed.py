@@ -2,7 +2,7 @@ import time
 import random
 
 from farmobject import FarmObject
-DESTROY_CHANCE = 3 # from 0% to 100%
+import farmlib
 
 class Seed(FarmObject):
 
@@ -58,7 +58,7 @@ class Seed(FarmObject):
                 self.growing = False
                 self.to_harvest = True
                 chance = random.randint(0, 100)
-                if chance <= DESTROY_CHANCE:
+                if chance <= farmlib.rules["DESTROY_CHANCE"]:
                     farmtile["object"] = None
                     farmtile["water"] = 0
                 return True

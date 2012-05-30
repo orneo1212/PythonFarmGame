@@ -3,10 +3,12 @@ Created on 24-05-2012
 
 @author: orneo1212
 '''
+import farmlib
+
 from gui import Label, Image, Window, Button
 from farmlib.farmobject import objects
 
-OBJECTSNOTINMARKET = [6, 7, 8]
+OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
 
 class MarketWindow(Window):
     def __init__(self, size, imgloader, player):
