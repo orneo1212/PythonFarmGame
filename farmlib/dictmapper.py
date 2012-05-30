@@ -1,6 +1,6 @@
 import json
 
-class DictMapper(dict):
+class DictMapper():
     def __init__(self, dicttomap = {}):
         self._dict = dicttomap
 
@@ -12,6 +12,14 @@ class DictMapper(dict):
 
     def __setitem__(self, name, value):
         self._dict[name] = value
+
+    def keys(self):
+        return self._dict.keys()
+
+    def get(self, keyname, defaultvalue):
+        if keyname in self._dict.keys():
+            return self._dict[keyname]
+        else:return defaultvalue
 
     def __getitem__(self, name):
         if isinstance(name, int):

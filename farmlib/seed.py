@@ -19,6 +19,8 @@ class Seed(FarmObject):
         self.growtimeremaining = 0
         self.growing = False
 
+        self.harvestcount = 1
+
         self.to_harvest = False
 
     def update_remainig_growing_time(self, waterlevel = 0):

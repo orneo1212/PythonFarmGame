@@ -245,9 +245,6 @@ class FarmField:
         data.load(filename)
         player.inventory = data["inventory"]
         player.itemscounter = data["itemscounter"]
-        player.money = data["money"]
-
-        #watercan uses
         player.watercanuses = data.get("watercanuses", 100)
 
         #load tiles
