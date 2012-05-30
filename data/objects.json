@@ -61,5 +61,10 @@
     "descriptions": "Use shovel to remove it ($10)",
     "id": 8,
     "name": "Wilted plant"
+  },
+  "9": {
+    "descriptions": "Use axe to remove it ($80)",
+    "id": 9,
+    "name": "Plank"
   }
 }

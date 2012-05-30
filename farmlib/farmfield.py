@@ -131,6 +131,16 @@ class FarmField:
             farmtile = self.newfarmtile(fobject)
             self.set_farmtile(xx, yy, farmtile)
 
+    def generate_random_planks(self):
+        for x in xrange(random.randint(10, 15)):
+            xx = random.randint(0, 11)
+            yy = random.randint(0, 11)
+            fobject = FarmObject()
+            fobject.id = 9 #  Plank
+            fobject.apply_dict(objects[fobject.id])
+            farmtile = self.newfarmtile(fobject)
+            self.set_farmtile(xx, yy, farmtile)
+
     def check_wilted(self, farmtile):
         if not farmtile['object']:return False
 

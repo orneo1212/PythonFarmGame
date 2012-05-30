@@ -138,6 +138,16 @@ class GameWindow(Window):
             #regenerate sprites
             self.regenerate_groups()
 
+    def axe_actions(self, farmobject, pos):
+        #Remove planks
+        removeplankcost = farmlib.rules["REMOVEPLANKCOST"]
+        if farmobject.id == 9 and self.player.money >= removeplankcost:
+            self.player.money -= removeplankcost
+            self.farm.remove(pos[0], pos[1], self.player)
+            self.regenerate_groups()
+
+
+
     def handle_farmfield_events(self, event):
         #Mouse motion
         mx, my = pygame.mouse.get_pos()
@@ -168,6 +178,9 @@ class GameWindow(Window):
 
                 if self.currenttool == 'pickaxe' and pos:
                     self.pickaxe_actions(farmobject, pos)
+
+                if self.currenttool == 'axe' and pos:
+                    self.axe_actions(farmobject, pos)
 
             #there no seed under mouse
             else:
@@ -333,6 +346,7 @@ class GameWindow(Window):
 
     def start_new_game(self):
         self.farm.generate_random_stones()
+        self.farm.generate_random_planks()
 
     def go_to_main_menu(self):
         self.deinit()
