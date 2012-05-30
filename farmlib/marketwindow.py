@@ -202,6 +202,9 @@ class MarketWindow(Window):
             self.message.settext("You don\'t have this item")
 
     def on_water_buy(self, widget, **data):
+        if self.player.watercanuses == 100:
+            self.message.settext("You no need refill")
+            return
         if self.player.money >= WATERREFILLCOST:
             self.player.money -= WATERREFILLCOST
             self.player.watercanuses = 100
