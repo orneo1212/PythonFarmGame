@@ -8,6 +8,7 @@ import farmlib
 from gui import Label, Image, Window, Button
 from farmlib.farmobject import objects
 
+WATERREFILLCOST = farmlib.rules["WATERREFILLCOST"]
 OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
 
 class MarketWindow(Window):
@@ -46,6 +47,11 @@ class MarketWindow(Window):
         closebutton.connect("clicked", lambda x:self.hide())
         self.addwidget(closebutton)
 
+        waterbuybutton = Button("Refill water($%s)" % WATERREFILLCOST,
+                                 (10, 30), color = (255, 0, 0))
+        waterbuybutton.connect("clicked", self.on_water_buy)
+        self.addwidget(waterbuybutton)
+
         #Add items
         gridimg = self.imgloader['grid2']
         for seeddef in objects:
@@ -54,7 +60,7 @@ class MarketWindow(Window):
             #add seed image widget
             img = self.imgloader['object' + str(itemid)]
             px = 64 * posx + self.itemsoffset[0]
-            py = 32 * posy + self.itemsoffset[1] + 10
+            py = 32 * posy + self.itemsoffset[1] + 30
             #add grid
             grid = Image(gridimg, (px, py))
             self.addwidget(grid)
@@ -194,3 +200,11 @@ class MarketWindow(Window):
             self.update_buy_sell_button(itemid)
         else:
             self.message.settext("You don\'t have this item")
+
+    def on_water_buy(self, widget, **data):
+        if self.player.money >= WATERREFILLCOST:
+            self.player.money -= WATERREFILLCOST
+            self.player.watercanuses = 100
+            self.message.settext("You filled watercan")
+        else:
+            self.message.settext("You dont have money to refill watercan")

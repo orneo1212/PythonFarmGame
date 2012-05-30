@@ -1,6 +1,7 @@
 Version 0.4.4
 + Added planks (randomly generated on new map)
 + Added watercan use limit
++ Added watercan refill button to the market
 
 Version 0.4.2
 + Added item info in market
