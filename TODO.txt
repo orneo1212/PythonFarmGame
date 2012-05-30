@@ -7,4 +7,4 @@
 [ ] Zasypanie kaluzy wymaga szpadla i troche kasy
 [X] Na niektorych polach leza konary, usuniecie kosztuje troche kasy
 [X] Losowo czasem pojawiaja sie mrowiska, max 2 na cala plansze, nie da sie uch usunac, zmieniaja miejsca co jakis czas
-
+[ ] Zmiana ilosci kupna w markecie (klikanie ikony zwieksza ilosc)

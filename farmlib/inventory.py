@@ -38,7 +38,9 @@ class PygameInventory:
         img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
 
         #grow quantity
-        text = "Quantity: " + str(objects[index]['growquantity'])
+        harvestcount = objects[index].get('harvestcount', 1)
+        text = "Quantity: %s (%s)" % (str(objects[index]['growquantity']),
+                                      str(harvestcount))
         text = self.notifyfont.render(text,
                 0, (255, 255, 150), (255, 0, 255))
         text.set_colorkey((255, 0, 255))

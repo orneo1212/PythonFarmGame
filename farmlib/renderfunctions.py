@@ -106,7 +106,8 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
         img.blit(text, (halfx - text.get_size()[0] / 2, 45))
 
         #Quentity
-        text = "Quantity: " + str(farmobject.growquantity)
+        text = "Quantity: %s (%s)" % (str(farmobject.growquantity),
+                                      str(farmobject.harvestcount))
         text = font.render(text, 0, (255, 255, 150), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
         img.blit(text, (halfx - text.get_size()[0] / 2, 65))

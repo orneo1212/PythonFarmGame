@@ -71,24 +71,32 @@ class FarmField:
         farmtile = self.get_farmtile(posx, posy)
         if not farmtile["object"]:return False
 
-        if farmtile["object"].type == "seed":
-            if not farmtile['object'].growing and \
-                farmtile['object'].to_harvest:
-                #harvest seeds
-                for i in xrange(farmtile['object'].growquantity):
-                    #
-                    player.event_harvest(farmtile['object'])
+        if not farmtile["object"].type == "seed":return False
 
-                    itemid = farmtile['object'].id
-                    if itemid not in player.inventory:
-                        player.inventory.append(itemid)
-                        player.itemscounter[str(itemid)] = 1
-                    else:
-                        player.itemscounter[str(itemid)] += 1
-                #TODO: add feature to many years seeds
+        if not farmtile['object'].growing and \
+            farmtile['object'].to_harvest:
+            #harvest seeds
+            for i in xrange(farmtile['object'].growquantity):
+                #
+                player.event_harvest(farmtile['object'])
+
+                itemid = farmtile['object'].id
+                if itemid not in player.inventory:
+                    player.inventory.append(itemid)
+                    player.itemscounter[str(itemid)] = 1
+                else:
+                    player.itemscounter[str(itemid)] += 1
+
+            #Remove seed or start grow again when multi harvest seed
+            harvestcount = getattr(farmtile["object"], "harvestcount", 1)
+            if harvestcount > 1:
+                farmtile["object"].harvestcount -= 1
+                farmtile["object"].to_harvest = False
+                farmtile["object"].start_grow()
+            else:
                 farmtile['object'] = None
                 farmtile['water'] = 0
-                return True
+            return True
 
     def wilt_plant(self, posx, posy):
         fobject = FarmObject()
@@ -223,6 +231,7 @@ class FarmField:
                 tile["object"]['growendtime'] = gameobject.growendtime
                 tile["object"]['growing'] = bool(gameobject.growing)
                 tile["object"]['to_harvest'] = bool(gameobject.to_harvest)
+                tile["object"]['harvestcount'] = gameobject.harvestcount
             #set tile
             data["tiles"].append(tile)
         #save data
@@ -239,10 +248,7 @@ class FarmField:
         player.money = data["money"]
 
         #watercan uses
-        try:
-            player.watercanuses = data["watercanuses"]
-        except:pass
-        if player.watercanuses is None:player.watercanuses = 100
+        player.watercanuses = data.get("watercanuses", 100)
 
         #load tiles
         for tile in data["tiles"]:
@@ -257,19 +263,25 @@ class FarmField:
 
             #Restore seed or object
             if tile["object"]["type"] == "seed":
+                objectdata = tile["object"]
                 newobject = Seed()
 
-                newobject.id = tile["object"]["id"]
-                newobject.type = tile["object"]["type"]
+                newobject.id = objectdata["id"]
+                newobject.type = objectdata["type"]
 
-                newobject.to_harvest = tile["object"]["to_harvest"]
-                newobject.growing = tile["object"]["growing"]
-                newobject.growendtime = tile["object"]["growendtime"]
-                newobject.growstarttime = tile["object"]["growstarttime"]
+                newobject.to_harvest = objectdata["to_harvest"]
+                newobject.growing = objectdata["growing"]
+                newobject.growendtime = objectdata["growendtime"]
+                newobject.growstarttime = objectdata["growstarttime"]
 
                 farmtile = self.newfarmtile(newobject)
                 farmtile["water"] = tile["water"]
+
+                #Apply global object data
                 newobject.apply_dict(objects[newobject.id])
+
+                #Restore harvest count
+                newobject.harvestcount = objectdata.get("harvestcount", 1)
             else:
                 newobject = FarmObject()
 
