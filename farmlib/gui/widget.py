@@ -21,6 +21,7 @@ class Widget:
         self.size = [self.width, self.height]
 
         self.visible = True
+        self.active = False
         self.callbacks = {}  # key=signal name value= function
         #
         self.create_widget_image()

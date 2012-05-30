@@ -43,6 +43,15 @@ class Container:
         else:
             self.show()
 
+    def makeactive(self, widget = None):
+        for widg in self.widgets:
+            if widget and widg == widget:
+                widg.active = True
+            else:
+                widg.active = False
+            #Repaint
+            widg.repaint()
+
     def update(self):
         for widget in self.widgets:
             widget.update()
