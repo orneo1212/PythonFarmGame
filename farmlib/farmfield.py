@@ -108,6 +108,8 @@ class FarmField:
         """Watering a farm tile"""
 
         farmtile = self.get_farmtile(posx, posy)
+        if not farmtile["object"] or not farmtile["object"].type == "seed":
+            return False
         #only water dry ground
         if farmtile['water'] < 30:
             farmtile['water'] = 100
@@ -196,6 +198,7 @@ class FarmField:
         data["inventory"] = player.inventory
         data["itemscounter"] = player.itemscounter
         data["money"] = player.money
+        data["watercanuses"] = player.watercanuses
         data["tiles"] = []
 
         #fill tiles
@@ -234,6 +237,13 @@ class FarmField:
         player.inventory = data["inventory"]
         player.itemscounter = data["itemscounter"]
         player.money = data["money"]
+
+        #watercan uses
+        try:
+            player.watercanuses = data["watercanuses"]
+        except:pass
+        if player.watercanuses is None:player.watercanuses = 100
+
         #load tiles
         for tile in data["tiles"]:
             px = tile["px"]
@@ -241,7 +251,7 @@ class FarmField:
             #Port from old saves
             if "seed" in tile:
                 tile["object"] = tile["seed"]
-                tile["object"]["type"] == "seed"
+                tile["object"]["type"] = "seed"
             #Avoid null objects
             if not tile["object"]:continue
 

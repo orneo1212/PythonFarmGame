@@ -1,4 +1,3 @@
-__VERSION__ = "0.4.2"
 import os
 
 import farmobject
@@ -15,9 +14,7 @@ from dictmapper import DictMapper
 
 
 #SETTINGS
-STONE_REMOVE_COST = 100
-ANTHILL_REMOVE_COST = 300
-
+__VERSION__ = "0.4.4"
 
 rules = DictMapper()
 rules.load(os.path.join("data", "rules.json"))

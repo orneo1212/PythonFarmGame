@@ -161,9 +161,14 @@ class GameWindow(Window):
 
             #Watering not require any farmobject on the farmfield
             if self.currenttool == 'watering' and pos:
-                done = self.farm.water(pos[0], pos[1])
-                #regenerate sprites
-                if done:self.regenerate_groups()
+
+                #Wate ground when watercan have water
+                if self.player.watercanuses >= 1:
+                    done = self.farm.water(pos[0], pos[1])
+                    #regenerate sprites
+                    if done:
+                        self.player.watercanuses -= 1
+                        self.regenerate_groups()
 
             #there is a seed under mouse
             if farmobject:
@@ -273,10 +278,17 @@ class GameWindow(Window):
         self.moneylabel.settext(text)
         self.moneylabel.redraw(screen)
 
+
         drawnearcursor = not self.sellwindow.visible
         #Draw tools and selected tool rectangle
         draw_tools(screen, self.currenttool, self.currentseed, self.images,
                    drawnearcursor = drawnearcursor)
+
+        #draw watercanuses
+        uses = Label("", (110 + 2, 10 + 2), color = (255, 240, 240))
+        uses.settext(str(self.player.watercanuses))
+        uses.redraw(screen)
+
 
         if not self.sellwindow.visible:
 

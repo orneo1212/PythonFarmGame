@@ -1,3 +1,7 @@
+Version 0.4.4
++ Added planks (randomly generated on new map)
++ Added watercan use limit
+
 Version 0.4.2
 + Added item info in market
 + ESC key close market window if opened
