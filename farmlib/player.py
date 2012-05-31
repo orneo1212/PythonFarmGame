@@ -68,7 +68,10 @@ class Player:
         return False
 
     def update_skill(self):
-        pass
+        self.nextlvlexp = float(self.level - 1) * 100.0 * 2.75 + 100.0
+        if self.exp >= self.nextlvlexp:
+            self.level += 1
+            self.exp = self.exp - self.nextlvlexp
 
     def event_harvest(self, seedharvested):
         self.exp += 10.0

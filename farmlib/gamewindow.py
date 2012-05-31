@@ -97,6 +97,7 @@ class GameWindow(Window):
 
     def update(self):
         """Update farm"""
+        self.gamewindow.update()
         self.eventstimer.tick()
         #Clear current seed if user dont have it
         if self.currentseed != None:

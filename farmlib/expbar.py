@@ -17,13 +17,15 @@ class ExpBar(Label):
         exp = self.player.exp
         nextlvlexp = self.player.nextlvlexp
         level = self.player.level
+        self.oldexp = self.player.exp
         #calculate progress and set text
         progress = int(exp / nextlvlexp * 100)
         self.settext("Level: " + str(level) + " Exp: %s/%s (%s %%)" % \
                      (int(exp), int(nextlvlexp), progress), repaint = False)
 
     def update(self):
-        pass
+        if self.oldexp != self.player.exp:
+            self.repaint()
 
     def repaint(self):
         self.update_text()

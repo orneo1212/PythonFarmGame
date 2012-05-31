@@ -76,10 +76,9 @@ class FarmField:
         if not farmtile['object'].growing and \
             farmtile['object'].to_harvest:
             #harvest seeds
+            player.event_harvest(farmtile['object'])
             for i in xrange(farmtile['object'].growquantity):
                 #
-                player.event_harvest(farmtile['object'])
-
                 itemid = farmtile['object'].id
                 if itemid not in player.inventory:
                     player.inventory.append(itemid)
