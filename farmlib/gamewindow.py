@@ -15,10 +15,12 @@ from farmlib.imageloader import ImageLoader
 from farmlib.inventory import PygameInventory
 from farmlib.player import Player
 from farmlib.timer import Timer
+from farmlib.expbar import ExpBar
 from farmlib.renderfunctions import render_field
 from farmlib.renderfunctions import render_seed_notify
 from farmlib.renderfunctions import draw_selected_seed
 from farmlib.renderfunctions import draw_tools
+
 from farmlib.farmobject import objects
 
 from farmlib.gui import Label, Container, Button, Window
@@ -67,6 +69,10 @@ class GameWindow(Window):
         #create game window
         self.gamewindow = Container((800, 600), (0, 0))
         self.create_game_window()
+
+        #Create expbar
+        self.expbar = ExpBar(self.player)
+        self.gamewindow.addwidget(self.expbar)
 
         #create marketwindow
         self.sellwindow = MarketWindow((400, 400), self.images, self.player)

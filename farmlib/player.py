@@ -7,6 +7,10 @@ class Player:
         self.itemscounter = {'3':2}
         self.money = 0
         self.watercanuses = 100
+        #Skill
+        self.exp = 0.0
+        self.nextlvlexp = 100.0
+        self.level = 1
 
     def update(self):
         #create dict key if not exist in itemscounter
