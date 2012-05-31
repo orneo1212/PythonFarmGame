@@ -18,20 +18,24 @@ class Container:
         self.widgets = []
         self.position = position
         self.visible = True
+        self.needrepaint = True
 
     def repaint(self):
         """Repaint internally"""
-        pass
+        self.create_widget_image()
+        self._img.fill((255, 0, 255))
+        self._img.set_colorkey((255, 0, 255))
+        for widget in self.widgets:
+            if widget.visible:
+                widget.repaint()
+                widget.redraw(self._img)
 
     def redraw(self, surface):
         if not self.visible:return
-        img = pygame.surface.Surface(self.size)
-        img.fill((255, 0, 255))
-        img.set_colorkey((255, 0, 255))
-        for widget in self.widgets:
-            if widget.visible:
-                widget.redraw(img)
-        surface.blit(img, self.position)
+        if self.needrepaint:
+            self.needrepaint = False
+            self.repaint()
+        surface.blit(self._img, self.position)
 
     def update_size(self, newsize):
         self.width = newsize[0]
@@ -42,10 +46,13 @@ class Container:
         self.visible = False
         for widget in self.widgets:
             widget._call_callback("onleave")
+            widget.hide()
 
     def show(self):
-        self.repaint()
         self.visible = True
+        self.needrepaint = True
+        for widget in self.widgets:
+            widget.show()
 
     def togglevisible(self):
         if self.visible:
@@ -72,6 +79,12 @@ class Container:
             if not widget.visible:
                 continue
             widget.poll_event(event)
+
+    def create_widget_image(self):
+        self._img = pygame.surface.Surface(self.size)
+        self._img.set_colorkey((255, 0, 255))
+        self._img.fill((255, 0, 255))
+        return self._img
 
     def get_relative_mousepos(self):
         """

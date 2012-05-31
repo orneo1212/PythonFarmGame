@@ -10,6 +10,7 @@ from farmlib.gui import Label
 class ExpBar(Label):
     def __init__(self, player):
         self.player = player
+        self.oldexp = -1.0
         Label.__init__(self, "", (9, 58))
 
     def update_text(self):

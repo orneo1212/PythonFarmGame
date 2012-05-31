@@ -70,6 +70,7 @@ class Button(Widget):
             if pos != None:
                 if self.pointinwidget(pos[0], pos[1]):
                     self._call_callback("clicked")
+                    self.parent_repaint()
                     #make button active
                     if self.parent:
                         self.parent.makeactive(self)

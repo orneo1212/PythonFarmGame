@@ -13,45 +13,22 @@ class Window(Container):
     '''
 
     def __init__(self, (width, height), position):
-        self.width = width
-        self.height = height
-        self.size = [self.width, self.height]
-        self.widgets = []
-        self.position = position
-        self.visible = True
+        Container.__init__(self, (width, height), position)
         self.alphavalue = 255
         #border
         self.showborder = True
         self.bordercolor = (128, 128, 0)
         self.bordersize = 2
         self.backgroundcolor = (80, 80, 80)
-        # internal image (call repaint() to redraw it)
-        self._img = None
 
     def repaint(self):
-        img = pygame.surface.Surface((self.width, self.height))
-        img.set_alpha(self.alphavalue)
-        img.fill(self.backgroundcolor)
+        self.create_widget_image()
+        self._img.set_alpha(self.alphavalue)
+        self._img.fill(self.backgroundcolor)
         if self.showborder:
-            pygame.draw.rect(img, self.bordercolor,
+            pygame.draw.rect(self._img, self.bordercolor,
                              (0, 0, self.width, self.height), self.bordersize)
-        #render widgets
-        for widget in self.widgets:
-            widget.redraw(img)
-        self._img = img
-
-    def redraw(self, surface):
-        if not self.visible:return
-        self.repaint()
-        if self._img:
-            surface.blit(self._img, self.position)
-
-    def poll_event(self, event):
-        if not self.visible:return
-        for widget in self.widgets:
-            if not widget.visible:
-                continue
-            widget.poll_event(event)
+        Container.repaint(self)
 
     def get_relative_mousepos(self):
         """

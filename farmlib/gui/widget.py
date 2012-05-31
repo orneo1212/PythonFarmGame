@@ -27,7 +27,6 @@ class Widget:
         self.callbacks = {}  # key=signal name value= function
         #
         self.create_widget_image()
-        self.repaint()
 
     def create_widget_image(self):
         self._img = pygame.surface.Surface(self.size)
@@ -43,6 +42,9 @@ class Widget:
     def repaint(self):
         """repaint internally"""
         pass
+
+    def parent_repaint(self):
+        if self.parent:self.parent.repaint()
 
     def redraw(self, surface):
         if self._img:
@@ -63,19 +65,18 @@ class Widget:
             if self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = False
                 self._call_callback("onleave")
-                self.repaint()
+                self.parent_repaint()
             #on_enter event
             if not self.insidewidget and self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = True
                 self._call_callback("onenter")
-                self.repaint()
-
+                self.parent_repaint()
 
     def hide(self):
         self.visible = False
 
     def show(self):
-        self.repaint()
+        self.needrepaint = True
         self.visible = True
 
     def pointinwidget(self, posx, posy):

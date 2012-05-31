@@ -87,7 +87,6 @@ class GameWindow(Window):
         #regenerate groups
         self.regenerate_groups()
 
-
     def create_game_window(self):
         #close button
         closebutton = Button("Market", (710, 0), labelsize = 25, \
