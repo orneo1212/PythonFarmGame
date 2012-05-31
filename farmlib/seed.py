@@ -20,6 +20,7 @@ class Seed(FarmObject):
         self.growing = False
 
         self.harvestcount = 1
+        self.requiredlevel = 1
 
         self.to_harvest = False
 

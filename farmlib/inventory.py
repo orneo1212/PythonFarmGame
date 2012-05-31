@@ -21,10 +21,6 @@ class PygameInventory:
         img.fill((48, 80, 80))
         pygame.draw.rect(img, (255, 255, 255), (0, 0, sizex - 1, sizey - 1), 1)
 
-        #Draw seed
-        seedimg = self.images["object" + str(index)]
-        img.blit(seedimg, (sizex / 2 - 32, 65))
-
         #Name
         text = objects[index]['name'] + " x" + str(player.itemscounter[str(index)])
         text = self.notifyfont.render(text, 0, (255, 255, 0), (255, 0, 255))
@@ -45,6 +41,17 @@ class PygameInventory:
                 0, (255, 255, 150), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
         img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 45))
+
+        #Required level
+        requiredlevel = objects[index].get('requiredlevel', 1)
+        text = self.notifyfont.render("Required level: %s" % requiredlevel,
+                                      0, (255, 255, 150), (255, 0, 255))
+        text.set_colorkey((255, 0, 255))
+        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 65))
+
+        #Draw seed
+        seedimg = self.images["object" + str(index)]
+        img.blit(seedimg, (sizex / 2 - 32, 85))
 
         #alpha
         img.set_alpha(200)

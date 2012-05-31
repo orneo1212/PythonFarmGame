@@ -60,7 +60,6 @@ class Player:
         """Create new seed from seeds dictionary"""
 
         if self.item_in_inventory(itemid):
-            self.remove_item(itemid)
             seed = Seed()
             seed.apply_dict(objects[itemid])
             return seed

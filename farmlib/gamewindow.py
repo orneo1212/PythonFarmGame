@@ -197,14 +197,15 @@ class GameWindow(Window):
             #there no seed under mouse
             else:
                 if self.currenttool == 'plant' and pos:
+                    done = False
                     #Plant seed if user have it and its empty field
                     newseed = self.player.create_new_seed_by_id(self.currentseed)
                     if not newseed:
                         self.currentseed = None
-                    else:
-                        self.farm.plant(pos[0], pos[1], newseed)
+                    elif self.player.level >= newseed.requiredlevel:
+                        done = self.farm.plant(pos[0], pos[1], newseed, self.player)
                     #regenerate sprites
-                    self.regenerate_groups()
+                    if done:self.regenerate_groups()
 
         #events for inventory
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -377,7 +378,6 @@ class GameWindow(Window):
 
     def init(self):
         self.running = True
-        self.farm = FarmField()
         #Load game
         result = self.farm.load_farmfield('field.json', self.player)
         if not result:
@@ -387,5 +387,9 @@ class GameWindow(Window):
         self.regenerate_groups()
 
     def deinit(self):
+        #stop game
         self.running = False
         self.farm.save_farmfield('field.json', self.player)
+        #create new instances
+        self.farm = FarmField()
+        self.player = Player()

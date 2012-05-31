@@ -62,8 +62,9 @@ class FarmField:
             #plant a new seed on empty place
             farmtile['object'] = seed
             seed.start_grow()
+            return True
         else:
-            return 1 #  error there something on that position
+            return False #  error there something on that position
 
     def harvest(self, posx, posy, player):
         """Harvest growed seed from farmtile"""
@@ -252,6 +253,7 @@ class FarmField:
         player.watercanuses = data.get("watercanuses", 100)
         player.exp = data.get("exp", 0.0)
         player.nextlvlexp = data.get("nextlvlexp", 100.0)
+        player.money = int(data.get("money", 1))
         player.level = int(data.get("level", 1))
 
         #load tiles
@@ -286,6 +288,7 @@ class FarmField:
 
                 #Restore harvest count
                 newobject.harvestcount = objectdata.get("harvestcount", 1)
+                newobject.requiredlevel = objectdata.get("requiredlevel", 1)
             else:
                 newobject = FarmObject()
 

@@ -6,6 +6,7 @@
     "id": 0,
     "growtime": 7200,
     "name": "Strawberry",
+    "requiredlevel":2,
     "harvestcount":2
   },
   "1": {
@@ -14,6 +15,7 @@
     "price": 80,
     "id": 1,
     "growtime": 3600,
+    "requiredlevel":3,
     "name": "Onion"
   },
   "2": {
@@ -23,6 +25,7 @@
     "id": 2,
     "growtime": 28800,
     "name": "Bean",
+    "requiredlevel":3,
     "harvestcount":2
   },
   "3": {
@@ -39,6 +42,7 @@
     "price": 100,
     "id": 4,
     "growtime": 18000,
+    "requiredlevel":5,
     "name": "Potato"
   },
   "5": {
@@ -48,6 +52,7 @@
     "id": 5,
     "growtime": 43200,
     "name": "Tomato",
+    "requiredlevel":8,
     "harvestcount":3
   },
   "6": {
