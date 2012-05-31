@@ -25,10 +25,18 @@ class Container:
 
     def redraw(self, surface):
         if not self.visible:return
+        img = pygame.surface.Surface(self.size)
+        img.fill((255, 0, 255))
+        img.set_colorkey((255, 0, 255))
         for widget in self.widgets:
             if widget.visible:
-                widget.redraw(surface)
+                widget.redraw(img)
+        surface.blit(img, self.position)
 
+    def update_size(self, newsize):
+        self.width = newsize[0]
+        self.height = newsize[1]
+        self.size = newsize
 
     def hide(self):
         self.visible = False

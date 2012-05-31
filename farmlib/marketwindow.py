@@ -3,10 +3,13 @@ Created on 24-05-2012
 
 @author: orneo1212
 '''
+import pygame
+
 import farmlib
 
 from gui import Label, Image, Window, Button
 from farmlib.farmobject import objects
+from farmlib.tooltip import Tooltip
 
 WATERREFILLCOST = farmlib.rules["WATERREFILLCOST"]
 OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
@@ -28,8 +31,12 @@ class MarketWindow(Window):
         #Selection count
         self.count = 1
 
+        #Tooltip to draw
+        self.tooltip = None
+
         #Create gui
         self.create_gui()
+
 
         #hide market at load
         self.hide()
@@ -71,6 +78,10 @@ class MarketWindow(Window):
             imagebutton = Button("", (px, py), bgimage = img)
             self.addwidget(imagebutton)
             imagebutton.connect("clicked", self.on_item_select, itemid = itemid)
+            imagebutton.connect("onenter", self.on_mouse_item_enter,
+                                itemid = itemid)
+            imagebutton.connect("onleave", self.on_mouse_item_leave,
+                                itemid = itemid)
             #limit
             posx += 1
             if posx >= columns:
@@ -105,33 +116,6 @@ class MarketWindow(Window):
                            color = (200, 200, 50), align = "center")
         self.addwidget(self.sellvalue)
 
-        #Name label
-        namelabel = Label("Name:", (80, 300), size = 12,
-                           color = (255, 255, 255), align = "center")
-        self.addwidget(namelabel)
-        #Name value
-        self.namevalue = Label("", (100, 300), size = 12,
-                           color = (200, 200, 50), align = "center")
-        self.addwidget(self.namevalue)
-
-        #Quantity label
-        quantitylabel = Label("Quantity:", (80, 320), size = 12,
-                           color = (255, 255, 255), align = "center")
-        self.addwidget(quantitylabel)
-        #Quantity value
-        self.quantityvalue = Label("", (120, 320), size = 12,
-                           color = (200, 200, 50), align = "center")
-        self.addwidget(self.quantityvalue)
-
-        #grow label
-        growlabel = Label("Grow in: ", (280, 320), size = 12,
-                           color = (255, 255, 255), align = "center")
-        self.addwidget(growlabel)
-        #grow value
-        self.growvalue = Label("", (320, 320), size = 12,
-                           color = (200, 200, 50), align = "center")
-        self.addwidget(self.growvalue)
-
         #Message
         self.message = Label("", (10, 360), size = 12,
                            color = (250, 0, 250), align = "center")
@@ -149,6 +133,12 @@ class MarketWindow(Window):
         self.addwidget(self.sellbutton)
         self.buybutton.connect("clicked", self.on_buy_clicked)
         self.sellbutton.connect("clicked", self.on_sell_clicked)
+
+    def redraw(self, surface):
+        Window.redraw(self, surface)
+        if self.tooltip:
+            self.tooltip.redraw(surface)
+
 
     def get_item_cost(self, itemid):
         cost = int(objects[itemid]["price"])
@@ -180,9 +170,6 @@ class MarketWindow(Window):
         cost = self.get_item_cost(itemid)
         self.costvalue.settext(cost)
         self.sellvalue.settext(self.get_item_sell_value(itemid))
-        self.namevalue.settext(objects[itemid]["name"])
-        self.quantityvalue.settext(str(objects[itemid]["growquantity"]))
-        self.growvalue.settext(str(objects[itemid]["growtime"] / 60) + " min")
         self.update_buy_sell_button(itemid)
 
     def on_buy_clicked(self, widget, **data):
@@ -232,3 +219,18 @@ class MarketWindow(Window):
     def give_item(self, itemid, count):
         for x in xrange(count):
             self.player.add_item(self.selecteditem)
+
+    #TOOLTIP
+    def on_mouse_item_enter(self, widget, itemid):
+        seed = objects[itemid]
+        data = [
+                ["Name", seed["name"]],
+                ["Description", seed["description"]],
+                ["Quantity", str(seed["growquantity"])],
+                ["Grow in", str(seed["growtime"] / 60) + " minutes"],
+                ]
+        mx, my = pygame.mouse.get_pos()
+        self.tooltip = Tooltip((mx + 5, my + 5), data)
+
+    def on_mouse_item_leave(self, widget, itemid):
+        if self.tooltip:self.tooltip = None

@@ -3,24 +3,48 @@ Created on 31-05-2012
 
 @author: orneo1212
 '''
-from farmlib.gui import Container, Label
+from farmlib.gui import Container, Label, Window
 
-class Tooltip(Container):
+class Tooltip(Window):
     def __init__(self, position, data):
         """
             create tooltip window. data must be list of pairs ["label", "value"]
         """
-        Container.__init__(self, (100, 100), position)
-        self.position = position
+        Window.__init__(self, (0, 0), position)
         self.data = data
+        self.alphavalue = 200
+        #
+        self.crete_widgets()
 
     def crete_widgets(self):
         rowid = 0
+        fontsize = 13
+        spaceing = 4
+        marginleft = 5
         for data in self.data:
             if len(data) < 2:continue
-            label = Label(data[0], 10, rowid * 20)
+
+            #Label
+            labelwidth = marginleft
+            labelheight = rowid * (fontsize + 2)
+            label = Label(data[0], (labelwidth, labelheight), size = fontsize)
             self.addwidget(label)
-            value = Label(data[1], 10 + label.size[0], rowid * 20)
+
+            #Value
+            valuewidth = marginleft + label.size[0] + spaceing
+            valueheight = rowid * (fontsize + 2)
+            value = Label(data[1], (valuewidth, valueheight),
+                           color = (255, 255, 150),
+                           size = fontsize
+                          )
             self.addwidget(value)
+            #total width
+            totalwidth = label.size[0] + value.size[0]
+            if self.width < totalwidth:self.width = totalwidth + 5
             #increase row
             rowid += 1
+        #update height
+        totalheight = len(data) * ((fontsize + 2) * 2) + 5
+        if self.height < totalheight:self.height = totalheight
+        #update window size
+        self.size = [self.width, self.height]

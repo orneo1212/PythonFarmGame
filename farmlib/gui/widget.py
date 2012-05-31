@@ -59,16 +59,17 @@ class Widget:
             if self.parent:
                 newpos = self.parent.get_relative_mousepos()
                 if newpos:pos = newpos
+            #on_leave event
+            if self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
+                self.insidewidget = False
+                self._call_callback("onleave")
+                self.repaint()
             #on_enter event
             if not self.insidewidget and self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = True
                 self._call_callback("onenter")
                 self.repaint()
-            #on_leave event
-            elif self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
-                self.insidewidget = False
-                self._call_callback("onleave")
-                self.repaint()
+
 
     def hide(self):
         self.visible = False
@@ -79,7 +80,7 @@ class Widget:
 
     def pointinwidget(self, posx, posy):
         rect = pygame.Rect(self.position[0], self.position[1],
-                           self.width, self.height)
+                           self.width - 2, self.height - 2)
         if rect.collidepoint((posx, posy)):
             return True
         else:return False
