@@ -33,9 +33,6 @@ class Label(Widget):
         self.render_text()
         self._img = self.image
 
-    def redraw(self, surface):
-        surface.blit(self.image, self.position)
-
     def settext(self, newtext, repaint = True):
         newtext = unicode(newtext)
         self.text = newtext
