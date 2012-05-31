@@ -73,5 +73,6 @@ class Player:
             self.exp = self.exp - self.nextlvlexp
 
     def event_harvest(self, seedharvested):
-        self.exp += objects[seedharvested].get("cost", 4) / 4
+        if seedharvested.type != "seed":return
+        self.exp += seedharvested.price / 4
         self.update_skill()
