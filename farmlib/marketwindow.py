@@ -32,7 +32,7 @@ class MarketWindow(Window):
         self.count = 1
 
         #Tooltip to draw
-        self.tooltip = None
+        self.tooltip = [None, None]
 
         #Create gui
         self.create_gui()
@@ -136,8 +136,8 @@ class MarketWindow(Window):
 
     def redraw(self, surface):
         Window.redraw(self, surface)
-        if self.tooltip:
-            self.tooltip.redraw(surface)
+        if self.tooltip[0]:
+            self.tooltip[0].redraw(surface)
 
 
     def get_item_cost(self, itemid):
@@ -231,7 +231,7 @@ class MarketWindow(Window):
                 ["Required level", str(seed.get("requiredlevel", 1))],
                 ]
         mx, my = pygame.mouse.get_pos()
-        self.tooltip = Tooltip((mx + 5, my + 5), data)
+        self.tooltip = [Tooltip((mx + 5, my + 5), data), widget]
 
     def on_mouse_item_leave(self, widget, itemid):
-        if self.tooltip:self.tooltip = None
+        if self.tooltip[1] == widget:self.tooltip = [None, None]
