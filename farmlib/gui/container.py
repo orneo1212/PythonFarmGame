@@ -40,6 +40,8 @@ class Container:
 
     def hide(self):
         self.visible = False
+        for widget in self.widgets:
+            widget._call_callback("onleave")
 
     def show(self):
         self.repaint()
