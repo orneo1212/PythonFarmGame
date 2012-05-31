@@ -44,7 +44,7 @@ class Tooltip(Window):
             #increase row
             rowid += 1
         #update height
-        totalheight = len(data) * ((fontsize + 2) * 2) + 5
-        if self.height < totalheight:self.height = totalheight
+        totalheight = len(self.data) * (fontsize + 2)
+        if self.height < totalheight:self.height = totalheight + 5
         #update window size
         self.size = [self.width, self.height]

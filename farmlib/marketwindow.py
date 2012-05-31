@@ -228,6 +228,7 @@ class MarketWindow(Window):
                 ["Description", seed["description"]],
                 ["Quantity", str(seed["growquantity"])],
                 ["Grow in", str(seed["growtime"] / 60) + " minutes"],
+                ["Required level", str(seed.get("requiredlevel", 1))],
                 ]
         mx, my = pygame.mouse.get_pos()
         self.tooltip = Tooltip((mx + 5, my + 5), data)
