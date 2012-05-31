@@ -4,6 +4,8 @@ Version 0.4.4
 + Added watercan refill button to the market
 + Added multiharvest option for now (beans, tomatos and strawberries)
 + Added selection of count in market (to fast buy and sell)
++ Added Experiance and Level.
++ Seeds require level now.
 
 Version 0.4.2
 + Added item info in market
