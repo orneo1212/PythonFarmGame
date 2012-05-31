@@ -253,7 +253,7 @@ class FarmField:
         player.watercanuses = data.get("watercanuses", 100)
         player.exp = data.get("exp", 0.0)
         player.nextlvlexp = data.get("nextlvlexp", 100.0)
-        player.level = data.get("level", 1)
+        player.level = int(data.get("level", 1))
 
         #load tiles
         for tile in data["tiles"]:
