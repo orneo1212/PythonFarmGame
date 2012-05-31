@@ -203,7 +203,7 @@ class GameWindow(Window):
                     if not newseed:
                         self.currentseed = None
                     elif self.player.level >= newseed.requiredlevel:
-                        done = self.farm.plant(pos[0], pos[1], newseed, self.player)
+                        done = self.farm.plant(pos[0], pos[1], newseed)
                     #regenerate sprites
                     if done:self.regenerate_groups()
 
