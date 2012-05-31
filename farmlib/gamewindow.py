@@ -81,7 +81,7 @@ class GameWindow(Window):
         self.moneylabel = Label("", (400, 5), align = "center")
         self.versionlabel = Label("v. " + __VERSION__, (5, 580))
 
-        self.running = True
+        self.running = False
         self.farmoffset = (212, 50)
 
         #regenerate groups
@@ -137,7 +137,7 @@ class GameWindow(Window):
             self.player.money -= REMOVEWILTEDCOST
             self.farm.removewilted(pos[0], pos[1], self.player)
             self.regenerate_groups()
-        #remove seed 
+        #remove seed
         if farmobject and farmobject.type == "seed":
             #remove seed when is NOT ready
             if not farmobject.to_harvest:

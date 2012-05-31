@@ -79,7 +79,7 @@ class Widget:
         self.visible = True
 
     def pointinwidget(self, posx, posy):
-        rect = pygame.Rect(self.position[0], self.position[1],
+        rect = pygame.Rect(self.position[0] + 2, self.position[1] + 2,
                            self.width - 2, self.height - 2)
         if rect.collidepoint((posx, posy)):
             return True

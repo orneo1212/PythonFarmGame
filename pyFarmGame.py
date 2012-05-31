@@ -80,8 +80,9 @@ class FarmGamePygame:
             self.events()
             self.update()
             self.redraw(self.screen)
-            pygame.display.flip()
             self.timer.tick(30)
+            pygame.display.flip()
+
 
         #Save game
         if self.ingame:
