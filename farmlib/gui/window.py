@@ -12,7 +12,6 @@ class Window(Container):
     Window for gui
     '''
 
-
     def __init__(self, (width, height), position):
         self.width = width
         self.height = height

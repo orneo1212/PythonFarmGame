@@ -4,6 +4,7 @@ import os
 import pygame
 
 from farmlib import __VERSION__
+from farmlib import PluginSystem
 from farmlib.gamewindow import GameWindow
 from farmlib.menuwindow import MenuWindow
 
@@ -80,6 +81,7 @@ class FarmGamePygame:
             self.events()
             self.update()
             self.redraw(self.screen)
+            PluginSystem.run()
             self.timer.tick(30)
             pygame.display.flip()
 

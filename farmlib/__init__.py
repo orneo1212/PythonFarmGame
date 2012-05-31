@@ -21,3 +21,5 @@ rules.load(os.path.join("data", "rules.json"))
 
 images = DictMapper()
 images.load(os.path.join("data", "images.json"))
+
+from pluginsystem import basePluginSystem as PluginSystem
