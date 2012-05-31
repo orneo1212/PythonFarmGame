@@ -25,8 +25,10 @@ class Window(Container):
         self.bordercolor = (128, 128, 0)
         self.bordersize = 2
         self.backgroundcolor = (80, 80, 80)
+        # internal image (call repaint() to redraw it)
+        self._img = None
 
-    def render(self):
+    def repaint(self):
         img = pygame.surface.Surface((self.width, self.height))
         img.set_alpha(self.alphavalue)
         img.fill(self.backgroundcolor)
@@ -36,12 +38,13 @@ class Window(Container):
         #render widgets
         for widget in self.widgets:
             widget.redraw(img)
-        return img
+        self._img = img
 
     def redraw(self, surface):
         if not self.visible:return
-        img = self.render()
-        surface.blit(img, self.position)
+        self.repaint()
+        if self._img:
+            surface.blit(self._img, self.position)
 
     def poll_event(self, event):
         if not self.visible:return
