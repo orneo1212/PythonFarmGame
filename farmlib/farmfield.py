@@ -203,10 +203,15 @@ class FarmField:
     def save_farmfield(self, filename, player):
         print "Saveing game state..."
         data = DictMapper()
+        #Save player data
         data["inventory"] = player.inventory
         data["itemscounter"] = player.itemscounter
         data["money"] = player.money
         data["watercanuses"] = player.watercanuses
+        data["exp"] = player.exp
+        data["nextlvlexp"] = player.nextlvlexp
+        data["level"] = player.level
+        #save tiles
         data["tiles"] = []
 
         #fill tiles
@@ -246,6 +251,9 @@ class FarmField:
         player.inventory = data["inventory"]
         player.itemscounter = data["itemscounter"]
         player.watercanuses = data.get("watercanuses", 100)
+        player.exp = data.get("exp", 0.0)
+        player.nextlvlexp = data.get("nextlvlexp", 100.0)
+        player.level = data.get("level", 1)
 
         #load tiles
         for tile in data["tiles"]:

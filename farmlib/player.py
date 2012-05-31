@@ -67,6 +67,9 @@ class Player:
         #There no seed in inventory
         return False
 
-    def event_harvest(self, seedharvested):
-        #self.money += seedharvested.growtime / 120
+    def update_skill(self):
         pass
+
+    def event_harvest(self, seedharvested):
+        self.exp += 10.0
+        self.update_skill()
