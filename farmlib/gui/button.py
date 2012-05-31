@@ -60,12 +60,8 @@ class Button(Widget):
         self._settextimage()
         self.repaint()
 
-    def _call_callback(self, signal):
-        if signal in self.callbacks:
-            if self.callbacks[signal]:
-                self.callbacks[signal][0](self, **self.callbacks[signal][1])
-
     def poll_event(self, event):
+        Widget.poll_event(self, event)
         pos = self.parent.get_relative_mousepos()
 
         #mouse button down
@@ -77,16 +73,3 @@ class Button(Widget):
                     #make button active
                     if self.parent:
                         self.parent.makeactive(self)
-
-        #Mouse motion
-        if event.type == pygame.MOUSEMOTION and pos:
-            #on_enter event
-            if not self.insidewidget and self.pointinwidget(pos[0], pos[1]):
-                self.insidewidget = True
-                self._call_callback("onenter")
-                self.repaint()
-            #on_leave event
-            elif self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
-                self.insidewidget = False
-                self._call_callback("onleave")
-                self.repaint()

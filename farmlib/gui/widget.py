@@ -22,6 +22,8 @@ class Widget:
 
         self.visible = True
         self.active = False
+        self.insidewidget = False
+
         self.callbacks = {}  # key=signal name value= function
         #
         self.create_widget_image()
@@ -50,7 +52,23 @@ class Widget:
         pass
 
     def poll_event(self, event):
-        pass
+        #Mouse motion
+        if event.type == pygame.MOUSEMOTION:
+            pos = (0, 0)
+            #get relative mouse pos if there is parent container
+            if self.parent:
+                newpos = self.parent.get_relative_mousepos()
+                if newpos:pos = newpos
+            #on_enter event
+            if not self.insidewidget and self.pointinwidget(pos[0], pos[1]):
+                self.insidewidget = True
+                self._call_callback("onenter")
+                self.repaint()
+            #on_leave event
+            elif self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
+                self.insidewidget = False
+                self._call_callback("onleave")
+                self.repaint()
 
     def hide(self):
         self.visible = False
@@ -68,3 +86,8 @@ class Widget:
 
     def connect(self, signal, function, **data):
         self.callbacks[signal] = [function, data]
+
+    def _call_callback(self, signal):
+        if signal in self.callbacks:
+            if self.callbacks[signal]:
+                self.callbacks[signal][0](self, **self.callbacks[signal][1])
