@@ -17,7 +17,7 @@ class MenuWindow(Container):
         self.maxmenupos = 1
 
         #background
-        bgimage = pygame.Surface((800, 600))
+        bgimage = pygame.Surface((800, 600)).convert_alpha()
         bgimage.fill((80, 80, 80))
         bg = Image(bgimage, (0, 0))
         self.addwidget(bg)

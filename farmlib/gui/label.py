@@ -21,6 +21,7 @@ class Label(Widget):
 
     def render_text(self):
         self.image = self.labelfont.render(self.text, 0, self.color)
+        self.image = self.image.convert_alpha()
         self.width = self.image.get_size()[0]
         self.height = self.image.get_size()[1]
 

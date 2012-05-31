@@ -23,8 +23,9 @@ class Container:
     def repaint(self):
         """Repaint internally"""
         self.create_widget_image()
-        self._img.fill((255, 0, 255))
-        self._img.set_colorkey((255, 0, 255))
+        self.repaint_widgets()
+
+    def repaint_widgets(self):
         for widget in self.widgets:
             if widget.visible:
                 widget.repaint()
@@ -81,9 +82,8 @@ class Container:
             widget.poll_event(event)
 
     def create_widget_image(self):
-        self._img = pygame.surface.Surface(self.size)
-        self._img.set_colorkey((255, 0, 255))
-        self._img.fill((255, 0, 255))
+        self._img = pygame.surface.Surface(self.size).convert_alpha()
+        self._img.fill((255, 0, 255, 0))
         return self._img
 
     def get_relative_mousepos(self):

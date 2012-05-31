@@ -23,7 +23,8 @@ class Button(Widget):
         Widget.__init__(self, self.position, (self.width, self.height))
 
     def _render_text(self):
-        return self.labelfont.render(self.label, 0, self.color)
+        img = self.labelfont.render(self.label, 0, self.color)
+        return img.convert_alpha()
 
     def _calculate_size(self, image):
         width = image.get_size()[0]

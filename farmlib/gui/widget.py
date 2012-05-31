@@ -30,8 +30,8 @@ class Widget:
 
     def create_widget_image(self):
         self._img = pygame.surface.Surface(self.size)
-        self._img.set_colorkey((255, 0, 255))
-        self._img.fill((255, 0, 255))
+        self._img = self._img.convert_alpha()
+        self._img.fill((255, 0, 255, 0))
         return self._img
 
     def _setsize(self, newsize):

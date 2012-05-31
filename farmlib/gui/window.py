@@ -14,16 +14,15 @@ class Window(Container):
 
     def __init__(self, (width, height), position):
         Container.__init__(self, (width, height), position)
-        self.alphavalue = 255
+        self.alphavalue = 196
         #border
         self.showborder = True
         self.bordercolor = (128, 128, 0)
         self.bordersize = 2
-        self.backgroundcolor = (80, 80, 80)
+        self.backgroundcolor = (80, 80, 80, self.alphavalue)
 
     def create_background(self):
-        img=pygame.surface.Surface(self.size)
-        img.set_alpha(self.alphavalue)
+        img = pygame.surface.Surface(self.size).convert_alpha()
         img.fill(self.backgroundcolor)
         if self.showborder:
             pygame.draw.rect(img, self.bordercolor,
@@ -32,9 +31,10 @@ class Window(Container):
         return img
 
     def repaint(self):
-        #img=self.create_background()
-        Container.repaint(self)
-        #self._img.blit(img, (0,0))
+        self.create_widget_image()
+        img = self.create_background()
+        self._img.blit(img, (0, 0))
+        Container.repaint_widgets(self)
 
     def get_relative_mousepos(self):
         """
