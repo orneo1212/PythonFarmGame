@@ -1,7 +1,10 @@
+import os
 import pygame
 
 from widget import Widget
 import farmlib
+
+buttonbgpath=os.path.join("images", "gui", "buttonbg.png")
 
 class Button(Widget):
     def __init__(self, label, position, bgimage = None, labelsize = 12,
@@ -12,6 +15,7 @@ class Button(Widget):
         self.position = position
         self.labelsize = labelsize
         self.labelfont = pygame.font.Font("droidsansmono.ttf", self.labelsize)
+        self.buttonbg=pygame.image.load(buttonbgpath).convert_alpha()
 
         #Setup image
         if not self.bgimage:
@@ -25,7 +29,7 @@ class Button(Widget):
         return img.convert_alpha()
 
     def _calculate_size(self, image):
-        width = image.get_size()[0]
+        width = image.get_size()[0]+4
         height = image.get_size()[1]
         return (width, height)
 
@@ -43,10 +47,11 @@ class Button(Widget):
         self.create_widget_image()
         if self.label and self.bgimage:
             img = self._render_text()
-            self._img.blit(img, (0, 0))
+            self._img.blit(img, (2, 0))
             self._img.blit(self.bgimage, (0, 0))
         elif not self.bgimage:
-            self._img.blit(self.image, (0, 0))
+            self._img.blit(self.buttonbg, (0, 0))
+            self._img.blit(self.image, (2, 0))
         elif not self.label and self.bgimage:
             self._img.blit(self.bgimage, (0, 0))
         #draw rectangle on hover
