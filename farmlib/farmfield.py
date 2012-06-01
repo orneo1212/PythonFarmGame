@@ -34,7 +34,7 @@ class FarmField:
 
     def get_farmtile_position(self, farmtile):
         """
-            Return farmtile position by spliting farmtile key in 
+            Return farmtile position by spliting farmtile key in
             farmtiles dict.
         """
         for ft in self.farmtiles.keys():
@@ -201,7 +201,7 @@ class FarmField:
         return modified
 
     def save_farmfield(self, filename, player):
-        print "Saveing game state..."
+        print ("Saveing game state...")
         data = DictMapper()
         #Save player data
         data["inventory"] = player.inventory
@@ -245,7 +245,7 @@ class FarmField:
 
     def load_farmfield(self, filename, player):
         if not os.path.isfile(filename):return False
-        print "Loading game state..."
+        print ("Loading game state...")
         data = DictMapper()
         data.load(filename)
         player.inventory = data["inventory"]

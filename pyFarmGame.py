@@ -52,8 +52,8 @@ class FarmGamePygame:
 
     def check_game_lock(self):
         if os.path.isfile("game.lock"):
-            print"Game is already running. If not manualy"\
-                " remove game.lock file and try again"
+            print("Game is already running. If not manualy"\
+                " remove game.lock file and try again")
             exit(0)
         else:
             open("game.lock", "w").close()
