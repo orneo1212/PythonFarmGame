@@ -138,7 +138,7 @@ class GameWindow(Window):
             self.regenerate_groups()
 
         #Remove wilted
-        if farmobject.id == 9 and self.player.money >= REMOVEWILTEDCOST:
+        if farmobject.id == 8 and self.player.money >= REMOVEWILTEDCOST:
             self.player.money -= REMOVEWILTEDCOST
             self.farm.removewilted(pos[0], pos[1], self.player)
             self.regenerate_groups()
