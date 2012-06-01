@@ -27,22 +27,24 @@ class MenuWindow(Container):
 
         #start button
         self.menucursor = Label("-> ", (300, 90),
-                                  color = (255, 255, 0))
+                                  color = (255, 255, 0), size=14)
         self.addwidget(self.menucursor)
 
         #Game label
         self.gamelabel = Label("Farm game", (400, 10), align = "center",
-                                  color = (0, 0, 255), size = 48)
+                                  color = (0, 0, 255), size=48)
         self.addwidget(self.gamelabel)
 
         #start button
         self.startbutton = Button("Start game / Continue", (320, 90),
-                                  color = (255, 255, 200))
+                                  color = (255, 255, 200), labelsize=14)
         self.startbutton.connect("clicked", self.on_startgame)
         self.addwidget(self.startbutton)
 
         #Quit button
-        self.quitbutton = Button("Quit", (320, 110), color = (255, 0, 0))
+        self.quitbutton = Button("Quit", (320, 110),
+                                color = (255, 0, 0),
+                                labelsize=14)
         self.quitbutton.connect("clicked", self.on_quit)
         self.addwidget(self.quitbutton)
 
