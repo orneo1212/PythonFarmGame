@@ -218,6 +218,7 @@ class GameWindow(Window):
             if index:
                 itemid = index[1] * self.inventory.inventorysize[0] + index[0]
                 if itemid < len(self.player.inventory):
+                    farmlib.clicksound.play()
                     self.currentseed = self.player.inventory[itemid]
                     self.currenttool = 'plant'
                     #regenerate sprites
@@ -228,6 +229,7 @@ class GameWindow(Window):
                 index = TOOLS.index(tool)
                 rect = (10 + 50 * index, 10, 48, 48)
                 if pygame.Rect(rect).collidepoint((mx, my)):
+                    farmlib.clicksound.play()
                     self.currenttool = tool
                     #regenerate sprites
                     self.regenerate_groups()
