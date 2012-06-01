@@ -3,6 +3,8 @@ Created on 27-05-2012
 
 @author: orneo1212
 '''
+import os
+
 import pygame
 
 from farmlib.gui import Label, Button, Container, Image
@@ -18,8 +20,8 @@ class MenuWindow(Container):
         self.maxmenupos = 1
 
         #background
-        bgimage = pygame.Surface((800, 600)).convert_alpha()
-        bgimage.fill((80, 80, 80))
+        imgpath=os.path.join("images","gui","background.png")
+        bgimage = pygame.image.load(imgpath).convert_alpha()
         bg = Image(bgimage, (0, 0))
         self.addwidget(bg)
 
