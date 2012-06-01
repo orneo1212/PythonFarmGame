@@ -110,6 +110,7 @@ class GameWindow(Window):
             self.regenerate_groups()
 
     def regenerate_groups(self):
+        self.gamewindow.repaint_widgets()
         self.lazyscreen = render_field(self.images, self.farm, self.farmoffset)
 
     def pickaxe_actions(self, farmobject, pos):

@@ -26,6 +26,9 @@ class Container:
         self.repaint_widgets()
 
     def repaint_widgets(self):
+        if "img" not in self.__dict__:
+            self.create_widget_image()
+
         for widget in self.widgets:
             if widget.visible:
                 widget.repaint()
