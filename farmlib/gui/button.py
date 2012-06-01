@@ -55,6 +55,8 @@ class Button(Widget):
         if self.insidewidget:
             pygame.draw.line(self._img, self.color, (1, self.height - 1),
                              (self.width, self.height - 1))
+        #mark modified
+        self.mark_modified()
 
     def settext(self, newtext):
         self.label = newtext
@@ -71,7 +73,7 @@ class Button(Widget):
             if pos != None:
                 if self.pointinwidget(pos[0], pos[1]):
                     self._call_callback("clicked")
-                    self.parent_repaint()
+                    self.repaint()
                     #make button active
                     if self.parent:
                         self.parent.makeactive(self)

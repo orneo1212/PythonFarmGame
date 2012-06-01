@@ -18,12 +18,8 @@ class FarmGamePygame:
         pygame.display.set_caption("PyFarmGame " + "v. " + __VERSION__)
         #timer
         self.timer = pygame.time.Clock()
-        #screens
-        self.gamescreen = GameWindow()
-        self.menuscreen = MenuWindow()
 
         self.activescr = None
-        self.set_active_screen(self.menuscreen)
 
         self.ingame = False
         self.inmenu = True
@@ -95,5 +91,6 @@ class FarmGamePygame:
 
 if __name__ == '__main__':
     f = FarmGamePygame()
+    f.set_active_screen(MenuWindow())
     f.run()
 

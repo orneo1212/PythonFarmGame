@@ -6,6 +6,7 @@ Created on 27-05-2012
 import pygame
 
 from farmlib.gui import Label, Button, Container, Image
+from farmlib.gamewindow import GameWindow
 
 class MenuWindow(Container):
     def __init__(self):
@@ -43,10 +44,14 @@ class MenuWindow(Container):
         self.quitbutton.connect("clicked", self.on_quit)
         self.addwidget(self.quitbutton)
 
+        #Show window
+        self.show()
+
     def on_quit(self, widget, **data):
         self.running = False
 
     def on_startgame(self, widget, **data):
+        self.parent.gamescreen = GameWindow()
         self.parent.set_active_screen(self.parent.gamescreen)
         self.parent.gamescreen.init()
         self.parent.inmenu = False

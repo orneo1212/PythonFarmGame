@@ -3,7 +3,7 @@ Created on 31-05-2012
 
 @author: orneo1212
 '''
-from farmlib.gui import Container, Label, Window
+from farmlib.gui import Label, Window
 
 class Tooltip(Window):
     def __init__(self, position, data):
@@ -15,6 +15,7 @@ class Tooltip(Window):
         self.alphavalue = 200
         #
         self.crete_widgets()
+        self.show()
 
     def crete_widgets(self):
         rowid = 0

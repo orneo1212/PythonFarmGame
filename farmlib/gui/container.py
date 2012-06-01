@@ -18,7 +18,6 @@ class Container:
         self.widgets = []
         self.position = position
         self.visible = True
-        self.needrepaint = True
 
     def repaint(self):
         """Repaint internally"""
@@ -26,19 +25,19 @@ class Container:
         self.repaint_widgets()
 
     def repaint_widgets(self):
-        if "img" not in self.__dict__:
-            self.create_widget_image()
-
         for widget in self.widgets:
             if widget.visible:
-                widget.repaint()
                 widget.redraw(self._img)
 
     def redraw(self, surface):
         if not self.visible:return
-        if self.needrepaint:
-            self.needrepaint = False
-            self.repaint()
+
+        #Repaint if any widget modified
+        dorepaint = False
+        for widget in self.widgets:
+            if widget.modified:
+                if not dorepaint:dorepaint = True
+        if dorepaint:self.repaint()
         surface.blit(self._img, self.position)
 
     def update_size(self, newsize):
@@ -53,8 +52,8 @@ class Container:
             widget.hide()
 
     def show(self):
+        self.repaint()
         self.visible = True
-        self.needrepaint = True
         for widget in self.widgets:
             widget.show()
 

@@ -68,7 +68,10 @@ class GameWindow(Window):
 
         #create game window
         self.gamewindow = Container((800, 600), (0, 0))
-        self.create_game_window()
+        closebutton = Button("Market", (710, 0), labelsize = 25, \
+                             color = (253, 208, 23))
+        closebutton.connect("clicked", lambda x:self.sellwindow.togglevisible())
+        self.gamewindow.addwidget(closebutton)
 
         #Create expbar
         self.expbar = ExpBar(self.player)
@@ -84,15 +87,11 @@ class GameWindow(Window):
         self.running = False
         self.farmoffset = (212, 50)
 
+        #
+        self.show()
+
         #regenerate groups
         self.regenerate_groups()
-
-    def create_game_window(self):
-        #close button
-        closebutton = Button("Market", (710, 0), labelsize = 25, \
-                             color = (253, 208, 23))
-        closebutton.connect("clicked", lambda x:self.sellwindow.togglevisible())
-        self.gamewindow.addwidget(closebutton)
 
     def update(self):
         """Update farm"""
@@ -110,7 +109,6 @@ class GameWindow(Window):
             self.regenerate_groups()
 
     def regenerate_groups(self):
-        self.gamewindow.repaint_widgets()
         self.lazyscreen = render_field(self.images, self.farm, self.farmoffset)
 
     def pickaxe_actions(self, farmobject, pos):
@@ -371,9 +369,8 @@ class GameWindow(Window):
 
     def go_to_main_menu(self):
         self.deinit()
-        self.parent.set_active_screen(self.parent.menuscreen)
-        self.parent.menuscreen.running = True
-        self.parent.menuscreen.show()
+        from farmlib.menuwindow import MenuWindow
+        self.parent.set_active_screen(MenuWindow())
         self.parent.inmenu = True
         self.parent.ingame = False
 

@@ -22,6 +22,7 @@ class Widget:
 
         self.visible = True
         self.active = False
+        self.modified = True
         self.insidewidget = False
 
         self.callbacks = {}  # key=signal name value= function
@@ -39,15 +40,16 @@ class Widget:
         self.height = newsize[1]
         self.size = newsize[:]
 
+    def mark_modified(self, modified = True):
+        self.modified = modified
+
     def repaint(self):
         """repaint internally"""
         pass
 
-    def parent_repaint(self):
-        if self.parent:self.parent.repaint()
-
     def redraw(self, surface):
         if self._img:
+            self.mark_modified(False)
             surface.blit(self._img, self.position)
 
     def update(self):
@@ -65,18 +67,18 @@ class Widget:
             if self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = False
                 self._call_callback("onleave")
-                self.parent_repaint()
+                self.repaint()
             #on_enter event
             if not self.insidewidget and self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = True
                 self._call_callback("onenter")
-                self.parent_repaint()
+                self.repaint()
 
     def hide(self):
         self.visible = False
 
     def show(self):
-        self.needrepaint = True
+        self.repaint()
         self.visible = True
 
     def pointinwidget(self, posx, posy):
