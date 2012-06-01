@@ -181,7 +181,7 @@ def render_field(imgloader, farmfield, farmoffset):
             else:
                 img = imgloader['object' + str(farmobject.id)]
 
-            #Draw gield image
+            #Draw field image
             if img:mainimg.blit(img, rect)
     #return mainimg object
     return mainimg

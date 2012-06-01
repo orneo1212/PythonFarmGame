@@ -82,7 +82,9 @@ class GameWindow(Window):
 
         #labels
         self.moneylabel = Label("", (400, 5), align = "center")
-        self.versionlabel = Label("v. " + __VERSION__, (5, 580))
+        self.gamewindow.addwidget(self.moneylabel)
+        versionlabel = Label("v. " + __VERSION__, (5, 580))
+        self.gamewindow.addwidget(versionlabel)
 
         self.running = False
         self.farmoffset = (212, 50)
@@ -97,6 +99,11 @@ class GameWindow(Window):
         """Update farm"""
         self.gamewindow.update()
         self.eventstimer.tick()
+
+        #Render current money
+        text = "Money: $%s " % self.player.money
+        self.moneylabel.settext(text)
+
         #Clear current seed if user dont have it
         if self.currentseed != None:
             if self.currentseed not in self.player.inventory:
@@ -279,12 +286,6 @@ class GameWindow(Window):
         #Draw Farmfeld
         screen.blit(self.lazyscreen, (0, 0))
 
-        #Render current money
-        text = "Money: $%s " % self.player.money
-        self.moneylabel.settext(text)
-        self.moneylabel.redraw(screen)
-
-
         drawnearcursor = not self.sellwindow.visible
         #Draw tools and selected tool rectangle
         draw_tools(screen, self.currenttool, self.currentseed, self.images,
@@ -314,9 +315,6 @@ class GameWindow(Window):
                                   )
             #draw inventory
             self.inventory.draw_inventory_notify(screen, self.player)
-        #Draw wersion
-        self.versionlabel.redraw(screen)
-
         #draw selected seed
         if self.currentseed != None:
             draw_selected_seed(screen, self.currentseed, self.images)
