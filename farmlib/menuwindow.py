@@ -26,25 +26,25 @@ class MenuWindow(Container):
         self.addwidget(bg)
 
         #start button
-        self.menucursor = Label("-> ", (300, 90),
-                                  color = (255, 255, 0), size=14)
+        self.menucursor = Label("-> ", (230, 90),
+                                  color = (255, 255, 0), size=20)
         self.addwidget(self.menucursor)
 
         #Game label
         self.gamelabel = Label("Farm game", (400, 10), align = "center",
-                                  color = (0, 0, 255), size=48)
+                                  color = (0, 0, 255), size=40)
         self.addwidget(self.gamelabel)
 
         #start button
-        self.startbutton = Button("Start game / Continue", (320, 90),
-                                  color = (255, 255, 200), labelsize=14)
+        self.startbutton = Button("Start game / Continue", (270, 90),
+                                  color = (255, 255, 200), labelsize=20)
         self.startbutton.connect("clicked", self.on_startgame)
         self.addwidget(self.startbutton)
 
         #Quit button
-        self.quitbutton = Button("Quit", (320, 110),
+        self.quitbutton = Button("Quit", (270, 130),
                                 color = (255, 0, 0),
-                                labelsize=14)
+                                labelsize=20)
         self.quitbutton.connect("clicked", self.on_quit)
         self.addwidget(self.quitbutton)
 
@@ -65,7 +65,7 @@ class MenuWindow(Container):
     def update_menu_cursor(self):
         if self.menupos < 0:self.menupos = 0
         if self.menupos > self.maxmenupos:self.menupos = self.maxmenupos
-        newpos = [300, 90 + 20 * self.menupos]
+        newpos = [230, 90 + 40 * self.menupos]
         self.menucursor.position = newpos
         self.repaint()
 
