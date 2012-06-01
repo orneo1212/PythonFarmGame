@@ -8,12 +8,9 @@ class Button(Widget):
         self.bgimage = bgimage
         self.label = label
         self.color = color
-        #self.image = image
         self.position = position
         self.labelsize = labelsize
         self.labelfont = pygame.font.Font("droidsansmono.ttf", self.labelsize)
-
-        self.insidewidget = False
 
         #Setup image
         if not self.bgimage:

@@ -101,4 +101,6 @@ class Container:
 
     def addwidget(self , widget):
         widget.parent = self
+        if widget.visible:
+            widget.repaint()
         self.widgets.append(widget)
