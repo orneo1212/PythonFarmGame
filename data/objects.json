@@ -74,5 +74,14 @@
     "descriptions": "Use axe to remove it ($80)",
     "id": 9,
     "name": "Plank"
+  },
+  "10": {
+    "growquantity": 3,
+    "description": "Grow in 25 minutes.",
+    "price": 16,
+    "id": 10,
+    "growtime": 1500,
+    "requiredlevel":2,
+    "name": "Radish"
   }
 }
