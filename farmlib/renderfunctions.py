@@ -63,8 +63,8 @@ def draw_selected_seed(surface, selectedseed, imgloader):
     if  selectedseed == None:return
     #draw selected seed
     img = imgloader.loadimage('dryground')
-    surface.blit(img, (65, 65))
-    draw_seed(surface, selectedseed, (65, 65), imgloader)
+    surface.blit(img, (65, 90))
+    draw_seed(surface, selectedseed, (65, 90), imgloader)
 
 def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
                        imgloader):
