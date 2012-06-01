@@ -132,7 +132,7 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
 
 
 def render_field(imgloader, farmfield, farmoffset):
-    mainimg = pygame.surface.Surface((800, 600)).convert_alpha()
+    mainimg = pygame.surface.Surface((800, 600))
 
     #background
     mainimg.blit(imgloader['background'], (0, 0))

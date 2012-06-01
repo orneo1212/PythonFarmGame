@@ -167,7 +167,7 @@ class GameWindow(Window):
             #Watering not require any farmobject on the farmfield
             if self.currenttool == 'watering' and pos:
 
-                #Wate ground when watercan have water
+                #Water ground when watercan have water
                 if self.player.watercanuses >= 1:
                     done = self.farm.water(pos[0], pos[1])
                     #regenerate sprites
@@ -183,8 +183,7 @@ class GameWindow(Window):
                     if done:self.regenerate_groups()
 
                 if self.currenttool == 'shovel' and pos:
-                    if farmobject:
-                        self.shovel_actions(farmobject, pos)
+                    self.shovel_actions(farmobject, pos)
 
                 if self.currenttool == 'pickaxe' and pos:
                     self.pickaxe_actions(farmobject, pos)
@@ -201,8 +200,8 @@ class GameWindow(Window):
                     if not newseed:
                         self.currentseed = None
                     elif self.player.level >= newseed.requiredlevel:
-                        self.farm.plant(pos[0], pos[1], newseed)
-                        done = self.player.remove_item(newseed.id)
+                        done = self.farm.plant(pos[0], pos[1], newseed)
+                        self.player.remove_item(newseed.id)
                     #regenerate sprites
                     if done:self.regenerate_groups()
 
@@ -388,6 +387,3 @@ class GameWindow(Window):
         #stop game
         self.running = False
         self.farm.save_farmfield('field.json', self.player)
-        #create new instances
-        self.farm = FarmField()
-        self.player = Player()
