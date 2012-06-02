@@ -14,7 +14,7 @@ class PygameInventory:
     def render_inventory_notify(self, screenobj, posx, posy, index, player):
         """Render inventory notify"""
 
-        sizex = 200
+        sizex = 250
         sizey = 150
 
         img = pygame.Surface((sizex, sizey))
@@ -33,25 +33,27 @@ class PygameInventory:
         text.set_colorkey((255, 0, 255))
         img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
 
-        #grow quantity
-        harvestcount = objects[index].get('harvestcount', 1)
-        text = "Quantity: %s (%s)" % (str(objects[index]['growquantity']),
-                                      str(harvestcount))
-        text = self.notifyfont.render(text,
-                0, (255, 255, 150), (255, 0, 255))
-        text.set_colorkey((255, 0, 255))
-        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 45))
+        if objects[index].get("growquantity", 0):
 
-        #Required level
-        requiredlevel = objects[index].get('requiredlevel', 1)
-        text = self.notifyfont.render("Required level: %s" % requiredlevel,
-                                      0, (255, 255, 150), (255, 0, 255))
-        text.set_colorkey((255, 0, 255))
-        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 65))
+            #grow quantity
+            harvestcount = objects[index].get('harvestcount', 1)
+            text = "Quantity: %s (%s)" % (str(objects[index]['growquantity']),
+                                          str(harvestcount))
+            text = self.notifyfont.render(text,
+                    0, (255, 255, 150), (255, 0, 255))
+            text.set_colorkey((255, 0, 255))
+            img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 45))
 
-        #Draw seed
-        seedimg = self.images["object" + str(index)]
-        img.blit(seedimg, (sizex / 2 - 32, 85))
+            #Required level
+            requiredlevel = objects[index].get('requiredlevel', 1)
+            text = self.notifyfont.render("Required level: %s" % requiredlevel,
+                                          0, (255, 255, 150), (255, 0, 255))
+            text.set_colorkey((255, 0, 255))
+            img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 65))
+
+        #Draw object
+        objectimg = self.images["object" + str(index)]
+        img.blit(objectimg, (sizex / 2 - 32, 85))
 
         #alpha
         img.set_alpha(200)

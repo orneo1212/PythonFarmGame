@@ -56,22 +56,22 @@
     "harvestcount":3
   },
   "6": {
-    "descriptions": "Use pickaxe to remove it ($100)",
+    "description": "Use pickaxe to remove it ($100)",
     "id": 6,
     "name": "Stone"
   },
   "7": {
-    "descriptions": "Use shovel to remove it ($300)",
+    "description": "Use shovel to remove it ($300)",
     "id": 7,
     "name": "Anthill"
   },
   "8": {
-    "descriptions": "Use shovel to remove it ($10)",
+    "description": "Use shovel to remove it ($10)",
     "id": 8,
     "name": "Wilted plant"
   },
   "9": {
-    "descriptions": "Use axe to remove it ($80)",
+    "description": "Use axe to remove it ($80)",
     "id": 9,
     "name": "Plank"
   },
