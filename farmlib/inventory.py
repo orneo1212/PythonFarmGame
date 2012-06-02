@@ -6,7 +6,7 @@ class PygameInventory:
         self.inventoryoffset = (10, 400)
         self.inventorysize = (5, 5)
         self.images = imgloader
-        self.notifyfont = pygame.font.Font("droidsansmono.ttf", 12)
+        self.notifyfont = pygame.font.Font("dejavusansmono.ttf", 12)
 
     def update(self):
         pass

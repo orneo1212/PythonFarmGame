@@ -14,7 +14,7 @@ class Button(Widget):
         self.color = color
         self.position = position
         self.labelsize = labelsize
-        self.labelfont = pygame.font.Font("droidsansmono.ttf", self.labelsize)
+        self.labelfont = pygame.font.Font("dejavusansmono.ttf", self.labelsize)
         self.buttonbg=pygame.image.load(buttonbgpath).convert_alpha()
 
         #Setup image

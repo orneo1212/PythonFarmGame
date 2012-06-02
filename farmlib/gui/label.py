@@ -6,7 +6,7 @@ class Label(Widget):
     def __init__(self, text, position, size = 12,
             color = (255, 255, 255), align = "left"):
         self.text = text
-        self.labelfont = pygame.font.Font("droidsansmono.ttf", size)
+        self.labelfont = pygame.font.Font("dejavusansmono.ttf", size)
         self.image = None
         self.color = color
         self.position = position

@@ -57,7 +57,7 @@ class MarketWindow(Window):
         closebutton.connect("clicked", lambda x:self.hide())
         self.addwidget(closebutton)
 
-        waterbuybutton = Button("Refill water($%s)" % WATERREFILLCOST,
+        waterbuybutton = Button("Refill water ($%s)" % WATERREFILLCOST,
                                  (10, 30), color = (255, 0, 0))
         waterbuybutton.connect("clicked", self.on_water_buy)
         self.addwidget(waterbuybutton)

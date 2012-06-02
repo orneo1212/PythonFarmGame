@@ -55,8 +55,8 @@ class GameWindow(Window):
 
         self.groups = [None] # view groups
         self.images = ImageLoader(imagesdata)
-        self.notifyfont = pygame.font.Font("droidsansmono.ttf", 12)
-        self.font2 = pygame.font.Font("droidsansmono.ttf", 18)
+        self.notifyfont = pygame.font.Font("dejavusansmono.ttf", 12)
+        self.font2 = pygame.font.Font("dejavusansmono.ttf", 18)
 
         #selections
         self.currenttool = 'harvest'
