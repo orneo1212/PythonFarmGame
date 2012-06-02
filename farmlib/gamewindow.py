@@ -202,6 +202,7 @@ class GameWindow(Window):
             else:
                 if self.currenttool == 'plant' and pos:
                     done = False
+                    #TODO: Create object insted seed if placed
                     #Plant seed if user have it and its empty field
                     newseed = self.player.create_new_seed_by_id(self.currentseed)
                     if not newseed:

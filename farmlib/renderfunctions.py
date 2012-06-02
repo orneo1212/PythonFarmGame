@@ -174,6 +174,7 @@ def render_field(imgloader, farmfield, farmoffset):
 
                     else:
                         img = imgloader['seed']
+
                 #ready to harvest
                 else:
                     img = imgloader['object' + str(farmobject.id)]

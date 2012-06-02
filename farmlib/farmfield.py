@@ -54,15 +54,19 @@ class FarmField:
         ft = {"water":0, "object":farmobject}
         return ft
 
-    def plant(self, posx, posy, seed):
+    def plant(self, posx, posy, fobject):
         """Plant a seed on the given farmtile position"""
 
         farmtile = self.get_farmtile(posx, posy)
-        if not farmtile['object'] and isinstance(seed, Seed):
-            #plant a new seed on empty place
-            farmtile['object'] = seed
-            seed.start_grow()
-            return True
+        if not farmtile['object']:
+            if fobject.type == "seed":
+                #plant a new seed on empty place
+                farmtile['object'] = fobject
+                fobject.start_grow()
+                return True
+            else:
+                farmtile['object'] = fobject
+                return True
         else:
             return False #  error there something on that position
 
