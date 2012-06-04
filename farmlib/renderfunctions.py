@@ -3,6 +3,7 @@ Created on 23-05-2012
 
 @author: orneo1212
 '''
+import random
 import pygame
 
 def draw_tools(surface, currenttool, currentseed, imgloader,
@@ -130,6 +131,13 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
     if posx > 400:posx -= sizex
     surface.blit(img, (posx, posy))
 
+def render_rain(surface):
+    for x in range(100):
+        xx = random.randint(0, surface.get_size()[0])
+        yy = random.randint(0, surface.get_size()[1])
+        offset = random.randint(-15, 15)
+        pygame.draw.line(surface, (0, 0, 200), (xx, yy),
+                         (xx + offset, yy + 15))
 
 def render_field(imgloader, farmfield, farmoffset):
     mainimg = pygame.surface.Surface((800, 600))

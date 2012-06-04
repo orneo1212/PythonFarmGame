@@ -16,7 +16,7 @@ from farmlib.inventory import PygameInventory
 from farmlib.player import Player
 from farmlib.timer import Timer
 from farmlib.expbar import ExpBar
-from farmlib.renderfunctions import render_field
+from farmlib.renderfunctions import render_field, render_rain
 from farmlib.renderfunctions import render_seed_notify
 from farmlib.renderfunctions import draw_selected_seed
 from farmlib.renderfunctions import draw_tools
@@ -288,6 +288,8 @@ class GameWindow(Window):
 
         #Draw Farmfeld
         screen.blit(self.lazyscreen, (0, 0))
+        if self.eventstimer.tickpassed(3):
+            render_rain(screen)
 
         drawnearcursor = not self.sellwindow.visible
         #Draw tools and selected tool rectangle
