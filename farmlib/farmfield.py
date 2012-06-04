@@ -13,6 +13,8 @@ class FarmField:
         """ Init FarmField"""
 
         self.farmtiles = {}
+        self.raining = False
+        self.raintime = time.time()
 
     def count_anthills(self):
         anthills = 0

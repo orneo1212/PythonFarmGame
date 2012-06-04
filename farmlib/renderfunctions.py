@@ -132,9 +132,9 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
     surface.blit(img, (posx, posy))
 
 def render_rain(surface):
-    for x in range(100):
+    for x in range(30):
         xx = random.randint(0, surface.get_size()[0])
-        yy = random.randint(0, surface.get_size()[1])
+        yy = random.randint(0, 100)
         offset = random.randint(-15, -8)
         pygame.draw.line(surface, (0, 0, 200), (xx, yy),
                          (xx + offset, yy + 15))

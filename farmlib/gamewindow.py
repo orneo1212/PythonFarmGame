@@ -4,6 +4,7 @@ Created on 27-05-2012
 @author: orneo1212
 '''
 import os
+import time
 
 import pygame
 
@@ -99,6 +100,13 @@ class GameWindow(Window):
         """Update farm"""
         self.gamewindow.update()
         self.eventstimer.tick()
+
+        #Toggle rain
+        if self.farm.raintime + farmlib.rules["RAIN_INTERVAL_SECS"] < \
+            time.time():
+            #Toggle rain
+            self.farm.raintime = time.time()
+            self.farm.raining = not self.farm.raining
 
         #Render current money
         text = "Money: $%s " % self.player.money
@@ -288,7 +296,9 @@ class GameWindow(Window):
 
         #Draw Farmfeld
         screen.blit(self.lazyscreen, (0, 0))
-        if self.eventstimer.tickpassed(3):
+
+        #draw rain
+        if self.farm.raining:
             render_rain(screen)
 
         drawnearcursor = not self.sellwindow.visible
