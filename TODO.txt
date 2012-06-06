@@ -3,8 +3,14 @@
 [X] Dodaj mozliwosc sprzedaży warzyw
 [X] Dodaj z prawej na gorze ilosc posiadanej gotowki
 [X] Jedno podlanie to jedna woda, daj ilosc posiadanej wody, mozna kupic dodatkową
-[ ] Podlanie wiecej niz raz, daje 50% szans ze zrobi sie kaluza
+[ ] Kaluze po deszczu
 [ ] Zasypanie kaluzy wymaga szpadla i troche kasy
 [X] Na niektorych polach leza konary, usuniecie kosztuje troche kasy
 [X] Losowo czasem pojawiaja sie mrowiska, max 2 na cala plansze, nie da sie uch usunac, zmieniaja miejsca co jakis czas
 [X] Zmiana ilosci kupna w markecie (klikanie ikony zwieksza ilosc)
+[ ] Podzial na server i client
+[ ] System marketu online
+[ ] Ladniejsze gui
+[ ] Przyciski zmiany farmy 1-4. nastepne do kupienia.
+[ ] Wiecej warzyw
+[ ]
