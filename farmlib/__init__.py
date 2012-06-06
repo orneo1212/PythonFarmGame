@@ -24,6 +24,7 @@ images.load(os.path.join("data", "images.json"))
 
 __VERSION__ = rules["VERSION"]
 
+#init plugin system
 from pluginsystem import basePluginSystem as PluginSystem
 
 pygame.init()

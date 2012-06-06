@@ -10,7 +10,7 @@ import pygame
 
 import farmlib
 
-from farmlib import __VERSION__
+from farmlib import __VERSION__, pluginsystem
 from farmlib.farmfield import FarmField
 from farmlib.imageloader import ImageLoader
 from farmlib.inventory import PygameInventory
@@ -23,10 +23,11 @@ from farmlib.renderfunctions import draw_selected_seed
 from farmlib.renderfunctions import draw_tools
 
 from farmlib.farmobject import objects
-
 from farmlib.gui import Label, Container, Button, Window
-
 from farmlib.marketwindow import MarketWindow
+
+from farmlib import PluginSystem
+from farmlib.coreplugin import CorePlugin
 
 #SETTINGS
 REMOVEWILTEDCOST = farmlib.rules["REMOVEWILTEDCOST"]
@@ -58,6 +59,9 @@ class GameWindow(Window):
         self.images = ImageLoader(imagesdata)
         self.notifyfont = pygame.font.Font("dejavusansmono.ttf", 12)
         self.font2 = pygame.font.Font("dejavusansmono.ttf", 18)
+
+        #Install plugins
+        self.coreplugin = PluginSystem.installPlugin(CorePlugin)
 
         #selections
         self.currenttool = 'harvest'
@@ -178,6 +182,14 @@ class GameWindow(Window):
 
             farmobject = self.get_farmobject_under_cursor()
             pos = self.get_farmtile_pos_under_mouse()
+
+            if pos:
+                #Emit toolused event
+                PluginSystem.emit_event(
+                                        "toolused",
+                                        farm = self.farm,
+                                        toolname = self.currenttool,
+                                        position = pos)
 
             #Watering not require any farmobject on the farmfield
             if self.currenttool == 'watering' and pos:
