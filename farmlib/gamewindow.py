@@ -29,7 +29,6 @@ from farmlib.marketwindow import MarketWindow
 from farmlib import PluginSystem
 from farmlib.coreplugin import CorePlugin
 
-#SETTINGS
 REMOVEWILTEDCOST = farmlib.rules["REMOVEWILTEDCOST"]
 REMOVEANTHILLCOST = farmlib.rules["REMOVEANTHILLCOST"]
 REMOVESTONECOST = farmlib.rules["REMOVESTONECOST"]
@@ -131,48 +130,6 @@ class GameWindow(Window):
     def regenerate_groups(self):
         self.lazyscreen = render_field(self.images, self.farm, self.farmoffset)
 
-    def pickaxe_actions(self, farmobject, pos):
-        #Remove stones
-        if farmobject.type != "seed" and \
-            farmobject.id == 6 and self.player.money >= REMOVESTONECOST:
-            #
-            self.player.money -= REMOVESTONECOST
-            self.farm.remove(pos[0], pos[1], self.player)
-            #regenerate sprites
-            self.regenerate_groups()
-
-    def shovel_actions(self, farmobject, pos):
-        #Remove anthill
-        if farmobject.id == 7 and \
-                self.player.money >= REMOVEANTHILLCOST:
-
-            self.player.money -= REMOVEANTHILLCOST
-            self.farm.remove(pos[0], pos[1], self.player)
-            self.regenerate_groups()
-
-        #Remove wilted
-        if farmobject.id == 8 and self.player.money >= REMOVEWILTEDCOST:
-            self.player.money -= REMOVEWILTEDCOST
-            self.farm.removewilted(pos[0], pos[1], self.player)
-            self.regenerate_groups()
-        #remove seed
-        if farmobject and farmobject.type == "seed":
-            #remove seed when is NOT ready
-            if not farmobject.to_harvest:
-                self.farm.remove(pos[0], pos[1], self.player)
-            #regenerate sprites
-            self.regenerate_groups()
-
-    def axe_actions(self, farmobject, pos):
-        #Remove planks
-        removeplankcost = farmlib.rules["REMOVEPLANKCOST"]
-        if farmobject.id == 9 and self.player.money >= removeplankcost:
-            self.player.money -= removeplankcost
-            self.farm.remove(pos[0], pos[1], self.player)
-            self.regenerate_groups()
-
-
-
     def handle_farmfield_events(self, event):
         #Mouse motion
         mx, my = pygame.mouse.get_pos()
@@ -181,7 +138,6 @@ class GameWindow(Window):
         if pygame.mouse.get_pressed()[0] == 1 and \
             self.eventstimer.tickpassed(1):
 
-            farmobject = self.get_farmobject_under_cursor()
             pos = self.get_farmtile_pos_under_mouse()
 
             if pos:
@@ -192,31 +148,19 @@ class GameWindow(Window):
                                         player = self.player,
                                         toolname = self.currenttool,
                                         position = pos)
-            #there is a seed under mouse
-            if farmobject:
-                if self.currenttool == 'shovel' and pos:
-                    self.shovel_actions(farmobject, pos)
 
-                if self.currenttool == 'pickaxe' and pos:
-                    self.pickaxe_actions(farmobject, pos)
-
-                if self.currenttool == 'axe' and pos:
-                    self.axe_actions(farmobject, pos)
-
-            #there no seed under mouse
-            else:
-                if self.currenttool == 'plant' and pos:
-                    done = False
-                    #TODO: Create object insted seed if placed
-                    #Plant seed if user have it and its empty field
-                    newseed = self.player.create_new_seed_by_id(self.currentseed)
-                    if not newseed:
-                        self.currentseed = None
-                    elif self.player.level >= newseed.requiredlevel:
-                        done = self.farm.plant(pos[0], pos[1], newseed)
-                        self.player.remove_item(newseed.id)
-                    #regenerate sprites
-                    if done:self.regenerate_groups()
+            if self.currenttool == 'plant' and pos:
+                done = False
+                #TODO: Create object insted seed if placed
+                #Plant seed if user have it and its empty field
+                newseed = self.player.create_new_seed_by_id(self.currentseed)
+                if not newseed:
+                    self.currentseed = None
+                elif self.player.level >= newseed.requiredlevel:
+                    done = self.farm.plant(pos[0], pos[1], newseed)
+                    self.player.remove_item(newseed.id)
+                #regenerate sprites
+                if done:self.regenerate_groups()
 
         #events for inventory
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:

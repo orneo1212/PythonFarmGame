@@ -34,6 +34,11 @@ class FarmField:
             self.farmtiles[arg] = self.newfarmtile()
             return self.farmtiles[arg]
 
+    def get_farmobject(self, posx, posy):
+        farmtile = self.get_farmtile(posx, posy)
+        if not farmtile:return None
+        else:return farmtile["object"]
+
     def get_farmtile_position(self, farmtile):
         """
             Return farmtile position by spliting farmtile key in
