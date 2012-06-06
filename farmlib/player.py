@@ -11,12 +11,19 @@ class Player:
         self.exp = 0.0
         self.nextlvlexp = 100.0
         self.level = 1
+        #selection
+        self.selecteditem = None
+        self.selectedtool = "harvest"
 
     def update(self):
         #create dict key if not exist in itemscounter
         for i in self.inventory:
             if not self.itemscounter.has_key(str(i)):
                 self.itemscounter[str(i)] = 0
+        #clear selection if player dont have item
+        if self.selecteditem != None:
+            if self.selecteditem not in self.inventory:
+                self.selecteditem = None
 
     def item_in_inventory(self, itemid):
         if itemid is None:return False

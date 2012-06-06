@@ -104,3 +104,6 @@ class Container:
         if widget.visible:
             widget.repaint()
         self.widgets.append(widget)
+
+    def remove_all_widgets(self):
+        self.widgets = []

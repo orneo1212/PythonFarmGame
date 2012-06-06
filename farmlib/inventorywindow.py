@@ -1,19 +1,62 @@
 import pygame
-from farmlib.farmobject import objects
 
-class PygameInventory:
-    def __init__(self, imgloader):
-        self.inventoryoffset = (10, 400)
+from farmlib.farmobject import objects
+from farmlib.gui import Label, Container, Button, Window, Image
+
+class InventoryWindow(Window):
+    def __init__(self, imgloader, player):
+        Window.__init__(self, (328, 168), (10, 400))
+        self.inventoryoffset = (10, 10)
         self.inventorysize = (5, 5)
         self.images = imgloader
+        self.player = player
         self.notifyfont = pygame.font.Font("dejavusansmono.ttf", 12)
+        self.create_gui()
+
+    def create_gui(self):
+        self.remove_all_widgets()
+        bg = Image(self.images['inventory'], (0, 0))
+        self.addwidget(bg)
+
+        #create items
+        counterx = 0
+        countery = 0
+        for item in self.player.inventory:
+            px = counterx * 64 + self.inventoryoffset[0] + 4
+            py = countery * 32 + self.inventoryoffset[1] + 2
+
+            #grid image
+            gridimage = Image(self.images['grid2'], (px, py))
+            self.addwidget(gridimage)
+
+            #item button
+            itembutton = Button("", (px, py), self.images['object' + str(item)])
+            itembutton.connect("clicked", self.on_item_select, itemid = item)
+            self.addwidget(itembutton)
+
+            #item count
+            text = str(self.player.itemscounter[str(item)])
+            itemcount = Label(text, (px + 40, py + 16), align = "center")
+            self.addwidget(itemcount)
+
+            #limit
+            counterx += 1
+            if counterx == self.inventorysize[0]:
+                counterx = 0
+                countery += 1
+            if countery == self.inventorysize[1]:break
 
     def update(self):
         pass
 
+    def repaint(self):
+        Window.repaint(self)
+        self.create_gui()
+        print  "called", self
+
     def render_inventory_notify(self, screenobj, posx, posy, index, player):
         """Render inventory notify"""
-
+        #TODO: remove this
         sizex = 250
         sizey = 150
 
@@ -84,26 +127,6 @@ class PygameInventory:
         yy = min(self.inventorysize[1] - 1, yy)
         return (xx, yy)
 
-    def draw_inventory(self, surface, player):
-        img = self.images['inventory']
-        invpos = self.inventoryoffset[0], self.inventoryoffset[1] - 1
-        surface.blit(img, invpos)
-        #draw inv items
-        counterx = 0
-        countery = 0
-        for item in player.inventory:
-            px = counterx * 64 + self.inventoryoffset[0] + 4
-            py = countery * 32 + self.inventoryoffset[1] + 2
-            surface.blit(self.images['grid2'], (px, py))
-            surface.blit(self.images['object' + str(item)], (px, py))
-            #Render count
-            text = str(player.itemscounter[str(item)])
-            text = self.notifyfont.render(text, 0, (255, 255, 0))
-            offsetx = 32 - text.get_size()[0] / 2
-            surface.blit(text, (px + offsetx, py + 16))
-            #limit
-            counterx += 1
-            if counterx == self.inventorysize[0]:
-                counterx = 0
-                countery += 1
-            if countery == self.inventorysize[1]:break
+    def on_item_select(self, widget, itemid):
+        self.player.selecteditem = itemid
+        self.player.selectedtool = "plant"

@@ -5,7 +5,6 @@ import farmobject
 import seed
 import farmfield
 import imageloader
-import inventory
 import player
 
 #GUI
