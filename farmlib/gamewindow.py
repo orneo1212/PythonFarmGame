@@ -62,6 +62,7 @@ class GameWindow(Window):
 
         #Install plugins
         self.coreplugin = PluginSystem.installPlugin(CorePlugin)
+        self.coreplugin.gamewindow = self
 
         #selections
         self.currenttool = 'harvest'
@@ -188,27 +189,11 @@ class GameWindow(Window):
                 PluginSystem.emit_event(
                                         "toolused",
                                         farm = self.farm,
+                                        player = self.player,
                                         toolname = self.currenttool,
                                         position = pos)
-
-            #Watering not require any farmobject on the farmfield
-            if self.currenttool == 'watering' and pos:
-
-                #Water ground when watercan have water
-                if self.player.watercanuses >= 1:
-                    done = self.farm.water(pos[0], pos[1])
-                    #regenerate sprites
-                    if done:
-                        self.player.watercanuses -= 1
-                        self.regenerate_groups()
-
             #there is a seed under mouse
             if farmobject:
-                if self.currenttool == 'harvest' and pos:
-                    done = self.farm.harvest(pos[0], pos[1], self.player)
-                    #regenerate sprites
-                    if done:self.regenerate_groups()
-
                 if self.currenttool == 'shovel' and pos:
                     self.shovel_actions(farmobject, pos)
 

@@ -18,35 +18,41 @@ class CoreListener(Listener):
     def handler_pluginload(self, pluginname):
         pass
 
-    def handler_toolused(self, toolname, farm, position):
+    def handler_toolused(self, toolname, farm, player, position):
         #print ("Tool %s used on %s" % (toolname, str(position)))
         if toolname == "watering":
-            self.watercan_events(farm, position)
-        if toolname == "plant":
-            self.plant_events(farm, position)
-        if toolname == "harvest":
-            self.harvest_events(farm, position)
-        if toolname == "pickaxe":
-            self.pickaxe_events(farm, position)
-        if toolname == "shovel":
-            self.shovel_events(farm, position)
-        if toolname == "axe":
-            self.axe_events(farm, position)
+            self.watercan_events(farm, player, position)
+        elif toolname == "plant":
+            self.plant_events(farm, player, position)
+        elif toolname == "harvest":
+            self.harvest_events(farm, player, position)
+        elif toolname == "pickaxe":
+            self.pickaxe_events(farm, player, position)
+        elif toolname == "shovel":
+            self.shovel_events(farm, player, position)
+        elif toolname == "axe":
+            self.axe_events(farm, player, position)
 
-    def watercan_events(self, farm, position):
+    def watercan_events(self, farm, player, position):
+        if player.watercanuses < 1:return
+        done = farm.water(position[0], position[1])
+        #regenerate sprites
+        if done:
+            player.watercanuses -= 1
+            self.plugin.gamewindow.regenerate_groups()
+
+    def plant_events(self, farm, player, position):
         pass
 
-    def plant_events(self, farm, position):
+    def harvest_events(self, farm, player, position):
+        done = self.farm.harvest(position[0], position[1], player)
+        if done:self.plugin.gamewindow.regenerate_groups()
+
+    def pickaxe_events(self, farm, player, position):
         pass
 
-    def harvest_events(self, farm, position):
+    def shovel_events(self, farm, player, position):
         pass
 
-    def pickaxe_events(self, farm, position):
-        pass
-
-    def shovel_events(self, farm, position):
-        pass
-
-    def axe_events(self, farm, position):
+    def axe_events(self, farm, player, position):
         pass
