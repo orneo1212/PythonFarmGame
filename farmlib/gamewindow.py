@@ -99,10 +99,6 @@ class GameWindow(Window):
         Window.update(self)
         self.eventstimer.tick()
 
-        #Render current money
-        text = "Money: $%s " % self.player.money
-        self.moneylabel.settext(text)
-
         #update inventory
         self.inventorywindow.update()
 
@@ -111,10 +107,15 @@ class GameWindow(Window):
         if modified:
             self.regenerate_groups()
 
+    def update_current_money(self):
+        #Render current money
+        text = "Money: $%s " % self.player.money
+        self.moneylabel.settext(text)
+
     def regenerate_groups(self):
-        self.repaint()
         self.inventorywindow.show()
         self.lazyscreen = render_field(self.images, self.farm, self.farmoffset)
+        self.update_current_money()
 
     def handle_farmfield_events(self, event):
         #Mouse motion

@@ -36,6 +36,7 @@ class Container:
         dorepaint = False
         for widget in self.widgets:
             if widget.modified:
+                widget.mark_modified(False)
                 if not dorepaint:dorepaint = True
         if dorepaint:self.repaint()
         surface.blit(self._img, self.position)
