@@ -26,6 +26,8 @@ __VERSION__ = rules["VERSION"]
 #init plugin system
 from pluginsystem import basePluginSystem as PluginSystem
 
-pygame.init()
+pygame.font.init()
+pygame.mixer.init()
+
 clickfilename = os.path.join(os.path.join("data", "sounds"), "click.wav")
 clicksound = pygame.mixer.Sound(clickfilename)
