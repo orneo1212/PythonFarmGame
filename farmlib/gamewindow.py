@@ -149,10 +149,10 @@ class GameWindow(Window):
                 newseed = self.player.create_new_seed_by_id(self.currentseed)
                 if not newseed:
                     self.currentseed = None
-                #check player level 
+                #check player level
                 elif self.player.level >= newseed.requiredlevel:
                     done = self.farm.plant(pos[0], pos[1], newseed)
-                    self.player.remove_item(newseed.id)
+                    if done:self.player.remove_item(newseed.id)
                 #regenerate sprites
                 if done:self.regenerate_groups()
 

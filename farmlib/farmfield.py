@@ -64,8 +64,8 @@ class FarmField:
     def plant(self, posx, posy, fobject):
         """Plant a seed on the given farmtile position"""
 
-        farmtile = self.get_farmtile(posx, posy)
-        if not farmtile['object']:
+        farmobject = self.get_farmobject(posx, posy)
+        if not farmobject:
             if fobject.type == "seed":
                 #plant a new seed on empty place
                 farmtile['object'] = fobject
