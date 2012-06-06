@@ -24,7 +24,7 @@ class CoreListener(Listener):
         pass
 
     def handler_toolused(self, toolname, farm, player, position):
-        print ("Tool %s used on %s" % (toolname, str(position)))
+        #print ("Tool %s used on %s" % (toolname, str(position)))
         if toolname == "watering":
             self.watercan_events(farm, player, position)
         elif toolname == "plant":
@@ -39,12 +39,12 @@ class CoreListener(Listener):
             self.axe_events(farm, player, position)
 
     def watercan_events(self, farm, player, position):
-        if player.watercanuses < 1:return
+        if not player.watercanuses:return False
         done = farm.water(position[0], position[1])
-        #regenerate sprites
-        if done:
-            player.watercanuses -= 1
-            self.plugin.gamewindow.regenerate_groups()
+        if not done:return False
+
+        player.watercanuses -= 1
+        self.plugin.gamewindow.regenerate_groups()
 
     def plant_events(self, farm, player, position):
         pass

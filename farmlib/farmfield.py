@@ -35,9 +35,16 @@ class FarmField:
             return self.farmtiles[arg]
 
     def get_farmobject(self, posx, posy):
+        """Get farmobject from given position"""
         farmtile = self.get_farmtile(posx, posy)
         if not farmtile:return None
         else:return farmtile["object"]
+
+    def set_farmobject(self, posx, posy, farmobject):
+        """Set farmobject at given position"""
+        farmtile=self.get_farmtile(posx,posy)
+        if farmtile:
+            farmtile["object"]=farmobject
 
     def get_farmtile_position(self, farmtile):
         """
@@ -66,14 +73,12 @@ class FarmField:
 
         farmobject = self.get_farmobject(posx, posy)
         if not farmobject:
+            #Set object
+            self.set_farmobject(posx, posy, fobject)
+            #start growing if object is seed
             if fobject.type == "seed":
-                #plant a new seed on empty place
-                farmtile['object'] = fobject
                 fobject.start_grow()
-                return True
-            else:
-                farmtile['object'] = fobject
-                return True
+            return True
         else:
             return False #  error there something on that position
 
