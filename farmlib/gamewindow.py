@@ -105,13 +105,6 @@ class GameWindow(Window):
         self.gamewindow.update()
         self.eventstimer.tick()
 
-        #Toggle rain
-        if self.farm.raintime + farmlib.rules["RAIN_INTERVAL_SECS"] < \
-            time.time():
-            #Toggle rain
-            self.farm.raintime = time.time()
-            self.farm.raining = not self.farm.raining
-
         #Render current money
         text = "Money: $%s " % self.player.money
         self.moneylabel.settext(text)
@@ -156,6 +149,7 @@ class GameWindow(Window):
                 newseed = self.player.create_new_seed_by_id(self.currentseed)
                 if not newseed:
                     self.currentseed = None
+                #check player level 
                 elif self.player.level >= newseed.requiredlevel:
                     done = self.farm.plant(pos[0], pos[1], newseed)
                     self.player.remove_item(newseed.id)
@@ -300,8 +294,7 @@ class GameWindow(Window):
 
         pos = self.get_farmtile_pos_under_mouse()
         if pos:
-            farmobject = self.farm.get_farmtile(pos[0], pos[1])['object']
-            return farmobject
+            return self.farm.get_farmobject(pos[0], pos[1])
 
         return None
 

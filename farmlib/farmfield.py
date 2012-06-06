@@ -187,6 +187,13 @@ class FarmField:
 
         modified = False
 
+        #Toggle rain
+        if self.raintime + farmlib.rules["RAIN_INTERVAL_SECS"] < \
+            time.time():
+            #Toggle rain
+            self.raintime = time.time()
+            self.raining = not self.raining
+
         #update each farmtile
         for farmtile in self.farmtiles.values():
 
