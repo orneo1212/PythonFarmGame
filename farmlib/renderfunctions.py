@@ -141,9 +141,8 @@ def render_rain(surface):
 
 def render_field(imgloader, farmfield, farmoffset):
     mainimg = pygame.surface.Surface((800, 600))
-
-    #background
-    mainimg.blit(imgloader['background'], (0, 0))
+    mainimg.fill((255, 0, 255))
+    mainimg.set_colorkey((255, 0, 255))
 
     for y in range(12):
         for x in range(12):

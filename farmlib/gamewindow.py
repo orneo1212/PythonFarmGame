@@ -22,7 +22,7 @@ from farmlib.renderfunctions import draw_selected_seed
 from farmlib.renderfunctions import draw_tools
 
 from farmlib.farmobject import objects
-from farmlib.gui import Label, Container, Button, Window
+from farmlib.gui import Label, Button, Window, Image
 from farmlib.marketwindow import MarketWindow
 from farmlib.inventorywindow import InventoryWindow
 from farmlib import PluginSystem
@@ -65,20 +65,24 @@ class GameWindow(Window):
         #player
         self.player = Player()
 
+        #background image
+        bgimg = Image(self.images['background'], (0, 0))
+        self.addwidget(bgimg)
+
         marketbutton = Button("Market", (710, 0), labelsize = 25, \
                              color = (253, 208, 23))
         marketbutton.connect("clicked", lambda x:self.sellwindow.togglevisible())
         self.addwidget(marketbutton)
-
-        #Create expbar
-        self.expbar = ExpBar(self.player)
-        self.addwidget(self.expbar)
 
         #create marketwindow
         self.sellwindow = MarketWindow((400, 400), self.images, self.player)
 
         #Create inventory window
         self.inventorywindow = InventoryWindow(self.images, self.player)
+
+        #Create expbar
+        self.expbar = ExpBar(self.player)
+        self.addwidget(self.expbar)
 
         #labels
         self.moneylabel = Label("", (400, 5), align = "center")
@@ -90,11 +94,9 @@ class GameWindow(Window):
         self.running = False
         self.farmoffset = (212, 50)
 
-        #
-        self.show()
-
         #regenerate groups
         self.regenerate_groups()
+        self.show()
 
     def update(self):
         """Update farm"""
@@ -214,6 +216,7 @@ class GameWindow(Window):
     def redraw(self, screen):
         """Redraw screen"""
         Window.redraw(self, screen)
+
         #Draw Farmfeld
         screen.blit(self.lazyscreen, (0, 0))
 
@@ -256,6 +259,7 @@ class GameWindow(Window):
 
         #redraw sell window
         self.sellwindow.redraw(screen)
+
 
     def get_farmtile_pos_under_mouse(self):
         """Get FarmTile position under mouse"""

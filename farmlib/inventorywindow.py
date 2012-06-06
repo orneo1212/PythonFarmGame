@@ -46,13 +46,11 @@ class InventoryWindow(Window):
                 countery += 1
             if countery == self.inventorysize[1]:break
 
-    def update(self):
-        pass
-
     def repaint(self):
         Window.repaint(self)
         self.create_gui()
-        print  "called", self
+        for widget in self.widgets:
+            widget.mark_modified(False)
 
     def render_inventory_notify(self, screenobj, posx, posy, index, player):
         """Render inventory notify"""
