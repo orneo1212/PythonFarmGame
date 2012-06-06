@@ -3,6 +3,7 @@ Creator: orneo1212 <orneo1212@gmail.com>
 
 Keys:
     S - Market
+    I - Show/hide inventory
 
 Tools:
     Sickle - Use it to harvest seeds.

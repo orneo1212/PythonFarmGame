@@ -94,12 +94,9 @@ class GameWindow(Window):
         self.running = False
         self.farmoffset = (212, 50)
 
-        #regenerate groups
-        self.regenerate_groups()
-        self.show()
-
     def update(self):
         """Update farm"""
+        Window.update(self)
         self.eventstimer.tick()
 
         #Render current money
@@ -115,6 +112,8 @@ class GameWindow(Window):
             self.regenerate_groups()
 
     def regenerate_groups(self):
+        self.repaint()
+        self.inventorywindow.show()
         self.lazyscreen = render_field(self.images, self.farm, self.farmoffset)
 
     def handle_farmfield_events(self, event):
@@ -186,6 +185,8 @@ class GameWindow(Window):
             self.sellwindow.poll_event(event)
             #poll events to inventory window
             self.inventorywindow.poll_event(event)
+            #gamewindow events
+            self.poll_event(event)
 
             if event.type == pygame.QUIT:
                 self.running = False
@@ -202,23 +203,20 @@ class GameWindow(Window):
                     self.active_game_events(event)
                 #
                 if event.key == pygame.K_s:
-                    if self.sellwindow.visible:
-                        self.sellwindow.hide()
-                    else:
-                        self.sellwindow.selecteditem = None
-                        self.sellwindow.show()
+                    self.sellwindow.togglevisible()
+                if event.key == pygame.K_i:
+                    self.inventorywindow.togglevisible()
             #Handle farmfield events
             if not self.sellwindow.visible:
                 self.handle_farmfield_events(event)
-            #gamewindow events
-            self.poll_event(event)
 
     def redraw(self, screen):
         """Redraw screen"""
         Window.redraw(self, screen)
 
         #Draw Farmfeld
-        screen.blit(self.lazyscreen, (0, 0))
+        if self.lazyscreen:
+            screen.blit(self.lazyscreen, (0, 0))
 
         #draw rain
         if self.farm.raining:

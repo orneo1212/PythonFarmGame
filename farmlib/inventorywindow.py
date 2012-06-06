@@ -49,6 +49,7 @@ class InventoryWindow(Window):
     def repaint(self):
         Window.repaint(self)
         self.create_gui()
+        #Mark widgets not modified
         for widget in self.widgets:
             widget.mark_modified(False)
 
