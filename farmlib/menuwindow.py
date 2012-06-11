@@ -7,7 +7,7 @@ import os
 
 import pygame
 
-from farmlib.gui import Label, Button, Container, Image
+from pygameui import Label, Button, Container, Image
 from farmlib.gamewindow import GameWindow
 
 class MenuWindow(Container):
@@ -20,31 +20,31 @@ class MenuWindow(Container):
         self.maxmenupos = 1
 
         #background
-        imgpath=os.path.join("images","gui","background.png")
+        imgpath = os.path.join("images", "gui", "background.png")
         bgimage = pygame.image.load(imgpath).convert_alpha()
         bg = Image(bgimage, (0, 0))
         self.addwidget(bg)
 
         #start button
         self.menucursor = Label("-> ", (230, 90),
-                                  color = (255, 255, 0), size=20)
+                                  color = (255, 255, 0), size = 20)
         self.addwidget(self.menucursor)
 
         #Game label
         self.gamelabel = Label("Farm game", (400, 10), align = "center",
-                                  color = (0, 0, 255), size=40)
+                                  color = (0, 0, 255), size = 40)
         self.addwidget(self.gamelabel)
 
         #start button
         self.startbutton = Button("Start game / Continue", (270, 90),
-                                  color = (255, 255, 200), labelsize=20)
+                                  color = (255, 255, 200), labelsize = 20)
         self.startbutton.connect("clicked", self.on_startgame)
         self.addwidget(self.startbutton)
 
         #Quit button
         self.quitbutton = Button("Quit", (270, 130),
                                 color = (255, 0, 0),
-                                labelsize=20)
+                                labelsize = 20)
         self.quitbutton.connect("clicked", self.on_quit)
         self.addwidget(self.quitbutton)
 

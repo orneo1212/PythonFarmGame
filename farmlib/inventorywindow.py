@@ -1,7 +1,7 @@
 import pygame
 
 from farmlib.farmobject import objects
-from farmlib.gui import Label, Container, Button, Window, Image
+from pygameui import Label, Button, Window, Image
 
 class InventoryWindow(Window):
     def __init__(self, imgloader, player):

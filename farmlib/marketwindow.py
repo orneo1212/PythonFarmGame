@@ -7,7 +7,7 @@ import pygame
 
 import farmlib
 
-from gui import Label, Image, Window, Button
+from pygameui import Label, Image, Window, Button
 from farmlib.farmobject import objects
 from farmlib.tooltip import Tooltip
 

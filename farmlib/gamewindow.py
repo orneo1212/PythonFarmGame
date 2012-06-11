@@ -22,11 +22,12 @@ from farmlib.renderfunctions import draw_selected_seed
 from farmlib.renderfunctions import draw_tools
 
 from farmlib.farmobject import objects
-from farmlib.gui import Label, Button, Window, Image
 from farmlib.marketwindow import MarketWindow
 from farmlib.inventorywindow import InventoryWindow
 from farmlib import PluginSystem
 from farmlib.coreplugin import CorePlugin
+
+from pygameui import Label, Button, Window, Image
 
 REMOVEWILTEDCOST = farmlib.rules["REMOVEWILTEDCOST"]
 REMOVEANTHILLCOST = farmlib.rules["REMOVEANTHILLCOST"]

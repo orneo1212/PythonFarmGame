@@ -5,7 +5,7 @@ Created on 31-05-2012
 '''
 import pygame
 
-from farmlib.gui import Label
+from pygameui import Label
 
 class ExpBar(Label):
     def __init__(self, player):

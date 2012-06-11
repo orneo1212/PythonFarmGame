@@ -3,7 +3,7 @@ Created on 31-05-2012
 
 @author: orneo1212
 '''
-from farmlib.gui import Label, Window
+from pygameui import Label, Window
 
 class Tooltip(Window):
     def __init__(self, position, data):

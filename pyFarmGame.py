@@ -5,7 +5,6 @@ import pygame
 
 from farmlib import __VERSION__
 from farmlib import PluginSystem
-from farmlib.gamewindow import GameWindow
 from farmlib.menuwindow import MenuWindow
 
 pygame.init()

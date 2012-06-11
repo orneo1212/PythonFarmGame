@@ -7,9 +7,6 @@ import farmfield
 import imageloader
 import player
 
-#GUI
-import gui
-
 from dictmapper import DictMapper
 
 
