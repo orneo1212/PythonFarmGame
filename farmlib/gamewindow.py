@@ -116,6 +116,7 @@ class GameWindow(Window):
         self.moneylabel.settext(text)
 
     def regenerate_groups(self):
+        self.inventorywindow.create_gui()
         self.update_current_money()
 
     def handle_farmfield_events(self, event):

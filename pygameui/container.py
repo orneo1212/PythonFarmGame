@@ -23,7 +23,7 @@ class Container(Widget):
         """Repaint internally"""
         self.repaint_container()
         self.repaint_widgets()
-        print "repaint container", self
+        #print ("repaint container", self)
 
     def repaint_container(self):
         self.create_widget_image()
@@ -31,6 +31,7 @@ class Container(Widget):
     def repaint_widgets(self):
         for widget in self.widgets:
             if widget.visible:
+                widget.repaint()
                 widget.draw(self.img)
 
     def draw(self, surface):
