@@ -103,6 +103,7 @@ class Container(Widget):
 
     def addwidget(self , widget):
         widget.parent = self
+        widget.mark_modified()
         self.widgets.append(widget)
 
     def remove_all_widgets(self):
