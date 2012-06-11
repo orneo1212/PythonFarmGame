@@ -30,10 +30,10 @@ class Widget:
         self.create_widget_image()
 
     def create_widget_image(self):
-        self._img = pygame.surface.Surface(self.size)
-        self._img = self._img.convert_alpha()
-        self._img.fill((255, 0, 255, 0))
-        return self._img
+        self.img = pygame.surface.Surface(self.size)
+        self.img = self.img.convert_alpha()
+        self.img.fill((255, 0, 255, 0))
+        return self.img
 
     def _setsize(self, newsize):
         self.width = newsize[0]
@@ -47,10 +47,10 @@ class Widget:
         """repaint internally"""
         pass
 
-    def redraw(self, surface):
-        if self._img:
-            self.mark_modified(False)
-            surface.blit(self._img, self.position)
+    def draw(self, surface):
+        self.mark_modified(False)
+        if self.img:
+            surface.blit(self.img, self.position)
 
     def update(self):
         pass
@@ -76,6 +76,7 @@ class Widget:
 
     def hide(self):
         self.visible = False
+        self.active = False
 
     def show(self):
         self.repaint()
@@ -92,6 +93,8 @@ class Widget:
         self.callbacks[signal] = [function, data]
 
     def _call_callback(self, signal):
+        """Call internal callback connected to widget and repaint"""
         if signal in self.callbacks:
             if self.callbacks[signal]:
                 self.callbacks[signal][0](self, **self.callbacks[signal][1])
+                self.repaint()

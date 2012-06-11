@@ -19,4 +19,4 @@ class Image(Widget):
 
     def repaint(self):
         self.mark_modified()
-        self._img = self.image
+        self.img = self.image

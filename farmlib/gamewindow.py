@@ -70,6 +70,7 @@ class GameWindow(Window):
         bgimg = Image(self.images['background'], (0, 0))
         self.addwidget(bgimg)
 
+        #Market button
         marketbutton = Button("Market", (710, 0), labelsize = 25, \
                              color = (253, 208, 23))
         marketbutton.connect("clicked", lambda x:self.sellwindow.togglevisible())
@@ -94,6 +95,7 @@ class GameWindow(Window):
 
         self.running = False
         self.farmoffset = (212, 50)
+        self.redrawfarmfield = True
 
     def update(self):
         """Update farm"""
@@ -114,8 +116,6 @@ class GameWindow(Window):
         self.moneylabel.settext(text)
 
     def regenerate_groups(self):
-        self.inventorywindow.show()
-        self.lazyscreen = render_field(self.images, self.farm, self.farmoffset)
         self.update_current_money()
 
     def handle_farmfield_events(self, event):
@@ -212,13 +212,16 @@ class GameWindow(Window):
             if not self.sellwindow.visible:
                 self.handle_farmfield_events(event)
 
+
     def redraw(self, screen):
         """Redraw screen"""
-        Window.redraw(self, screen)
+        Window.draw(self, screen)
 
-        #Draw Farmfeld
-        if self.lazyscreen:
-            screen.blit(self.lazyscreen, (0, 0))
+        #Draw gamewindow
+        self.draw(screen)
+
+        #Draw farmfield
+        render_field(screen, self.images, self.farm, self.farmoffset)
 
         #draw rain
         if self.farm.raining:
@@ -235,14 +238,14 @@ class GameWindow(Window):
         #draw watercanuses
         uses = Label("", (110 + 2, 10 + 2), color = (255, 240, 240))
         uses.settext(str(self.player.watercanuses))
-        uses.redraw(screen)
+        uses.draw(screen)
 
         if not self.sellwindow.visible:
 
             mx, my = pygame.mouse.get_pos()
 
             #draw inventory
-            self.inventorywindow.redraw(screen)
+            self.inventorywindow.draw(screen)
 
             #draw notify window if mouse under seed
             pos = self.get_farmtile_pos_under_mouse()
@@ -258,8 +261,7 @@ class GameWindow(Window):
             draw_selected_seed(screen, self.player.selecteditem, self.images)
 
         #redraw sell window
-        self.sellwindow.redraw(screen)
-
+        self.sellwindow.draw(screen)
 
     def get_farmtile_pos_under_mouse(self):
         """Get FarmTile position under mouse"""

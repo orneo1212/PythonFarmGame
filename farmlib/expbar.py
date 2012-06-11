@@ -34,14 +34,14 @@ class ExpBar(Label):
         self.size = self.width, self.height = ((48 + 2) * 6 - 1, 16)
         self.create_widget_image()
         #draw background
-        pygame.draw.rect(self._img, (0, 32, 0),
+        pygame.draw.rect(self.img, (0, 32, 0),
                          (1, 1, self.width - 1 , self.height - 1))
         #draw background (progress)
         progresswidth = self.width / self.player.nextlvlexp * self.player.exp
-        pygame.draw.rect(self._img, (0, 100, 0),
+        pygame.draw.rect(self.img, (0, 100, 0),
                          (1, 1, int(progresswidth) - 1 , self.height - 1))
         #draw border
-        pygame.draw.rect(self._img, (0, 255, 0),
+        pygame.draw.rect(self.img, (0, 255, 0),
                          (1, 1, self.width - 1 , self.height - 1), 1)
         #draw text
         text = self.gettext()
@@ -51,7 +51,7 @@ class ExpBar(Label):
         #Draw centered
         px = self.width / 2 - txtimg.get_size()[0] / 2
         py = self.height / 2 - txtimg.get_size()[1] / 2
-        self._img.blit(txtimg, (px, py))
+        self.img.blit(txtimg, (px, py))
 
     def redraw(self, surface):
-        surface.blit(self._img, self.position)
+        surface.blit(self.img, self.position)

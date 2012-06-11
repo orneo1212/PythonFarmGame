@@ -30,11 +30,10 @@ class Window(Container):
                              self.bordersize)
         return img
 
-    def repaint(self):
+    def repaint_container(self):
         self.create_widget_image()
         img = self.create_background()
-        self._img.blit(img, (0, 0))
-        Container.repaint_widgets(self)
+        self.img.blit(img, (0, 0))
 
     def get_relative_mousepos(self):
         """

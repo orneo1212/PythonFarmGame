@@ -4,7 +4,7 @@ import pygame
 from widget import Widget
 import farmlib
 
-buttonbgpath=os.path.join("images", "gui", "buttonbg.png")
+buttonbgpath = os.path.join("images", "gui", "buttonbg.png")
 
 class Button(Widget):
     def __init__(self, label, position, bgimage = None, labelsize = 12,
@@ -15,7 +15,7 @@ class Button(Widget):
         self.position = position
         self.labelsize = labelsize
         self.labelfont = pygame.font.Font("dejavusansmono.ttf", self.labelsize)
-        self.buttonbg=pygame.image.load(buttonbgpath).convert_alpha()
+        self.buttonbg = pygame.image.load(buttonbgpath).convert_alpha()
 
         #Setup image
         if not self.bgimage:
@@ -29,7 +29,7 @@ class Button(Widget):
         return img.convert_alpha()
 
     def _calculate_size(self, image):
-        width = image.get_size()[0]+4
+        width = image.get_size()[0] + 4
         height = image.get_size()[1]
         return (width, height)
 
@@ -47,16 +47,16 @@ class Button(Widget):
         self.create_widget_image()
         if self.label and self.bgimage:
             img = self._render_text()
-            self._img.blit(img, (2, 0))
-            self._img.blit(self.bgimage, (0, 0))
+            self.img.blit(img, (2, 0))
+            self.img.blit(self.bgimage, (0, 0))
         elif not self.bgimage:
-            self._img.blit(self.buttonbg, (0, 0))
-            self._img.blit(self.image, (2, 0))
+            self.img.blit(self.buttonbg, (0, 0))
+            self.img.blit(self.image, (2, 0))
         elif not self.label and self.bgimage:
-            self._img.blit(self.bgimage, (0, 0))
+            self.img.blit(self.bgimage, (0, 0))
         #draw rectangle on hover
         if self.insidewidget:
-            pygame.draw.line(self._img, self.color, (1, self.height - 1),
+            pygame.draw.line(self.img, self.color, (1, self.height - 1),
                              (self.width, self.height - 1))
         #mark modified
         self.mark_modified()
@@ -77,7 +77,6 @@ class Button(Widget):
                 if self.pointinwidget(pos[0], pos[1]):
                     self._call_callback("clicked")
                     farmlib.clicksound.play()
-                    self.repaint()
                     #make button active
                     if self.parent:
                         self.parent.makeactive(self)

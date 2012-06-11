@@ -32,13 +32,13 @@ class Label(Widget):
 
     def repaint(self):
         self.render_text()
-        self._img = self.image
+        self.img = self.image
         self.mark_modified()
 
     def settext(self, newtext, repaint = True):
         newtext = unicode(newtext)
         self.text = newtext
-        if repaint:self.repaint()
+        self.mark_modified()
 
     def gettext(self):
         return self.text

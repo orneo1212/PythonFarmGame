@@ -62,6 +62,9 @@ class MenuWindow(Container):
         self.parent.ingame = True
         self.running = False
 
+    def redraw(self, surface):
+        Container.draw(self, surface)
+
     def update_menu_cursor(self):
         if self.menupos < 0:self.menupos = 0
         if self.menupos > self.maxmenupos:self.menupos = self.maxmenupos

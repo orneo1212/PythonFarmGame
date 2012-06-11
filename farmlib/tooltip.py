@@ -15,7 +15,6 @@ class Tooltip(Window):
         self.alphavalue = 200
         #
         self.crete_widgets()
-        self.show()
 
     def crete_widgets(self):
         rowid = 0

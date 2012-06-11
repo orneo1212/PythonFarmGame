@@ -134,10 +134,10 @@ class MarketWindow(Window):
         self.buybutton.connect("clicked", self.on_buy_clicked)
         self.sellbutton.connect("clicked", self.on_sell_clicked)
 
-    def redraw(self, surface):
-        Window.redraw(self, surface)
+    def draw(self, surface):
+        Window.draw(self, surface)
         if self.tooltip[0]:
-            self.tooltip[0].redraw(surface)
+            self.tooltip[0].draw(surface)
 
 
     def get_item_cost(self, itemid):
