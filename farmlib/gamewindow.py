@@ -239,6 +239,7 @@ class GameWindow(Window):
         #draw watercanuses
         uses = Label("", (110 + 2, 10 + 2), color = (255, 240, 240))
         uses.settext(str(self.player.watercanuses))
+        uses.repaint()
         uses.draw(screen)
 
         if not self.sellwindow.visible:
