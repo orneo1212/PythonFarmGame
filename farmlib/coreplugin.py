@@ -61,7 +61,7 @@ class CoreListener(Listener):
 
         #Remove stones
         if farmobject.type != "seed" and \
-            farmobject.id == 6 and self.player.money >= REMOVESTONECOST:
+            farmobject.id == 6 and player.money >= REMOVESTONECOST:
             player.money -= REMOVESTONECOST
             farm.remove(position[0], position[1], player)
             #regenerate sprites
