@@ -10,7 +10,7 @@ from dictmapper import DictMapper
 class FarmObject:
     def __init__(self):
         self.name = ""
-        self.descriptions = ""
+        self.description = ""
         self.id = 0
 
         self.price = 0
