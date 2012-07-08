@@ -4,7 +4,7 @@ Created on 27-05-2012
 @author: orneo1212
 '''
 import os
-import time
+import random
 
 import pygame
 
@@ -234,7 +234,9 @@ class GameWindow(Window):
         #draw rain
         if self.farm.raining:
             render_rain(screen)
-            #TODO: Water a field when raining
+            x = random.randint(0, 12)
+            y = random.randint(0, 12)
+            self.farm.water(x, y)
 
         drawnearcursor = not self.sellwindow.visible
         #Draw tools and selected tool rectangle
