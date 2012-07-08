@@ -234,6 +234,7 @@ class GameWindow(Window):
         #draw rain
         if self.farm.raining:
             render_rain(screen)
+            #TODO: Water a field when raining
 
         drawnearcursor = not self.sellwindow.visible
         #Draw tools and selected tool rectangle
