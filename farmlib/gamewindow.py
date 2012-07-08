@@ -24,6 +24,7 @@ from farmlib.renderfunctions import draw_tools
 from farmlib.farmobject import objects
 from farmlib.marketwindow import MarketWindow
 from farmlib.inventorywindow import InventoryWindow
+from farmlib.helpwindow import HelpWindow
 from farmlib import PluginSystem
 from farmlib.coreplugin import CorePlugin
 
@@ -82,6 +83,9 @@ class GameWindow(Window):
         #Create inventory window
         self.inventorywindow = InventoryWindow(self.images, self.player)
 
+        #Create help window
+        self.helpwindow=HelpWindow((500,300))
+
         #Create expbar
         self.expbar = ExpBar(self.player)
         self.addwidget(self.expbar)
@@ -90,7 +94,8 @@ class GameWindow(Window):
         self.moneylabel = Label("", (400, 5), align = "center")
         self.addwidget(self.moneylabel)
 
-        versionlabel = Label("v. " + __VERSION__, (5, 580))
+        versionlabel = Label("v. " + __VERSION__+" (H for help)", \
+            (5, 580))
         self.addwidget(versionlabel)
 
         self.running = False
@@ -209,6 +214,8 @@ class GameWindow(Window):
                     self.sellwindow.togglevisible()
                 if event.key == pygame.K_i:
                     self.inventorywindow.togglevisible()
+                if event.key == pygame.K_h:
+                    self.helpwindow.togglevisible()
             #Handle farmfield events
             if not self.sellwindow.visible:
                 self.handle_farmfield_events(event)
@@ -248,6 +255,8 @@ class GameWindow(Window):
 
             #draw inventory
             self.inventorywindow.draw(screen)
+            #Draw help window
+            self.helpwindow.draw(screen)
 
             #draw notify window if mouse under seed
             pos = self.get_farmtile_pos_under_mouse()
