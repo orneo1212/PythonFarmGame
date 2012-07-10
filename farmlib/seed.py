@@ -24,6 +24,9 @@ class Seed(FarmObject):
 
         self.to_harvest = False
 
+        #Remaining time string
+        self.remainstring = ""
+
     def update_remainig_growing_time(self, waterlevel = 0):
         if waterlevel > 0:
             groundwet = float(waterlevel) / 100.0

@@ -119,10 +119,14 @@ class GameWindow(Window):
         #update inventory
         self.inventorywindow.update()
 
-        #update a farm
-        modified = self.farm.update()
-        if modified:
-            self.regenerate_groups()
+        #update inventory when changed
+        if self.redrawstimer.timepassed(2000):
+            #update a farm
+            modified = self.farm.update()
+            if modified:
+                self.regenerate_groups()
+            if self.inventorywindow.ismodified():
+                self.recreate_inventory()
 
     def update_current_money(self):
         #Render current money

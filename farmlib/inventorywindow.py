@@ -1,3 +1,5 @@
+import base64
+
 import pygame
 
 from farmlib.farmobject import objects
@@ -16,7 +18,19 @@ class InventoryWindow(Window):
         #tooltip
         self.tooltip = [None, None]
 
+        #Last checksum
+        self.lchecksum = ""
+
         self.create_gui()
+
+    def ismodified(self):
+        """Return True when inventory was been modified (based on checksum)"""
+        checksum = base64.b64encode(str(self.player.inventory))
+        checksum = base64.b64encode(checksum + str(self.player.itemscounter))
+        if checksum != self.lchecksum:
+            self.lchecksum = checksum
+            return True
+        else:return False
 
     def draw(self, surface):
         """Override Winbdow draw function"""
