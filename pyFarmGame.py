@@ -80,7 +80,6 @@ class FarmGamePygame:
             self.timer.tick(30)
             pygame.display.flip()
 
-
         #Save game
         if self.ingame:
             self.activescr.deinit()

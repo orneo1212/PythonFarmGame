@@ -139,7 +139,6 @@ class MarketWindow(Window):
         if self.tooltip[0]:
             self.tooltip[0].draw(surface)
 
-
     def get_item_cost(self, itemid):
         cost = int(objects[itemid]["price"])
         return cost * self.count

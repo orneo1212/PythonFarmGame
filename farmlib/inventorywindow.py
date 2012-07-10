@@ -2,16 +2,27 @@ import pygame
 
 from farmlib.farmobject import objects
 from pygameui import Label, Button, Window, Image
+from farmlib.tooltip import Tooltip
 
 class InventoryWindow(Window):
     def __init__(self, imgloader, player):
         Window.__init__(self, (328, 168), (10, 400))
-        self.inventoryoffset = (10, 10)
+        self.inventoryoffset = (0, 10)
         self.inventorysize = (5, 5)
         self.images = imgloader
         self.player = player
         self.notifyfont = pygame.font.Font("dejavusansmono.ttf", 12)
+
+        #tooltip
+        self.tooltip = [None, None]
+
         self.create_gui()
+
+    def draw(self, surface):
+        """Override Winbdow draw function"""
+        Window.draw(self, surface)
+        if self.tooltip[0]:
+            self.tooltip[0].draw(surface)
 
     def create_gui(self):
         self.remove_all_widgets()
@@ -30,8 +41,14 @@ class InventoryWindow(Window):
             self.addwidget(gridimage)
 
             #item button
-            itembutton = Button("", (px, py), self.images['object' + str(item)])
-            itembutton.connect("clicked", self.on_item_select, itemid = item)
+            img=self.images['object' + str(item)]
+            itembutton = Button("", (px, py), img)
+            itembutton.connect("clicked", \
+                self.on_item_select, itemid = item)
+            itembutton.connect("onenter", \
+                self.on_item_enter, itemid = item)
+            itembutton.connect("onleave", \
+                self.on_item_leave, itemid = item)
             self.addwidget(itembutton)
 
             #item count
@@ -46,71 +63,27 @@ class InventoryWindow(Window):
                 countery += 1
             if countery == self.inventorysize[1]:break
 
+    def on_item_enter(self, widget, itemid):
+        seed = objects[itemid]
+        data = [
+                ["Name", seed["name"]],
+                ["Description", seed["description"]],
+                ["Quantity", str(seed["growquantity"])],
+                ["Grow in", str(seed["growtime"] / 60) + " minutes"],
+                ["Required level", str(seed.get("requiredlevel", 1))],
+                ]
+        mx, my = pygame.mouse.get_pos()
+        self.tooltip = [Tooltip((mx + 5, my + 5), data), widget]
+
+    def on_item_leave(self, widget, itemid):
+        if self.tooltip[1] == widget:self.tooltip = [None, None]
+
     def repaint(self):
         Window.repaint(self)
-        self.create_gui()
+        #self.create_gui()
         #Mark widgets not modified
         for widget in self.widgets:
             widget.mark_modified(False)
-
-    def render_inventory_notify(self, screenobj, posx, posy, index, player):
-        """Render inventory notify"""
-        #TODO: remove this
-        sizex = 250
-        sizey = 150
-
-        img = pygame.Surface((sizex, sizey))
-        img.fill((48, 80, 80))
-        pygame.draw.rect(img, (255, 255, 255), (0, 0, sizex - 1, sizey - 1), 1)
-
-        #Name
-        text = objects[index]['name'] + " x" + str(player.itemscounter[str(index)])
-        text = self.notifyfont.render(text, 0, (255, 255, 0), (255, 0, 255))
-        text.set_colorkey((255, 0, 255))
-        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 5))
-
-        #Descriptions
-        text = self.notifyfont.render(objects[index]['description'],
-                                      0, (255, 0, 0), (255, 0, 255))
-        text.set_colorkey((255, 0, 255))
-        img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 25))
-
-        if objects[index].get("growquantity", 0):
-
-            #grow quantity
-            harvestcount = objects[index].get('harvestcount', 1)
-            text = "Quantity: %s (%s)" % (str(objects[index]['growquantity']),
-                                          str(harvestcount))
-            text = self.notifyfont.render(text,
-                    0, (255, 255, 150), (255, 0, 255))
-            text.set_colorkey((255, 0, 255))
-            img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 45))
-
-            #Required level
-            requiredlevel = objects[index].get('requiredlevel', 1)
-            text = self.notifyfont.render("Required level: %s" % requiredlevel,
-                                          0, (255, 255, 150), (255, 0, 255))
-            text.set_colorkey((255, 0, 255))
-            img.blit(text, (sizex / 2 - text.get_size()[0] / 2, 65))
-
-        #Draw object
-        objectimg = self.images["object" + str(index)]
-        img.blit(objectimg, (sizex / 2 - 32, 85))
-
-        #alpha
-        img.set_alpha(200)
-        if posx > (640 - sizex):posx -= sizex
-        screenobj.blit(img, (posx, posy))
-
-    def draw_inventory_notify(self, surface, player):
-        """"draw inventory notify window"""
-        mx, my = pygame.mouse.get_pos()
-        index = self.get_index_inventory_under_mouse()
-        if index:
-            itemid = index[1] * self.inventorysize[0] + index[0]
-            if itemid < len(player.inventory):
-                self.render_inventory_notify(surface, mx + 5, my + 10,
-                    player.inventory[itemid], player)
 
     def get_index_inventory_under_mouse(self):
         """Get position of element in inventory under mouse cursor"""
