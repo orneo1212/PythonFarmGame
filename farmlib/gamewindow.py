@@ -79,8 +79,9 @@ class GameWindow(Window):
         marketbutton.connect("clicked", lambda x:self.sellwindow.togglevisible())
         self.addwidget(marketbutton)
 
-        #create marketwindow
+        #create market window
         self.sellwindow = MarketWindow((400, 400), self.images, self.player)
+        self.sellwindow.gamewindow = self
 
         #Create inventory window
         self.inventorywindow = InventoryWindow(self.images, self.player)

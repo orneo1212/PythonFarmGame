@@ -139,6 +139,10 @@ class MarketWindow(Window):
         if self.tooltip[0]:
             self.tooltip[0].draw(surface)
 
+    def update_gamewindow(self):
+        if not isinstance(self.gamewindow, Window):return
+        self.gamewindow.inventorywindow.create_gui()
+
     def get_item_cost(self, itemid):
         cost = int(objects[itemid]["price"])
         return cost * self.count
@@ -156,7 +160,6 @@ class MarketWindow(Window):
         self.sellbutton.settext("SELL x%s " % str(self.count))
 
     def on_item_select(self, widget, itemid):
-
         #increase count if the same item selected
         if itemid == self.selecteditem:self.count += 1
         else:self.count = 1
@@ -180,6 +183,8 @@ class MarketWindow(Window):
             self.give_item(self.selecteditem, self.count)
             self.message.settext("You bought item")
             self.update_buy_sell_button(itemid)
+            #update player inventory
+            self.update_gamewindow()
         else:
             self.message.settext("You dont have enought money")
 
@@ -201,6 +206,8 @@ class MarketWindow(Window):
             self.player.money += self.get_item_sell_value(itemid)
             self.message.settext("You sold item")
             self.update_buy_sell_button(itemid)
+            #update player inventory
+            self.update_gamewindow()
         else:
             self.message.settext("You don\'t have this item (or not enought)")
 

@@ -3,12 +3,7 @@ Created on 24-05-2012
 
 @author: orneo1212
 '''
-import pygame
-
-import farmlib
-
-from pygameui import Label, Image, Window, Button
-from farmlib.farmobject import objects
+from pygameui import Label, Window
 
 class HelpWindow(Window):
     def __init__(self, size):
@@ -22,10 +17,6 @@ class HelpWindow(Window):
         self.hide()
 
     def create_gui(self):
-        #Add images for seeds in market
-        posx, posy = [0, 0]
-        columns = (self.width / 64) - 1
-
         label = Label("GAME HELP", (250, 5), size = 18,
                            color = (255, 255, 0), align = "center")
         self.addwidget(label)
