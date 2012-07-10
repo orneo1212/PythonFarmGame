@@ -103,7 +103,7 @@ class MarketWindow(Window):
                            color = (255, 255, 255), align = "center")
         self.addwidget(costlabel)
         #Cost value
-        self.costvalue = Label("", (100, 340), size = 12,
+        self.costvalue = Label("", (110, 340), size = 12,
                            color = (200, 200, 50), align = "center")
         self.addwidget(self.costvalue)
 
@@ -112,13 +112,13 @@ class MarketWindow(Window):
                            color = (255, 255, 255), align = "center")
         self.addwidget(selllabel)
         #Sell value
-        self.sellvalue = Label("", (320, 340), size = 12,
+        self.sellvalue = Label("", (330, 340), size = 12,
                            color = (200, 200, 50), align = "center")
         self.addwidget(self.sellvalue)
 
         #Message
         self.message = Label("", (10, 360), size = 12,
-                           color = (250, 0, 250), align = "center")
+                           color = (250, 0, 250), align = "left")
         self.addwidget(self.message)
         #Selected item icon
         self.selectedicon = Image(None, (160, 332))

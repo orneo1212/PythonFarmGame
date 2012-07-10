@@ -96,13 +96,18 @@ class GameWindow(Window):
         self.moneylabel = Label("", (400, 5), align = "center")
         self.addwidget(self.moneylabel)
 
+        #Label for version
         versionlabel = Label("v. " + __VERSION__ + " (H for help)", \
             (5, 580))
         self.addwidget(versionlabel)
 
+        #Is game running?
         self.running = False
+
+        #Farm position offset (to center map)
         self.farmoffset = (212, 50)
-        self.redrawfarmfield = True
+
+        #Temp image for farmfield redraw if not modified
         self.tempfarmimage = None
 
     def update(self):
@@ -123,8 +128,10 @@ class GameWindow(Window):
         text = "Money: $%s " % self.player.money
         self.moneylabel.settext(text)
 
-    def regenerate_groups(self):
+    def recreate_inventory(self):
         self.inventorywindow.create_gui()
+
+    def regenerate_groups(self):
         self.update_current_money()
 
     def handle_farmfield_events(self, event):
@@ -132,8 +139,7 @@ class GameWindow(Window):
         mx, my = pygame.mouse.get_pos()
 
         #left mouse button
-        if pygame.mouse.get_pressed()[0] == 1 and \
-            self.eventstimer.tickpassed(1):
+        if pygame.mouse.get_pressed()[0] == 1:
 
             pos = self.get_farmtile_pos_under_mouse()
 
@@ -217,6 +223,7 @@ class GameWindow(Window):
                     self.sellwindow.togglevisible()
                 if event.key == pygame.K_i:
                     self.inventorywindow.togglevisible()
+                    self.recreate_inventory()
                 if event.key == pygame.K_h:
                     self.helpwindow.togglevisible()
             #Handle farmfield events
@@ -339,6 +346,8 @@ class GameWindow(Window):
             print "No save game found. Starting new one"
         #render game field
         self.regenerate_groups()
+        #create inventory content on start
+        self.recreate_inventory()
 
     def deinit(self):
         #stop game

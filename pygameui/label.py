@@ -10,6 +10,7 @@ class Label(Widget):
         self.image = None
         self.color = color
         self.position = position
+        self.orginal_position = position
         self.align = align
 
         #set width and height
@@ -28,6 +29,10 @@ class Label(Widget):
     def setposition(self, position):
         if self.align == "center":
             position = position[0] - self.width / 2, position[1]
+        if self.align == "right":
+            position = position[0] - self.width, position[1]
+        if self.align == "left":
+            position = position[0], position[1]
         self.position = position
 
     def repaint(self):
@@ -38,6 +43,7 @@ class Label(Widget):
     def settext(self, newtext, repaint = True):
         newtext = unicode(newtext)
         self.text = newtext
+        self.setposition(self.orginal_position)
         self.mark_modified()
 
     def gettext(self):
