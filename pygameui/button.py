@@ -2,7 +2,6 @@ import os
 import pygame
 
 from widget import Widget
-import farmlib
 
 buttonbgpath = os.path.join("images", "gui", "buttonbg.png")
 
@@ -76,7 +75,6 @@ class Button(Widget):
             if pos != None:
                 if self.pointinwidget(pos[0], pos[1]):
                     self._call_callback("clicked")
-                    farmlib.clicksound.play()
                     #make button active
                     if self.parent:
                         self.parent.makeactive(self)
