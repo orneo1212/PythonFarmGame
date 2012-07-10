@@ -46,7 +46,7 @@ for gobject in objects:
     objectsimagepath = os.path.join("images", os.path.join("objects", name))
     imagesdata["object" + str(gobject['id'])] = objectsimagepath
 
-
+#TODO: Change objects format to csv
 class GameWindow(Window):
     def __init__(self):
         Window.__init__(self, (800, 600), (0, 0))
@@ -166,16 +166,17 @@ class GameWindow(Window):
 
             if self.player.selectedtool == 'plant' and pos:
                 done = False
-                #TODO: Create object insted seed if placed
-                #Plant seed if user have it and its empty field
+
                 selecteditem = self.player.selecteditem
-                newseed = self.player.create_new_seed_by_id(selecteditem)
-                if not newseed:
+                newobject = self.player.create_new_object_by_id(selecteditem)
+
+                if not newobject:
                     self.player.selecteditem = None
+
                 #check player level
-                elif self.player.level >= newseed.requiredlevel:
-                    done = self.farm.plant(pos[0], pos[1], newseed)
-                    if done:self.player.remove_item(newseed.id)
+                elif self.player.level >= newobject.requiredlevel:
+                    done = self.farm.plant(pos[0], pos[1], newobject)
+                    if done:self.player.remove_item(newobject.id)
                 #regenerate sprites
                 if done:self.regenerate_groups()
 

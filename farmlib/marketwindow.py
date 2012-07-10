@@ -223,13 +223,24 @@ class MarketWindow(Container):
     #TOOLTIP
     def on_mouse_item_enter(self, widget, itemid):
         seed = objects[itemid]
-        data = [
-                ["Name", seed["name"]],
-                ["Description", seed["description"]],
-                ["Quantity", str(seed["growquantity"])],
-                ["Grow in", str(seed["growtime"] / 60) + " minutes"],
-                ["Required level", str(seed.get("requiredlevel", 1))],
-                ]
+        otype = objects.get("type", "object")
+
+        #Item is seed
+        if otype == "seed":
+            data = [
+                    ["Name", seed["name"]],
+                    ["Description", seed["description"]],
+                    ["Quantity", str(seed["growquantity"])],
+                    ["Grow in", str(seed["growtime"] / 60) + " minutes"],
+                    ["Required level", str(seed.get("requiredlevel", 1))],
+                    ]
+        #Item is object
+        else:
+            data = [
+                    ["Name", seed["name"]],
+                    ["Description", seed["description"]],
+                    ["Required level", str(seed.get("requiredlevel", 1))],
+                    ]
         mx, my = pygame.mouse.get_pos()
         self.tooltip = [Tooltip((mx + 5, my + 5), data), widget]
 

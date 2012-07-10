@@ -1,5 +1,6 @@
-from farmlib.farmobject import objects
+from farmlib.farmobject import objects, FarmObject
 from farmlib.seed import Seed
+from farmlib import farmobject
 
 class Player:
     def __init__(self):
@@ -63,15 +64,21 @@ class Player:
             self.itemscounter[stritemid] = 1
 
 
-    def create_new_seed_by_id(self, itemid):
-        """Create new seed from seeds dictionary"""
+    def create_new_object_by_id(self, itemid):
+        """Create new farm object from objects dictionary"""
 
-        if self.item_in_inventory(itemid):
+        #If player dont have this object return False
+        if not self.item_in_inventory(itemid):return False
+        if objects[itemid].get("type", "object") == "seed":
             seed = Seed()
             seed.apply_dict(objects[itemid])
             return seed
-        #There no seed in inventory
-        return False
+        else:
+            fobject = FarmObject()
+            fobject.apply_dict(objects[itemid])
+            return fobject
+
+
 
     def update_skill(self):
         self.nextlvlexp = float(self.level - 1) * 100.0 * 2.75 + 100.0

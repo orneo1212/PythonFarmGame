@@ -7,6 +7,7 @@
     "growtime": 7200,
     "name": "Strawberry",
     "requiredlevel":2,
+    "type":"seed",
     "harvestcount":2
   },
   "1": {
@@ -16,6 +17,7 @@
     "id": 1,
     "growtime": 3600,
     "requiredlevel":3,
+    "type":"seed",
     "name": "Onion"
   },
   "2": {
@@ -25,6 +27,7 @@
     "id": 2,
     "growtime": 28800,
     "name": "Bean",
+    "type":"seed",
     "requiredlevel":3,
     "harvestcount":2
   },
@@ -34,6 +37,7 @@
     "price": 8,
     "id": 3,
     "growtime": 600,
+    "type":"seed",
     "name": "Carrot"
   },
   "4": {
@@ -43,6 +47,7 @@
     "id": 4,
     "growtime": 18000,
     "requiredlevel":5,
+    "type":"seed",
     "name": "Potato"
   },
   "5": {
@@ -52,12 +57,15 @@
     "id": 5,
     "growtime": 43200,
     "name": "Tomato",
+    "type":"seed",
     "requiredlevel":8,
     "harvestcount":3
   },
   "6": {
     "description": "Use pickaxe to remove it ($100)",
     "id": 6,
+    "price": 200,
+    "requiredlevel":5,
     "name": "Stone"
   },
   "7": {
@@ -73,6 +81,8 @@
   "9": {
     "description": "Use axe to remove it ($80)",
     "id": 9,
+    "price": 200,
+    "requiredlevel":5,
     "name": "Plank"
   },
   "10": {
@@ -82,6 +92,7 @@
     "id": 10,
     "growtime": 1500,
     "requiredlevel":2,
+    "type":"seed",
     "name": "Radish"
   }
 }
