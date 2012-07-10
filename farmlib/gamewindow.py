@@ -74,8 +74,8 @@ class GameWindow(Window):
         self.addwidget(bgimg)
 
         #Market button
-        marketbutton = Button("Market", (710, 0), labelsize = 25, \
-                             color = (253, 208, 23))
+        marketbutton = Button("", (800 - 42, 10), \
+                             bgimage = self.images['marketbutton'])
         marketbutton.connect("clicked", lambda x:self.sellwindow.togglevisible())
         self.addwidget(marketbutton)
 
