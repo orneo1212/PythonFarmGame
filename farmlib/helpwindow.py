@@ -45,3 +45,8 @@ class HelpWindow(Window):
             color = (255, 240, 240), align = "center")
         self.addwidget(label)
 
+        label = Label("- You can DESTROY plant using shovel.", \
+            (250, 60), size = 15,
+            color = (255, 240, 240), align = "center")
+        self.addwidget(label)
+
