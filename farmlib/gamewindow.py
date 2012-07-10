@@ -73,18 +73,25 @@ class GameWindow(Window):
         bgimg = Image(self.images['background'], (0, 0))
         self.addwidget(bgimg)
 
-        #Market button
-        marketbutton = Button("", (800 - 42, 10), \
-                             bgimage = self.images['marketbutton'])
-        marketbutton.connect("clicked", lambda x:self.sellwindow.togglevisible())
-        self.addwidget(marketbutton)
+        #Create inventory window
+        self.inventorywindow = InventoryWindow(self.images, self.player)
+        self.inventorywindow.hide()
 
         #create market window
         self.sellwindow = MarketWindow((400, 400), self.images, self.player)
         self.sellwindow.gamewindow = self
 
-        #Create inventory window
-        self.inventorywindow = InventoryWindow(self.images, self.player)
+        #Market button
+        marketbutton = Button("", (800 - 42, 10), \
+                             bgimage = self.images['marketbutton'])
+        marketbutton.connect("clicked", self.toggle_market)
+        self.addwidget(marketbutton)
+
+        #Inventory button
+        inventorybutton = Button("", (800 - 42, 52), \
+                             bgimage = self.images['inventorybutton'])
+        inventorybutton.connect("clicked", self.toggle_inventory)
+        self.addwidget(inventorybutton)
 
         #Create help window
         self.helpwindow = HelpWindow((500, 300))
@@ -172,7 +179,7 @@ class GameWindow(Window):
                 #regenerate sprites
                 if done:self.regenerate_groups()
 
-        #events for inventory
+        #events for tools
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             #events for tools
             for tool in TOOLS:
@@ -183,6 +190,14 @@ class GameWindow(Window):
                     self.player.selectedtool = tool
                     #regenerate sprites
                     self.regenerate_groups()
+
+    def toggle_market(self, widget):
+        self.inventorywindow.hide()
+        self.sellwindow.togglevisible()
+
+    def toggle_inventory(self, widget):
+        self.sellwindow.hide()
+        self.inventorywindow.togglevisible()
 
     def active_game_events(self, event):
         if event.type == pygame.KEYDOWN:
@@ -218,21 +233,31 @@ class GameWindow(Window):
                     #ESC close market window or exit from game
                     if self.sellwindow.visible:
                         self.sellwindow.hide()
+                    elif self.inventorywindow.visible:
+                        self.inventorywindow.hide()
                     else:
                         self.go_to_main_menu()
+
                 #Events only for active game
-                if not self.sellwindow.visible:
+                if not self.sellwindow.visible and \
+                    not self.inventorywindow.visible:
+
                     self.active_game_events(event)
-                #
+
+                #Windows toggle buttons
                 if event.key == pygame.K_s:
-                    self.sellwindow.togglevisible()
+                    self.toggle_market(None)
                 if event.key == pygame.K_i:
-                    self.inventorywindow.togglevisible()
+                    self.toggle_inventory(None)
                     self.recreate_inventory()
                 if event.key == pygame.K_h:
+                    self.sellwindow.hide()
+                    self.inventorywindow.hide()
                     self.helpwindow.togglevisible()
-            #Handle farmfield events
-            if not self.sellwindow.visible:
+            #others events
+            if not self.sellwindow.visible and \
+                not self.inventorywindow.visible:
+
                 self.handle_farmfield_events(event)
 
     def redraw(self, screen):
@@ -271,12 +296,11 @@ class GameWindow(Window):
         uses.repaint()
         uses.draw(screen)
 
-        if not self.sellwindow.visible:
+        if not self.sellwindow.visible and \
+            not self.inventorywindow.visible:
 
             mx, my = pygame.mouse.get_pos()
 
-            #draw inventory
-            self.inventorywindow.draw(screen)
             #Draw help window
             self.helpwindow.draw(screen)
 
@@ -293,6 +317,8 @@ class GameWindow(Window):
         if self.player.selecteditem != None:
             draw_selected_seed(screen, self.player.selecteditem, self.images)
 
+        #draw inventory
+        self.inventorywindow.draw(screen)
         #redraw sell window
         self.sellwindow.draw(screen)
 

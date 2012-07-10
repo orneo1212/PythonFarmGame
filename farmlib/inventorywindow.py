@@ -3,14 +3,14 @@ import base64
 import pygame
 
 from farmlib.farmobject import objects
-from pygameui import Label, Button, Window, Image
+from pygameui import Label, Button, Container, Image
 from farmlib.tooltip import Tooltip
 
-class InventoryWindow(Window):
+class InventoryWindow(Container):
     def __init__(self, imgloader, player):
-        Window.__init__(self, (328, 168), (10, 400))
+        Container.__init__(self, (400, 500), (200, 50))
         self.inventoryoffset = (0, 10)
-        self.inventorysize = (5, 5)
+        self.inventorysize = (4, 5)
         self.images = imgloader
         self.player = player
         self.notifyfont = pygame.font.Font("dejavusansmono.ttf", 12)
@@ -34,7 +34,7 @@ class InventoryWindow(Window):
 
     def draw(self, surface):
         """Override Winbdow draw function"""
-        Window.draw(self, surface)
+        Container.draw(self, surface)
         if self.tooltip[0]:
             self.tooltip[0].draw(surface)
 
@@ -47,8 +47,11 @@ class InventoryWindow(Window):
         counterx = 0
         countery = 0
         for item in self.player.inventory:
-            px = counterx * 64 + self.inventoryoffset[0] + 4
-            py = countery * 32 + self.inventoryoffset[1] + 2
+            px = counterx * 64 + self.inventoryoffset[0] + 25
+            py = countery * 32 + self.inventoryoffset[1] + 30
+            #make grid
+            px += counterx * 30
+            py += countery * 15
 
             #grid image
             gridimage = Image(self.images['grid2'], (px, py))
@@ -93,7 +96,7 @@ class InventoryWindow(Window):
         if self.tooltip[1] == widget:self.tooltip = [None, None]
 
     def repaint(self):
-        Window.repaint(self)
+        Container.repaint(self)
         #self.create_gui()
         #Mark widgets not modified
         for widget in self.widgets:

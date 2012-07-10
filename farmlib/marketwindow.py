@@ -7,18 +7,18 @@ import pygame
 
 import farmlib
 
-from pygameui import Label, Image, Window, Button
+from pygameui import Label, Image, Container, Button
 from farmlib.farmobject import objects
 from farmlib.tooltip import Tooltip
 
 WATERREFILLCOST = farmlib.rules["WATERREFILLCOST"]
 OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
 
-class MarketWindow(Window):
+class MarketWindow(Container):
     def __init__(self, size, imgloader, player):
         self.player = player
         self.imgloader = imgloader
-        Window.__init__(self, size, (200, 40))
+        Container.__init__(self, size, (200, 50))
         #set window alpha
         self.alphavalue = 250 * 0.95
         #items offset for gui buttons
@@ -88,12 +88,6 @@ class MarketWindow(Window):
                 posx = 0
                 posy += 1
 
-        #Title
-        titlelabel = Label("Market place", (200, 5), size = 18,
-                           color = (255, 255, 0), align = "center")
-        self.addwidget(titlelabel)
-
-
         #===================
         # DRAW ITEM DETAILS
         #===================
@@ -135,12 +129,12 @@ class MarketWindow(Window):
         self.sellbutton.connect("clicked", self.on_sell_clicked)
 
     def draw(self, surface):
-        Window.draw(self, surface)
+        Container.draw(self, surface)
         if self.tooltip[0]:
             self.tooltip[0].draw(surface)
 
     def update_gamewindow(self):
-        if not isinstance(self.gamewindow, Window):return
+        if not isinstance(self.gamewindow, Container):return
         self.gamewindow.inventorywindow.create_gui()
 
     def get_item_cost(self, itemid):

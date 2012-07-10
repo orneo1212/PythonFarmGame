@@ -16,6 +16,7 @@
         "grid":"images/grid.png",
         "grid2":"images/grid2.png",
         "marketbutton":"images/gui/marketbutton.png",
+        "inventorybutton":"images/gui/inventorybutton.png",
         "marketbg":"images/gui/marketbg.png"
     }
 }
