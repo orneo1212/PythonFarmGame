@@ -41,7 +41,7 @@ class InventoryWindow(Window):
             self.addwidget(gridimage)
 
             #item button
-            img=self.images['object' + str(item)]
+            img = self.images['object' + str(item)]
             itembutton = Button("", (px, py), img)
             itembutton.connect("clicked", \
                 self.on_item_select, itemid = item)

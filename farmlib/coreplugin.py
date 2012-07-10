@@ -67,7 +67,6 @@ class CoreListener(Listener):
             #regenerate sprites
             self.plugin.gamewindow.regenerate_groups()
 
-
     def shovel_events(self, farm, player, position):
         """Shovel events"""
         farmobject = farm.get_farmobject(position[0], position[1])

@@ -139,53 +139,60 @@ def render_rain(surface):
         pygame.draw.line(surface, (0, 0, 200), (xx, yy),
                          (xx + offset, yy + 15))
 
-def render_field(screen, imgloader, farmfield, farmoffset):
+def render_one_field(position, screen, imgloader, farmfield, farmoffset):
+    """Render one field from farm"""
     mainimg = screen
+    x, y = position
+    farmtile = farmfield.get_farmtile(x, y)
 
+    posx = (x - y) * 32 + farmoffset[0] + 150
+    posy = (x + y) * 16 + farmoffset[1]
+
+    rect = (posx, posy, 64, 32)
+
+    #draw ground
+    if farmtile['water'] >= 30:
+        img = imgloader['wetground']
+    else:
+        img = imgloader['dryground']
+    mainimg.blit(img, rect)
+
+    #draw grid
+    mainimg.blit(imgloader['grid'], rect)
+
+    #draw plant or seed
+    farmobject = farmtile['object']
+
+    #Avoid draw Null fieldobjects
+    if not farmobject:return
+
+    if farmobject.type == "seed":
+        #not ready to harvest
+        if not farmobject.to_harvest:
+            farmobject.update_remainig_growing_time()
+            #draw seeds on the ground
+            if farmobject.growtimeremaining <= 30 * 60:
+                img = imgloader['seedfullgrow']
+            elif farmobject.growtimeremaining <= 60 * 60:
+                img = imgloader['seedhalfgrow']
+
+            else:
+                img = imgloader['seed']
+
+        #ready to harvest
+        else:
+            img = imgloader['object' + str(farmobject.id)]
+    #Field object
+    else:
+        img = imgloader['object' + str(farmobject.id)]
+    #Draw field image
+    if img:mainimg.blit(img, rect)
+
+def render_field(screen, imgloader, farmfield, farmoffset):
+    img = pygame.surface.Surface((800, 600))
+    img.set_colorkey((0, 0, 0))
     for y in range(12):
         for x in range(12):
-            farmtile = farmfield.get_farmtile(x, y)
-
-            posx = (x - y) * 32 + farmoffset[0] + 150
-            posy = (x + y) * 16 + farmoffset[1]
-
-            rect = (posx, posy, 64, 32)
-
-            #draw ground
-            if farmtile['water'] >= 30:
-                img = imgloader['wetground']
-            else:
-                img = imgloader['dryground']
-            mainimg.blit(img, rect)
-
-            #draw grid
-            mainimg.blit(imgloader['grid'], rect)
-
-            #draw plant or seed
-            farmobject = farmtile['object']
-
-            #Avoid draw Null fieldobjects
-            if not farmobject:continue
-
-            if farmobject.type == "seed":
-                #not ready to harvest
-                if not farmobject.to_harvest:
-                    farmobject.update_remainig_growing_time()
-                    #draw seeds on the ground
-                    if farmobject.growtimeremaining <= 30 * 60:
-                        img = imgloader['seedfullgrow']
-                    elif farmobject.growtimeremaining <= 60 * 60:
-                        img = imgloader['seedhalfgrow']
-
-                    else:
-                        img = imgloader['seed']
-
-                #ready to harvest
-                else:
-                    img = imgloader['object' + str(farmobject.id)]
-            #Field object
-            else:
-                img = imgloader['object' + str(farmobject.id)]
-
-            #Draw field image
-            if img:mainimg.blit(img, rect)
+            render_one_field((x, y), img, \
+                imgloader, farmfield, farmoffset)
+    return img

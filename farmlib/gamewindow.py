@@ -20,6 +20,7 @@ from farmlib.renderfunctions import render_field, render_rain
 from farmlib.renderfunctions import render_seed_notify
 from farmlib.renderfunctions import draw_selected_seed
 from farmlib.renderfunctions import draw_tools
+from farmlib.renderfunctions import render_one_field
 
 from farmlib.farmobject import objects
 from farmlib.marketwindow import MarketWindow
@@ -54,6 +55,7 @@ class GameWindow(Window):
 
         self.farm = FarmField()
         self.eventstimer = Timer()
+        self.redrawstimer = Timer()
 
         self.groups = [None] # view groups
         self.images = ImageLoader(imagesdata)
@@ -84,7 +86,7 @@ class GameWindow(Window):
         self.inventorywindow = InventoryWindow(self.images, self.player)
 
         #Create help window
-        self.helpwindow=HelpWindow((500,300))
+        self.helpwindow = HelpWindow((500, 300))
 
         #Create expbar
         self.expbar = ExpBar(self.player)
@@ -94,13 +96,14 @@ class GameWindow(Window):
         self.moneylabel = Label("", (400, 5), align = "center")
         self.addwidget(self.moneylabel)
 
-        versionlabel = Label("v. " + __VERSION__+" (H for help)", \
+        versionlabel = Label("v. " + __VERSION__ + " (H for help)", \
             (5, 580))
         self.addwidget(versionlabel)
 
         self.running = False
         self.farmoffset = (212, 50)
         self.redrawfarmfield = True
+        self.tempfarmimage = None
 
     def update(self):
         """Update farm"""
@@ -220,7 +223,6 @@ class GameWindow(Window):
             if not self.sellwindow.visible:
                 self.handle_farmfield_events(event)
 
-
     def redraw(self, screen):
         """Redraw screen"""
         Window.draw(self, screen)
@@ -228,8 +230,13 @@ class GameWindow(Window):
         #Draw gamewindow
         self.draw(screen)
 
-        #Draw farmfield
-        render_field(screen, self.images, self.farm, self.farmoffset)
+        #avoid temp farm image to be None
+        if not self.tempfarmimage or self.farm.ismodified():
+            #Draw farmfield
+            self.tempfarmimage = render_field(screen, self.images, \
+                                        self.farm, self.farmoffset)
+        #Blit farmfield
+        screen.blit(self.tempfarmimage, (0, 0))
 
         #draw rain
         if self.farm.raining:

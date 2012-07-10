@@ -1,6 +1,7 @@
 import os
 import random
 import time
+import base64
 
 import farmlib
 from farmlib.seed import Seed
@@ -15,6 +16,20 @@ class FarmField:
         self.farmtiles = {}
         self.raining = False
         self.raintime = time.time()
+        self.last_checksum = ""
+
+    def get_farm_checksum(self):
+        checksum = base64.b64encode(str(self.farmtiles))
+        return checksum
+
+    def ismodified(self):
+        """Return true when farmfield is modified (based on checksum)"""
+        checksum = self.get_farm_checksum()
+        if checksum != self.last_checksum:
+            self.last_checksum = checksum
+            return True
+        else:return False
+
 
     def count_anthills(self):
         anthills = 0
@@ -42,9 +57,9 @@ class FarmField:
 
     def set_farmobject(self, posx, posy, farmobject):
         """Set farmobject at given position"""
-        farmtile=self.get_farmtile(posx,posy)
+        farmtile = self.get_farmtile(posx, posy)
         if farmtile:
-            farmtile["object"]=farmobject
+            farmtile["object"] = farmobject
 
     def get_farmtile_position(self, farmtile):
         """
