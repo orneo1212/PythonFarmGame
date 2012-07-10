@@ -24,6 +24,9 @@ class FarmObject:
     def update(self, farmtile):
         return False
 
+    def onplant(self):
+        pass
+
 #load objects from json file
 objects = DictMapper()
 objects.load(os.path.join("data", "objects.json"))

@@ -71,6 +71,9 @@ class Seed(FarmObject):
 
         return False #  not updated
 
+    def onplant(self):
+        self.start_grow()
+
     def start_grow(self):
         """Start seed growing"""
 

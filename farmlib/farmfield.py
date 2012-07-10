@@ -90,9 +90,7 @@ class FarmField:
         if not farmobject:
             #Set object
             self.set_farmobject(posx, posy, fobject)
-            #start growing if object is seed
-            if fobject.type == "seed":
-                fobject.start_grow()
+            fobject.onplant()
             return True
         else:
             return False #  error there something on that position
