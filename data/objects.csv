@@ -1,0 +1,12 @@
+id,name,description,price,type,requiredlevel,growquantity,growtime,harvestcount
+0,Strawberry,"Grow in 2 hours",20,seed,2,4,7200,2
+1,Onion,"Grow in 1 hour",80,seed,3,4,3600,1
+2,Bean,"Grow in 8 hours",10,seed,3,5,28800,2
+3,Carrot,"Grow in 10 minutes",8,seed,1,2,600,1
+4,Potato,"Grow in 5 hours",100,seed,5,8,18000,1
+5,Tomato,"Grow in 12 hours",250,seed,8,10,43200,3
+6,Stone,"Use pickaxe to remove it ($100)",200,object,5,1,1,1
+7,Anthill,"Use shovel to remove it ($300)",0,object,5,1,1,1
+8,"Wilted plant","Use shovel to remove it ($10)",0,object,5,1,1,1
+9,Plank,"Use axe to remove it ($80)",200,object,5,1,1,1
+10,Radish,"Grow in 25 minutes",16,object,2,3,1500,1
