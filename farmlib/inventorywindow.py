@@ -43,6 +43,12 @@ class InventoryWindow(Container):
         bg = Image(self.images['inventory'], (0, 0))
         self.addwidget(bg)
 
+        #close button
+        closebutton = Button("X", (380, 3), labelsize = 15, \
+                             color = (255, 255, 255))
+        closebutton.connect("clicked", lambda x:self.hide())
+        self.addwidget(closebutton)
+
         #create items
         counterx = 0
         countery = 0
