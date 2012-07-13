@@ -74,13 +74,21 @@ class Widget:
                 self._call_callback("onenter")
                 self.repaint()
 
+    def togglevisible(self):
+        if self.visible:
+            self.hide()
+        else:
+            self.show()
+
     def hide(self):
         self.visible = False
         self.active = False
+        self._call_callback("onhide")
 
     def show(self):
         self.repaint()
         self.visible = True
+        self._call_callback("onshow")
 
     def pointinwidget(self, posx, posy):
         rect = pygame.Rect(self.position[0] + 2, self.position[1] + 2,

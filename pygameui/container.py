@@ -64,12 +64,6 @@ class Container(Widget):
         for widget in self.widgets:
             widget.show()
 
-    def togglevisible(self):
-        if self.visible:
-            self.hide()
-        else:
-            self.show()
-
     def makeactive(self, widget = None):
         for widg in self.widgets:
             if widget and widg == widget:
