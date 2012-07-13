@@ -270,7 +270,7 @@ class GameWindow(Window):
         screen.blit(self.tempfarmimage, (0, 0))
 
         #draw rain
-        if self.farm.raining and self.redrawtimer.tickpassed(10):
+        if self.farm.raining and self.updatetimer.tickpassed(2):
             render_rain(screen)
             x = random.randint(0, 12)
             y = random.randint(0, 12)
