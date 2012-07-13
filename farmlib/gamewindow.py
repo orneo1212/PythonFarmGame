@@ -128,6 +128,7 @@ class GameWindow(Window):
 
         #update inventory when changed
         if self.redrawstimer.timepassed(2000):
+            self.update_current_money()
             #update a farm
             modified = self.farm.update()
             if modified:
