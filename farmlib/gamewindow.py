@@ -130,9 +130,7 @@ class GameWindow(Window):
         if self.redrawstimer.timepassed(2000):
             self.update_current_money()
             #update a farm
-            modified = self.farm.update()
-            if modified:
-                self.regenerate_groups()
+            self.farm.update()
             if self.inventorywindow.ismodified():
                 self.recreate_inventory()
 
@@ -143,9 +141,6 @@ class GameWindow(Window):
 
     def recreate_inventory(self):
         self.inventorywindow.create_gui()
-
-    def regenerate_groups(self):
-        self.update_current_money()
 
     def handle_farmfield_events(self, event):
         #Mouse motion
@@ -178,8 +173,6 @@ class GameWindow(Window):
                 elif self.player.level >= newobject.requiredlevel:
                     done = self.farm.plant(pos[0], pos[1], newobject)
                     if done:self.player.remove_item(newobject.id)
-                #regenerate sprites
-                if done:self.regenerate_groups()
 
         #events for tools
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -190,8 +183,6 @@ class GameWindow(Window):
                 if pygame.Rect(rect).collidepoint((mx, my)):
                     farmlib.clicksound.play()
                     self.player.selectedtool = tool
-                    #regenerate sprites
-                    self.regenerate_groups()
 
     def toggle_market(self, widget):
         self.inventorywindow.hide()
@@ -377,8 +368,6 @@ class GameWindow(Window):
         if not result:
             self.start_new_game()
             print "No save game found. Starting new one"
-        #render game field
-        self.regenerate_groups()
         #create inventory content on start
         self.recreate_inventory()
 

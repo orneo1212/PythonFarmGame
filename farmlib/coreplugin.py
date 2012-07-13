@@ -44,7 +44,6 @@ class CoreListener(Listener):
         if not done:return False
 
         player.watercanuses -= 1
-        self.plugin.gamewindow.regenerate_groups()
 
     def plant_events(self, farm, player, position):
         pass
@@ -52,7 +51,6 @@ class CoreListener(Listener):
     def harvest_events(self, farm, player, position):
         """Harvest events"""
         done = farm.harvest(position[0], position[1], player)
-        if done:self.plugin.gamewindow.regenerate_groups()
 
     def pickaxe_events(self, farm, player, position):
         """Pickaxe events"""
@@ -64,8 +62,6 @@ class CoreListener(Listener):
             farmobject.id == 6 and player.money >= REMOVESTONECOST:
             player.money -= REMOVESTONECOST
             farm.remove(position[0], position[1], player)
-            #regenerate sprites
-            self.plugin.gamewindow.regenerate_groups()
 
     def shovel_events(self, farm, player, position):
         """Shovel events"""
@@ -76,20 +72,16 @@ class CoreListener(Listener):
         if farmobject.id == 7 and player.money >= REMOVEANTHILLCOST:
             player.money -= REMOVEANTHILLCOST
             farm.remove(position[0], position[1], player)
-            self.plugin.gamewindow.regenerate_groups()
 
         #Remove wilted
         if farmobject.id == 8 and player.money >= REMOVEWILTEDCOST:
             player.money -= REMOVEWILTEDCOST
             farm.removewilted(position[0], position[1], player)
-            self.plugin.gamewindow.regenerate_groups()
         #remove seed
         if farmobject and farmobject.type == "seed":
             #remove seed when is NOT ready
             if not farmobject.to_harvest:
                 farm.remove(position[0], position[1], player)
-            #regenerate sprites
-            self.plugin.gamewindow.regenerate_groups()
 
     def axe_events(self, farm, player, position):
         """Axe events"""
@@ -101,4 +93,3 @@ class CoreListener(Listener):
         if farmobject.id == 9 and player.money >= removeplankcost:
             player.money -= removeplankcost
             farm.remove(position[0], position[1], player)
-            self.plugin.gamewindow.regenerate_groups()
