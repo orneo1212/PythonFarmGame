@@ -133,10 +133,6 @@ class MarketWindow(Container):
         if self.tooltip[0]:
             self.tooltip[0].draw(surface)
 
-    def update_gamewindow(self):
-        if not isinstance(self.gamewindow, Container):return
-        self.gamewindow.inventorywindow.create_gui()
-
     def get_item_cost(self, itemid):
         cost = int(objects[itemid]["price"])
         return cost * self.count
@@ -179,7 +175,6 @@ class MarketWindow(Container):
             self.update_buy_sell_button(itemid)
         else:
             self.message.settext("You dont have enought money")
-        self.update_gamewindow()
 
     def on_sell_clicked(self, widget, **data):
         if self.selecteditem is None:return
@@ -201,7 +196,6 @@ class MarketWindow(Container):
             self.update_buy_sell_button(itemid)
         else:
             self.message.settext("You don\'t have this item (or not enought)")
-        self.update_gamewindow()
 
     def on_water_buy(self, widget, **data):
         if self.player.watercanuses == 100:
@@ -213,7 +207,6 @@ class MarketWindow(Container):
             self.message.settext("You filled watercan")
         else:
             self.message.settext("You dont have money to refill watercan")
-        self.update_gamewindow()
 
     def give_item(self, itemid, count):
         for x in xrange(count):
