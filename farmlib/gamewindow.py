@@ -122,12 +122,13 @@ class GameWindow(Window):
         """Update farm"""
         Window.update(self)
         self.eventstimer.tick()
+        self.redrawstimer.tick()
 
         #update inventory
         self.inventorywindow.update()
 
         #update inventory when changed
-        if self.redrawstimer.timepassed(2000):
+        if self.redrawstimer.tickpassed(20):
             self.update_current_money()
             #update a farm
             self.farm.update()
