@@ -162,7 +162,7 @@ class FarmField:
         self.remove(posx, posy, player)
 
     def remove(self, posx, posy, player):
-        self.set_farmtile(posx, posy, self.newfarmtile())
+        self.set_farmtile(posx, posy, FarmTile())
 
     def water(self, posx, posy):
         """Watering a farm tile"""
