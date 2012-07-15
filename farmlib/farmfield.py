@@ -8,6 +8,34 @@ from farmlib.seed import Seed
 from farmlib.dictmapper import DictMapper
 from farmlib.farmobject import FarmObject, objects
 
+class FarmTile:
+    """Farm tile represent one tile on each farm"""
+    def __init__(self, obj = None):
+        self.water = 0.0
+        self.farmobject = obj
+
+    def __getitem__(self, name):
+        if name == "water":return self.get_water()
+        elif name == "object":return self.get_object()
+        else:return None
+
+    def __setitem__(self, name, value):
+        if name == "water":self.water = value
+        elif name == "object":self.farmobject = value
+        else:return None
+
+    def get_object(self):
+        return self.farmobject
+
+    def get_water(self):
+        return self.water
+
+    def update(self):
+        #Drying
+        self.water -= 0.25
+        if self.water < 0:self.water = 0.0
+
+
 class FarmField:
 
     def __init__(self):
@@ -19,7 +47,8 @@ class FarmField:
         self.last_checksum = ""
 
     def get_farm_checksum(self):
-        checksum = base64.b64encode(str(self.farmtiles))
+        ft = [str(x.water) for x in self.farmtiles.values()]
+        checksum = base64.b64encode("".join(ft))
         return checksum
 
     def ismodified(self):
@@ -30,13 +59,12 @@ class FarmField:
             return True
         else:return False
 
-
-    def count_anthills(self):
-        anthills = 0
+    def count_objects(self, objectid):
+        count = 0
         for f in self.farmtiles.values():
-            if f["object"] and f["object"].id == 1:
-                anthills += 1
-        return anthills
+            if f["object"] and f["object"].id == objectid:
+                count += 1
+        return count
 
     def get_farmtile(self, posx, posy):
         """Get farmtile from given position"""
@@ -46,7 +74,7 @@ class FarmField:
             return self.farmtiles[arg]
 
         else:
-            self.farmtiles[arg] = self.newfarmtile()
+            self.farmtiles[arg] = FarmTile()
             return self.farmtiles[arg]
 
     def get_farmobject(self, posx, posy):
@@ -77,11 +105,6 @@ class FarmField:
 
         arg = str(posx) + 'x' + str(posy)
         self.farmtiles[arg] = farmtile
-
-    def newfarmtile(self, farmobject = None):
-        """return new farmtile with keys set"""
-        ft = {"water":0, "object":farmobject}
-        return ft
 
     def plant(self, posx, posy, fobject):
         """Plant a seed on the given farmtile position"""
@@ -222,16 +245,13 @@ class FarmField:
                 ret = self.check_wilted(farmtile)
                 if ret:modified = True
 
-                #Drying
-                if int(time.time()) % 5 == 0:
-                    farmtile["water"] -= 0.03
-                    if farmtile["water"] < 0:farmtile["water"] = 0
+                farmtile.update()
             else:
                 #Create anthills
                 chance = random.randint(0, 10000)
                 maxanthills = farmlib.rules["MAX_ANTHILLS"]
                 if chance == 1 and int(time.time()) % 600 == 0\
-                    and self.count_anthills() < maxanthills:
+                    and self.count_objects(7) < maxanthills:
                     self.create_random_anthill(farmtile)
                     return True
         return modified
@@ -316,7 +336,7 @@ class FarmField:
                 newobject.growendtime = objectdata["growendtime"]
                 newobject.growstarttime = objectdata["growstarttime"]
 
-                farmtile = self.newfarmtile(newobject)
+                farmtile = FarmTile(newobject)
                 farmtile["water"] = tile["water"]
 
                 #Apply global object data
@@ -332,7 +352,7 @@ class FarmField:
                 newobject.type = tile["object"]["type"]
                 #apply dict
                 newobject.apply_dict(objects[newobject.id])
-                farmtile = self.newfarmtile(newobject)
+                farmtile = FarmTile(newobject)
             #set farmtile
             self.set_farmtile(px, py, farmtile)
         #return
