@@ -44,6 +44,7 @@ class FarmField:
         self.raining = False
         self.raintime = time.time()
         self.last_checksum = ""
+        self.seconds_to_update = 0
 
     def get_farm_checksum(self):
         ft = [str(x.water) for x in self.farmtiles.values()]
@@ -266,6 +267,8 @@ class FarmField:
         data["exp"] = player.exp
         data["nextlvlexp"] = player.nextlvlexp
         data["level"] = player.level
+        #Save time
+        data["gametime"] = int(time.time())
         #save tiles
         data["tiles"] = []
 
@@ -310,6 +313,10 @@ class FarmField:
         player.nextlvlexp = data.get("nextlvlexp", 100.0)
         player.money = int(data.get("money", 1))
         player.level = int(data.get("level", 1))
+        #loda game time
+        self.seconds_to_update = int(time.time()) - data.get("gametime", \
+                                                            int(time.time()))
+        print self.seconds_to_update
 
         #load tiles
         for tile in data["tiles"]:

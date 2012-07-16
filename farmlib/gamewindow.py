@@ -130,7 +130,7 @@ class GameWindow(Window):
         if self.player.selecteditem is not None and \
             not self.player.item_in_inventory(self.player.selecteditem):
             #clear selected item if player dont have it
-            self.player.selecteditem=None
+            self.player.selecteditem = None
 
         #update inventory when changed
         if self.updatetimer.tickpassed(20):
@@ -250,7 +250,7 @@ class GameWindow(Window):
                     self.toggle_inventory(None)
                     self.recreate_inventory()
                 if event.key == pygame.K_m:
-                    if farmlib.clicksound.get_volume()==0.0:
+                    if farmlib.clicksound.get_volume() == 0.0:
                         farmlib.clicksound.set_volume(1.0)
                     else:
                         farmlib.clicksound.set_volume(0.0)
@@ -378,7 +378,12 @@ class GameWindow(Window):
         result = self.farm.load_farmfield('field.json', self.player)
         if not result:
             self.start_new_game()
-            print "No save game found. Starting new one"
+            print ("No save game found. Starting new one")
+        #Forward time to match gametime
+        if self.farm.seconds_to_update:
+            #1 second is equal 20 updates
+            for x in xrange(self.farm.seconds_to_update * 20):
+                self.update()
         #create inventory content on start
         self.recreate_inventory()
 
