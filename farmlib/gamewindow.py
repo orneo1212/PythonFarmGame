@@ -127,6 +127,12 @@ class GameWindow(Window):
         #update inventory
         self.inventorywindow.update()
 
+        #update selected item
+        if self.player.selecteditem is not None and \
+            not self.player.item_in_inventory(self.player.selecteditem):
+            #clear selected item if player dont have it
+            self.player.selecteditem=None
+
         #update inventory when changed
         if self.updatetimer.tickpassed(20):
             self.update_current_money()
