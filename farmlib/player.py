@@ -1,5 +1,4 @@
-from farm import objects, FarmObject
-from seed import Seed
+from farm import objects, FarmObject, Seed
 
 class Player:
     def __init__(self):
