@@ -130,7 +130,7 @@ class FarmField:
             farmtile['object'].to_harvest:
             #harvest seeds
             player.event_harvest(farmtile['object'])
-            for i in xrange(farmtile['object'].growquantity):
+            for _ in xrange(farmtile['object'].growquantity):
                 #
                 itemid = farmtile['object'].id
                 if itemid not in player.inventory:
@@ -184,7 +184,7 @@ class FarmField:
         return fobject
 
     def generate_random_stones(self):
-        for x in xrange(random.randint(10, 15)):
+        for _ in xrange(random.randint(10, 15)):
             xx = random.randint(0, 11)
             yy = random.randint(0, 11)
             fobject = FarmObject()
@@ -194,7 +194,7 @@ class FarmField:
             self.set_farmtile(xx, yy, farmtile)
 
     def generate_random_planks(self):
-        for x in xrange(random.randint(10, 15)):
+        for _ in xrange(random.randint(10, 15)):
             xx = random.randint(0, 11)
             yy = random.randint(0, 11)
             fobject = FarmObject()

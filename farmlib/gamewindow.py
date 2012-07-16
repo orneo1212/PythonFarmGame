@@ -20,7 +20,6 @@ from farmlib.renderfunctions import render_field, render_rain
 from farmlib.renderfunctions import render_seed_notify
 from farmlib.renderfunctions import draw_selected_seed
 from farmlib.renderfunctions import draw_tools
-from farmlib.renderfunctions import render_one_field
 
 from farmlib.marketwindow import MarketWindow
 from farmlib.inventorywindow import InventoryWindow
@@ -45,7 +44,6 @@ for gobject in objects:
     objectsimagepath = os.path.join("images", os.path.join("objects", name))
     imagesdata["object" + str(gobject['id'])] = objectsimagepath
 
-#TODO: Change objects format to csv
 class GameWindow(Window):
     def __init__(self):
         Window.__init__(self, (800, 600), (0, 0))
@@ -382,7 +380,7 @@ class GameWindow(Window):
         #Forward time to match gametime
         if self.farm.seconds_to_update:
             #1 second is equal 20 updates
-            for x in xrange(self.farm.seconds_to_update * 20):
+            for _ in xrange(self.farm.seconds_to_update * 20):
                 self.update()
         #create inventory content on start
         self.recreate_inventory()
