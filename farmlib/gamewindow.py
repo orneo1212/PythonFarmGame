@@ -249,6 +249,11 @@ class GameWindow(Window):
                 if event.key == pygame.K_i:
                     self.toggle_inventory(None)
                     self.recreate_inventory()
+                if event.key == pygame.K_m:
+                    if farmlib.clicksound.get_volume()==0.0:
+                        farmlib.clicksound.set_volume(1.0)
+                    else:
+                        farmlib.clicksound.set_volume(0.0)
                 if event.key == pygame.K_h:
                     self.sellwindow.hide()
                     self.inventorywindow.hide()

@@ -2,8 +2,9 @@ python FarmGame
 Creator: orneo1212 <orneo1212@gmail.com>
 
 Keys:
-    S - Market
+    S - Show/hide Market
     I - Show/hide inventory
+    M - Mute/Unmute sound
 
 Tools:
     Sickle - Use it to harvest seeds.
