@@ -1,9 +1,6 @@
 import os
 import pygame
 
-import farmobject
-import seed
-import farmfield
 import imageloader
 import player
 

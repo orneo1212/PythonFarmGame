@@ -11,7 +11,7 @@ import pygame
 import farmlib
 
 from farmlib import __VERSION__
-from farmlib.farmfield import FarmField
+from farmlib.farm import FarmField, objects
 from farmlib.imageloader import ImageLoader
 from farmlib.player import Player
 from farmlib.timer import Timer
@@ -22,7 +22,6 @@ from farmlib.renderfunctions import draw_selected_seed
 from farmlib.renderfunctions import draw_tools
 from farmlib.renderfunctions import render_one_field
 
-from farmlib.farmobject import objects
 from farmlib.marketwindow import MarketWindow
 from farmlib.inventorywindow import InventoryWindow
 from farmlib.helpwindow import HelpWindow

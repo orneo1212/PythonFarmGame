@@ -8,8 +8,8 @@ import pygame
 import farmlib
 
 from pygameui import Label, Image, Container, Button
-from farmlib.farmobject import objects
-from farmlib.tooltip import Tooltip
+from farm import objects
+from tooltip import Tooltip
 
 WATERREFILLCOST = farmlib.rules["WATERREFILLCOST"]
 OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]

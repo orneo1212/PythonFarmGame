@@ -4,9 +4,7 @@ import time
 import base64
 
 import farmlib
-from farmlib.seed import Seed
-from farmlib.dictmapper import DictMapper
-from farmlib.farmobject import FarmObject, objects
+from dictmapper import DictMapper
 
 class FarmTile:
     """Farm tile represent one tile on each farm"""
@@ -37,6 +35,7 @@ class FarmTile:
 
 
 class FarmField:
+    """Represent Farm 12x12 in size each"""
 
     def __init__(self):
         """ Init FarmField"""
@@ -326,6 +325,7 @@ class FarmField:
             #Restore seed or object
             if tile["object"]["type"] == "seed":
                 objectdata = tile["object"]
+                from seed import Seed
                 newobject = Seed()
 
                 newobject.id = objectdata["id"]
@@ -357,3 +357,31 @@ class FarmField:
             self.set_farmtile(px, py, farmtile)
         #return
         return True
+
+
+class FarmObject:
+    """Represent Each object possible to place on Farm"""
+
+    def __init__(self):
+        self.name = ""
+        self.description = ""
+        self.id = 0
+
+        self.price = 0
+        self.type = ""
+
+    def apply_dict(self, dictionary):
+        """apply dictionary to object"""
+        if dictionary is None:return
+        self.__dict__.update(dictionary)
+
+    def update(self, farmtile):
+        return False
+
+    def onplant(self):
+        pass
+
+
+#load objects from json file
+objects = DictMapper()
+objects.load(os.path.join("data", "objects.json"))

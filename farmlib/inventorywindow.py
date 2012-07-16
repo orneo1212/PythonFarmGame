@@ -2,7 +2,7 @@ import base64
 
 import pygame
 
-from farmlib.farmobject import objects
+from farm import objects
 from pygameui import Label, Button, Container, Image
 from farmlib.tooltip import Tooltip
 

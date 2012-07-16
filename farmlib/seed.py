@@ -1,8 +1,7 @@
 import time
 import random
 
-from farmobject import FarmObject
-import farmlib
+from farm import FarmObject
 
 class Seed(FarmObject):
 

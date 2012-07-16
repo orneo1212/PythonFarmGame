@@ -1,6 +1,5 @@
-from farmlib.farmobject import objects, FarmObject
-from farmlib.seed import Seed
-from farmlib import farmobject
+from farm import objects, FarmObject
+from seed import Seed
 
 class Player:
     def __init__(self):
@@ -44,7 +43,7 @@ class Player:
             #if there is more items in stackremove one item
             if self.itemscounter[stritemid] > 1:
                 self.itemscounter[stritemid] -= 1
-            #remove item 
+            #remove item
             else:
                 del self.itemscounter[stritemid]
                 self.inventory.remove(itemid)
