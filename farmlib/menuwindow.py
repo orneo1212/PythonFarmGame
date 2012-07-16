@@ -55,6 +55,7 @@ class MenuWindow(Container):
         self.running = False
 
     def on_startgame(self, widget, **data):
+        self.startbutton.settext("Loading...")
         self.parent.gamescreen = GameWindow()
         self.parent.set_active_screen(self.parent.gamescreen)
         self.parent.gamescreen.init()

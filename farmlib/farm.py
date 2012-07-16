@@ -30,7 +30,7 @@ class FarmTile:
 
     def update(self):
         #Drying
-        self.water -= 0.25
+        self.water -= 0.05
         if self.water < 0:self.water = 0.0
 
 
