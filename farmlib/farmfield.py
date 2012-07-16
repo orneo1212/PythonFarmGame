@@ -154,7 +154,7 @@ class FarmField:
         fobject = FarmObject()
         fobject.id = 8 #  Wilted plant
         fobject.apply_dict(objects[fobject.id])
-        farmtile = self.newfarmtile(fobject)
+        farmtile = FarmTile(fobject)
         self.set_farmtile(posx, posy, farmtile)
         return True
 
