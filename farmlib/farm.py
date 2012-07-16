@@ -316,7 +316,6 @@ class FarmField:
         #loda game time
         self.seconds_to_update = int(time.time()) - data.get("gametime", \
                                                             int(time.time()))
-        print self.seconds_to_update
 
         #load tiles
         for tile in data["tiles"]:
