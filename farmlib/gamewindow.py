@@ -154,12 +154,8 @@ class GameWindow(Window):
 
             if pos:
                 #Emit toolused event
-                PluginSystem.emit_event(
-                                        "toolused",
-                                        farm = self.farm,
-                                        player = self.player,
-                                        toolname = self.player.selectedtool,
-                                        position = pos)
+                PluginSystem.emit_event("toolused", position = pos, \
+                                        gamemanager = self.gamemanager)
 
             if self.player.selectedtool == 'plant' and pos:
                 done = False
@@ -372,8 +368,7 @@ class GameWindow(Window):
             print ("No save game found. Starting new one")
         #Forward time to match gametime
         self.gamemanager.timeforward()
-        #create inventory content on start
-        self.recreate_inventory()
+
 
     def deinit(self):
         #stop game

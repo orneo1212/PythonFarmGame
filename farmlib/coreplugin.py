@@ -23,8 +23,11 @@ class CoreListener(Listener):
     def handler_pluginload(self, pluginname):
         pass
 
-    def handler_toolused(self, toolname, farm, player, position):
+    def handler_toolused(self, position, gamemanager):
         #print ("Tool %s used on %s" % (toolname, str(position)))
+        player = gamemanager.getplayer()
+        farm = gamemanager.getfarm(0)
+        toolname = player.selectedtool
         if toolname == "watering":
             self.watercan_events(farm, player, position)
         elif toolname == "plant":
