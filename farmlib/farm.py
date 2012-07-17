@@ -190,7 +190,7 @@ class FarmField:
             fobject = FarmObject()
             fobject.id = 6 #  Stone
             fobject.apply_dict(objects[fobject.id])
-            farmtile = self.newfarmtile(fobject)
+            farmtile = FarmTile(fobject)
             self.set_farmtile(xx, yy, farmtile)
 
     def generate_random_planks(self):
@@ -200,7 +200,7 @@ class FarmField:
             fobject = FarmObject()
             fobject.id = 9 #  Plank
             fobject.apply_dict(objects[fobject.id])
-            farmtile = self.newfarmtile(fobject)
+            farmtile = FarmTile(fobject)
             self.set_farmtile(xx, yy, farmtile)
 
     def check_wilted(self, farmtile):
