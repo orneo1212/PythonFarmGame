@@ -28,6 +28,7 @@ from farmlib import PluginSystem
 from farmlib.coreplugin import CorePlugin
 
 from pygameui import Label, Button, Window, Image
+from farmlib.gamemanager import GameManager
 
 REMOVEWILTEDCOST = farmlib.rules["REMOVEWILTEDCOST"]
 REMOVEANTHILLCOST = farmlib.rules["REMOVEANTHILLCOST"]
@@ -50,11 +51,14 @@ class GameWindow(Window):
 
         self.lazyscreen = None
 
-        self.farm = FarmField()
+        #Create gamemanager
+        self.gamemanager = GameManager()
+        self.farm = self.gamemanager.getfarm(0)
+        self.player = self.gamemanager.getplayer()
+        #timers
         self.eventstimer = Timer()
         self.updatetimer = Timer()
 
-        self.groups = [None] # view groups
         self.images = ImageLoader(imagesdata)
         self.notifyfont = pygame.font.Font("dejavusansmono.ttf", 12)
         self.font2 = pygame.font.Font("dejavusansmono.ttf", 18)
@@ -63,8 +67,6 @@ class GameWindow(Window):
         self.coreplugin = PluginSystem.installPlugin(CorePlugin)
         self.coreplugin.gamewindow = self
 
-        #player
-        self.player = Player()
 
         #background image
         bgimg = Image(self.images['background'], (0, 0))
@@ -124,17 +126,12 @@ class GameWindow(Window):
         #update inventory
         self.inventorywindow.update()
 
-        #update selected item
-        if self.player.selecteditem is not None and \
-            not self.player.item_in_inventory(self.player.selecteditem):
-            #clear selected item if player dont have it
-            self.player.selecteditem = None
-
-        #update inventory when changed
+        #Update game 20 times per second
         if self.updatetimer.tickpassed(20):
+            self.gamemanager.update()
+
+            #update inventory when changed
             self.update_current_money()
-            #update a farm
-            self.farm.update()
             if self.inventorywindow.ismodified():
                 self.recreate_inventory()
 
@@ -359,10 +356,6 @@ class GameWindow(Window):
         yy = (y - x) / (32)
         return xx, yy
 
-    def start_new_game(self):
-        self.farm.generate_random_stones()
-        self.farm.generate_random_planks()
-
     def go_to_main_menu(self):
         self.deinit()
         from farmlib.menuwindow import MenuWindow
@@ -373,19 +366,16 @@ class GameWindow(Window):
     def init(self):
         self.running = True
         #Load game
-        result = self.farm.load_farmfield('field.json', self.player)
+        result = self.gamemanager.loadgame()
         if not result:
-            self.start_new_game()
+            self.gamemanager.start_new_game()
             print ("No save game found. Starting new one")
         #Forward time to match gametime
-        if self.farm.seconds_to_update:
-            #1 second is equal 20 updates
-            for _ in xrange(self.farm.seconds_to_update):
-                self.update()
+        self.gamemanager.timeforward()
         #create inventory content on start
         self.recreate_inventory()
 
     def deinit(self):
         #stop game
         self.running = False
-        self.farm.save_farmfield('field.json', self.player)
+        self.gamemanager.savegame()
