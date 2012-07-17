@@ -380,7 +380,7 @@ class GameWindow(Window):
         #Forward time to match gametime
         if self.farm.seconds_to_update:
             #1 second is equal 20 updates
-            for _ in xrange(self.farm.seconds_to_update * 20):
+            for _ in xrange(self.farm.seconds_to_update):
                 self.update()
         #create inventory content on start
         self.recreate_inventory()
