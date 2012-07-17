@@ -11,9 +11,8 @@ import pygame
 import farmlib
 
 from farmlib import __VERSION__
-from farmlib.farm import FarmField, objects
+from farmlib.farm import objects
 from farmlib.imageloader import ImageLoader
-from farmlib.player import Player
 from farmlib.timer import Timer
 from farmlib.expbar import ExpBar
 from farmlib.renderfunctions import render_field, render_rain

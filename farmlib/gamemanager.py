@@ -6,7 +6,6 @@ Created on 17-07-2012
 import time
 
 from farmlib.farm import FarmField
-from farmlib.timer import Timer
 from farmlib.player import Player
 
 class GameManager:
