@@ -146,6 +146,8 @@ class GameWindow(Window):
         #Mouse motion
         mx, my = pygame.mouse.get_pos()
 
+        player=self.gamemanager.getplayer()
+
         #left mouse button
         if pygame.mouse.get_pressed()[0] == 1:
 
@@ -164,7 +166,7 @@ class GameWindow(Window):
                 rect = (10 + 50 * index, 10, 48, 48)
                 if pygame.Rect(rect).collidepoint((mx, my)):
                     farmlib.clicksound.play()
-                    self.player.selectedtool = tool
+                    player.selectedtool = tool
 
     def toggle_market(self, widget):
         self.inventorywindow.hide()

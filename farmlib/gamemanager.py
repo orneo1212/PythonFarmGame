@@ -58,6 +58,8 @@ class GameManager:
 
     def timeforward(self):
         farm = self.getfarm(0)
+        if farm.seconds_to_update>1000:
+            farm.seconds_to_update=1000
         if farm.seconds_to_update:
             #1 second is equal 20 updates
             for _ in xrange(farm.seconds_to_update):
