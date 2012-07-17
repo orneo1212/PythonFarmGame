@@ -49,11 +49,22 @@ class CoreListener(Listener):
         player.watercanuses -= 1
 
     def plant_events(self, farm, player, position):
-        pass
+        done = False
+
+        selecteditem = player.selecteditem
+        newobject = player.create_new_object_by_id(selecteditem)
+
+        if not newobject:
+            player.selecteditem = None
+
+        #check player level
+        elif player.level >= newobject.requiredlevel:
+            done = farm.plant(position[0], position[1], newobject)
+            if done:player.remove_item(newobject.id)
 
     def harvest_events(self, farm, player, position):
         """Harvest events"""
-        done = farm.harvest(position[0], position[1], player)
+        farm.harvest(position[0], position[1], player)
 
     def pickaxe_events(self, farm, player, position):
         """Pickaxe events"""

@@ -53,8 +53,6 @@ class GameWindow(Window):
 
         #Create gamemanager
         self.gamemanager = GameManager()
-        self.farm = self.gamemanager.getfarm(0)
-        self.player = self.gamemanager.getplayer()
         #timers
         self.eventstimer = Timer()
         self.updatetimer = Timer()
@@ -73,11 +71,12 @@ class GameWindow(Window):
         self.addwidget(bgimg)
 
         #Create inventory window
-        self.inventorywindow = InventoryWindow(self.images, self.player)
+        player = self.gamemanager.getplayer()
+        self.inventorywindow = InventoryWindow(self.images, player)
         self.inventorywindow.hide()
 
         #create market window
-        self.sellwindow = MarketWindow((400, 400), self.images, self.player)
+        self.sellwindow = MarketWindow((400, 400), self.images, player)
         self.sellwindow.gamewindow = self
 
         #Market button
@@ -96,7 +95,7 @@ class GameWindow(Window):
         self.helpwindow = HelpWindow((500, 300))
 
         #Create expbar
-        self.expbar = ExpBar(self.player)
+        self.expbar = ExpBar(player)
         self.addwidget(self.expbar)
 
         #labels
@@ -136,8 +135,9 @@ class GameWindow(Window):
                 self.recreate_inventory()
 
     def update_current_money(self):
+        player = self.gamemanager.getplayer()
         #Render current money
-        text = "Money: $%s " % self.player.money
+        text = "Money: $%s " % player.money
         self.moneylabel.settext(text)
 
     def recreate_inventory(self):
@@ -156,20 +156,6 @@ class GameWindow(Window):
                 #Emit toolused event
                 PluginSystem.emit_event("toolused", position = pos, \
                                         gamemanager = self.gamemanager)
-
-            if self.player.selectedtool == 'plant' and pos:
-                done = False
-
-                selecteditem = self.player.selecteditem
-                newobject = self.player.create_new_object_by_id(selecteditem)
-
-                if not newobject:
-                    self.player.selecteditem = None
-
-                #check player level
-                elif self.player.level >= newobject.requiredlevel:
-                    done = self.farm.plant(pos[0], pos[1], newobject)
-                    if done:self.player.remove_item(newobject.id)
 
         #events for tools
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -190,19 +176,20 @@ class GameWindow(Window):
         self.inventorywindow.togglevisible()
 
     def active_game_events(self, event):
+        player = self.gamemanager.getplayer()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
-                self.player.selectedtool = "harvest"
+                player.selectedtool = "harvest"
             if event.key == pygame.K_2:
-                self.player.selectedtool = "plant"
+                player.selectedtool = "plant"
             if event.key == pygame.K_3:
-                self.player.selectedtool = "watering"
+                player.selectedtool = "watering"
             if event.key == pygame.K_4:
-                self.player.selectedtool = "shovel"
+                player.selectedtool = "shovel"
             if event.key == pygame.K_5:
-                self.player.selectedtool = "pickaxe"
+                player.selectedtool = "pickaxe"
             if event.key == pygame.K_6:
-                self.player.selectedtool = "axe"
+                player.selectedtool = "axe"
 
     def events(self):
         """Events handler"""
@@ -262,32 +249,35 @@ class GameWindow(Window):
         #Draw gamewindow
         self.draw(screen)
 
+        farm = self.gamemanager.getfarm(0)
+        player = self.gamemanager.getplayer()
+
         #avoid temp farm image to be None
-        if not self.tempfarmimage or self.farm.ismodified():
+        if not self.tempfarmimage or farm.ismodified():
             #Draw farmfield
             self.tempfarmimage = render_field(screen, self.images, \
-                                        self.farm, self.farmoffset)
+                                        farm, self.farmoffset)
         #Blit farmfield
         screen.blit(self.tempfarmimage, (0, 0))
 
         #draw rain
-        if self.farm.raining and self.updatetimer.tickpassed(2):
+        if farm.raining and self.updatetimer.tickpassed(2):
             render_rain(screen)
             x = random.randint(0, 12)
             y = random.randint(0, 12)
-            self.farm.water(x, y)
+            farm.water(x, y)
 
         drawnearcursor = not self.sellwindow.visible
         #Draw tools and selected tool rectangle
         draw_tools(screen,
-                   self.player.selectedtool,
-                   self.player.selecteditem,
+                   player.selectedtool,
+                   player.selecteditem,
                    self.images,
                    drawnearcursor = drawnearcursor)
 
         #draw watercanuses
         uses = Label("", (110 + 2, 10 + 2), color = (255, 240, 240))
-        uses.settext(str(self.player.watercanuses))
+        uses.settext(str(player.watercanuses))
         uses.repaint()
         uses.draw(screen)
 
@@ -302,15 +292,15 @@ class GameWindow(Window):
             #draw notify window if mouse under seed
             pos = self.get_farmtile_pos_under_mouse()
             if pos:
-                farmtile = self.farm.get_farmtile(pos[0], pos[1])
+                farmtile = farm.get_farmtile(pos[0], pos[1])
                 farmobject = farmtile['object']
                 render_seed_notify(screen, self.notifyfont,
                                    mx + 5, my + 5,
                                    farmobject, farmtile, self.images
                                   )
         #draw selected seed
-        if self.player.selecteditem != None:
-            draw_selected_seed(screen, self.player.selecteditem, self.images)
+        if player.selecteditem != None:
+            draw_selected_seed(screen, player.selecteditem, self.images)
 
         #draw inventory
         self.inventorywindow.draw(screen)
