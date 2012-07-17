@@ -47,7 +47,7 @@ class FarmField:
         self.seconds_to_update = 0
 
     def get_farm_checksum(self):
-        ft = [str(x.water) for x in self.farmtiles.values()]
+        ft = [str(x.water)+str(x.farmobject) for x in self.farmtiles.values()]
         checksum = base64.b64encode("".join(ft))
         return checksum
 
