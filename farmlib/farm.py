@@ -4,6 +4,7 @@ import time
 import base64
 
 import farmlib
+from pnoise import pnoise
 from dictmapper import DictMapper
 
 class FarmTile:
@@ -37,9 +38,9 @@ class FarmTile:
 class FarmField:
     """Represent Farm 12x12 in size each"""
 
-    def __init__(self):
+    def __init__(self, gm):
         """ Init FarmField"""
-
+        self.gamemanager=gm
         self.farmtiles = {}
         self.raining = False
         self.raintime = time.time()
@@ -228,12 +229,14 @@ class FarmField:
 
         modified = False
 
-        #Toggle rain
-        if self.raintime + farmlib.rules["RAIN_INTERVAL_SECS"] < \
-            time.time():
-            #Toggle rain
-            self.raintime = time.time()
-            self.raining = not self.raining
+        #Toggle rain using perlin noise
+        seed=self.gamemanager.getgameseed()
+        rainnoise=pnoise(time.time()*(1.0/64), 23482.8*(1.0/64), seed+0.5)
+        print (rainnoise)
+        if rainnoise>0.0:
+            self.raining=True
+        else:
+            self.raining=False
 
         #update each farmtile
         for farmtile in self.farmtiles.values():
@@ -269,6 +272,7 @@ class FarmField:
         data["level"] = player.level
         #Save time
         data["gametime"] = int(time.time())
+        data["gameseed"]=self.gamemanager.getgameseed()
         #save tiles
         data["tiles"] = []
 
@@ -316,6 +320,8 @@ class FarmField:
         #loda game time
         self.seconds_to_update = int(time.time()) - data.get("gametime", \
                                                             int(time.time()))
+        seed=data.get("gameseed", int(time.time()))
+        self.gamemanager.setgameseed(seed)
 
         #load tiles
         for tile in data["tiles"]:

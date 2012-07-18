@@ -11,6 +11,7 @@ from farmlib.player import Player
 class GameManager:
     def __init__(self):
         self.farms = []
+        self.gameseed=int(time.time())
         self.gametime = int(time.time())
         self.player = Player()
 
@@ -23,9 +24,15 @@ class GameManager:
             return None
 
     def addfarm(self):
-        newfarm = FarmField()
+        newfarm = FarmField(self)
         self.farms.append(newfarm)
         return newfarm
+
+    def getgameseed(self):
+        return self.gameseed
+
+    def setgameseed(self, newseed):
+        self.gameseed = newseed
 
     def getplayer(self):
         return self.player
