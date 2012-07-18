@@ -20,29 +20,24 @@ class MenuWindow(Container):
         self.maxmenupos = 1
 
         #background
-        imgpath = os.path.join("images", "gui", "background.png")
+        imgpath = os.path.join("images", "gui", "mainmenubg.png")
         bgimage = pygame.image.load(imgpath).convert_alpha()
         bg = Image(bgimage, (0, 0))
         self.addwidget(bg)
 
         #start button
-        self.menucursor = Label("-> ", (230, 90),
+        self.menucursor = Label("-> ", (230, 120),
                                   color = (255, 255, 0), size = 20)
         self.addwidget(self.menucursor)
 
-        #Game label
-        self.gamelabel = Label("Farm game", (400, 10), align = "center",
-                                  color = (0, 0, 255), size = 40)
-        self.addwidget(self.gamelabel)
-
         #start button
-        self.startbutton = Button("Start game / Continue", (270, 90),
+        self.startbutton = Button("Start game / Continue", (270, 120),
                                   color = (255, 255, 200), labelsize = 20)
         self.startbutton.connect("clicked", self.on_startgame)
         self.addwidget(self.startbutton)
 
         #Quit button
-        self.quitbutton = Button("Quit", (270, 130),
+        self.quitbutton = Button("Quit", (270, 160),
                                 color = (255, 0, 0),
                                 labelsize = 20)
         self.quitbutton.connect("clicked", self.on_quit)
@@ -69,7 +64,7 @@ class MenuWindow(Container):
     def update_menu_cursor(self):
         if self.menupos < 0:self.menupos = 0
         if self.menupos > self.maxmenupos:self.menupos = self.maxmenupos
-        newpos = [230, 90 + 40 * self.menupos]
+        newpos = [230, 120 + 40 * self.menupos]
         self.menucursor.position = newpos
         self.repaint()
 

@@ -6,6 +6,7 @@
         "dryground":"images/dryground.png",
         "wetground":"images/wetground.png",
         "background":"images/gui/background.png",
+        "mainmenubg":"images/gui/mainmenubg.png",
         "sickle":"images/sickle.png",
         "plant":"images/plant.png",
         "wateringcan":"images/wateringcan.png",
