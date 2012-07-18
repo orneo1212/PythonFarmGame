@@ -17,27 +17,27 @@ class HelpWindow(Window):
         self.hide()
 
     def create_gui(self):
+        messages=[
+             "TIPS:",
+            "* Plant seeds and harvest to get money",
+            "* There is a chance to lost plant when its ready",
+            "* You can DESTROY plant using shovel.",
+            "",
+            "KEYS:",
+            "S - Open/Close market  I - Open/Close inventory",
+            "M - Mute/Unmute sounds",
+            ]
+
         label = Label("GAME HELP", (250, 5), size = 18,
                            color = (255, 255, 0), align = "center")
         self.addwidget(label)
 
-        label = Label("- Plant seeds and harvest to get money", \
-            (250, 20), size = 15,
-            color = (255, 240, 240), align = "center")
-        self.addwidget(label)
-
-        label = Label("- Plant seeds and harvest to get money", \
-            (250, 20), size = 15,
-            color = (255, 240, 240), align = "center")
-        self.addwidget(label)
-
-        label = Label("- There is a chance to lost plant when its ready", \
-            (250, 40), size = 15,
-            color = (255, 240, 240), align = "center")
-        self.addwidget(label)
-
-        label = Label("- You can DESTROY plant using shovel.", \
-            (250, 60), size = 15,
-            color = (255, 240, 240), align = "center")
-        self.addwidget(label)
+        fontsize=12
+        index=0
+        for msg in messages:
+            label = Label(msg, \
+                (10, 25+(fontsize+2)*index), size = fontsize,
+                color = (255, 240, 240), align = "left")
+            self.addwidget(label)
+            index+=1
 
