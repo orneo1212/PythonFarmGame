@@ -40,7 +40,7 @@ class FarmField:
 
     def __init__(self, gm):
         """ Init FarmField"""
-        self.gamemanager=gm
+        self.gamemanager = gm
         self.farmtiles = {}
         self.raining = False
         self.raintime = time.time()
@@ -48,7 +48,7 @@ class FarmField:
         self.seconds_to_update = 0
 
     def get_farm_checksum(self):
-        ft = [str(x.water)+str(x.farmobject) for x in self.farmtiles.values()]
+        ft = [str(x.water) + str(x.farmobject) for x in self.farmtiles.values()]
         checksum = base64.b64encode("".join(ft))
         return checksum
 
@@ -230,13 +230,12 @@ class FarmField:
         modified = False
 
         #Toggle rain using perlin noise
-        seed=self.gamemanager.getgameseed()
-        rainnoise=pnoise(time.time()*(1.0/64), 23482.8*(1.0/64), seed+0.5)
-        print (rainnoise)
-        if rainnoise>0.0:
-            self.raining=True
+        seed = self.gamemanager.getgameseed()
+        rainnoise = pnoise(time.time() * (1.0 / 64), 23482.8 * (1.0 / 64), seed + 0.5)
+        if rainnoise > 0.0:
+            self.raining = True
         else:
-            self.raining=False
+            self.raining = False
 
         #update each farmtile
         for farmtile in self.farmtiles.values():
@@ -272,7 +271,7 @@ class FarmField:
         data["level"] = player.level
         #Save time
         data["gametime"] = int(time.time())
-        data["gameseed"]=self.gamemanager.getgameseed()
+        data["gameseed"] = self.gamemanager.getgameseed()
         #save tiles
         data["tiles"] = []
 
@@ -320,7 +319,7 @@ class FarmField:
         #loda game time
         self.seconds_to_update = int(time.time()) - data.get("gametime", \
                                                             int(time.time()))
-        seed=data.get("gameseed", int(time.time()))
+        seed = data.get("gameseed", int(time.time()))
         self.gamemanager.setgameseed(seed)
 
         #load tiles

@@ -11,22 +11,35 @@ from farmlib.player import Player
 class GameManager:
     def __init__(self):
         self.farms = []
-        self.gameseed=int(time.time())
+        self.gameseed = int(time.time())
         self.gametime = int(time.time())
+        self.current_farm = 0
         self.player = Player()
 
-    def getfarm(self, farmid):
+    def getfarm(self, farmid = None):
+        if farmid is None:
+            farmid = self.current_farm
         if len(self.farms) == 0:
+            self.addfarm()
             self.addfarm()
         try:
             return self.farms[farmid]
         except KeyError:
             return None
 
+    def getfarmcount(self):
+        return len(self.farms)
+
     def addfarm(self):
         newfarm = FarmField(self)
         self.farms.append(newfarm)
         return newfarm
+
+    def setcurrentfarm(self, farmid):
+        if farmid > self.getfarmcount():
+            farmid = self.getfarmcount() - 1
+        self.current_farm = farmid
+        return farmid
 
     def getgameseed(self):
         return self.gameseed
@@ -65,8 +78,8 @@ class GameManager:
 
     def timeforward(self):
         farm = self.getfarm(0)
-        if farm.seconds_to_update>1000:
-            farm.seconds_to_update=1000
+        if farm.seconds_to_update > 1000:
+            farm.seconds_to_update = 1000
         if farm.seconds_to_update:
             #1 second is equal 20 updates
             for _ in xrange(farm.seconds_to_update):

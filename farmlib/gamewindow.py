@@ -146,7 +146,7 @@ class GameWindow(Window):
         #Mouse motion
         mx, my = pygame.mouse.get_pos()
 
-        player=self.gamemanager.getplayer()
+        player = self.gamemanager.getplayer()
 
         #left mouse button
         if pygame.mouse.get_pressed()[0] == 1:
@@ -250,7 +250,7 @@ class GameWindow(Window):
         #Draw gamewindow
         self.draw(screen)
 
-        farm = self.gamemanager.getfarm(0)
+        farm = self.gamemanager.getfarm()
         player = self.gamemanager.getplayer()
 
         #avoid temp farm image to be None
