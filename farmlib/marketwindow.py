@@ -13,6 +13,7 @@ from tooltip import Tooltip
 
 WATERREFILLCOST = farmlib.rules["WATERREFILLCOST"]
 OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
+NEWFARMCOST = farmlib.rules["NEWFARMCOST"]
 
 class MarketWindow(Container):
     def __init__(self, size, imgloader, player):
@@ -37,7 +38,6 @@ class MarketWindow(Container):
         #Create gui
         self.create_gui()
 
-
         #hide market at load
         self.hide()
 
@@ -55,12 +55,20 @@ class MarketWindow(Container):
         closebutton = Button("X", (380, 3), labelsize = 15, \
                              color = (255, 255, 255))
         closebutton.connect("clicked", lambda x:self.hide())
+        closebutton.connect("onshow", self.on_market_show)
         self.addwidget(closebutton)
 
+        #refill watercan
         waterbuybutton = Button("Refill water ($%s)" % WATERREFILLCOST,
-                                 (10, 30), color = (255, 0, 0))
+                                 (10, 30), color = (128, 128, 255))
         waterbuybutton.connect("clicked", self.on_water_buy)
         self.addwidget(waterbuybutton)
+
+        #Buy farm
+        buyfarm = Button("Buy new farm ($%s)" % NEWFARMCOST,
+                                 (150, 30), color = (255, 0, 0))
+        buyfarm.connect("clicked", self.on_farm_buy)
+        self.addwidget(buyfarm)
 
         #Add items
         gridimg = self.imgloader['grid2']
@@ -87,10 +95,6 @@ class MarketWindow(Container):
             if posx >= columns:
                 posx = 0
                 posy += 1
-
-        #===================
-        # DRAW ITEM DETAILS
-        #===================
 
         #Costlabel
         costlabel = Label("Cost:", (80, 340), size = 12,
@@ -132,6 +136,16 @@ class MarketWindow(Container):
         Container.draw(self, surface)
         if self.tooltip[0]:
             self.tooltip[0].draw(surface)
+
+    def on_market_show(self, widget):
+        """Reset market on show"""
+        self.buybutton.settext("BUY")
+        self.sellbutton.settext("SELL")
+        self.message.settext("")
+        self.selecteditem = None
+        self.selectedicon.image = None
+        self.sellvalue.settext("")
+        self.costvalue.settext("")
 
     def get_item_cost(self, itemid):
         cost = int(objects[itemid]["price"])
@@ -238,3 +252,8 @@ class MarketWindow(Container):
 
     def on_mouse_item_leave(self, widget, itemid):
         if self.tooltip[1] == widget:self.tooltip = [None, None]
+
+    def on_farm_buy(self, widget):
+        farmcost = NEWFARMCOST
+        if self.player.money < farmcost:
+            self.message.settext("You dont have money to buy new farm")

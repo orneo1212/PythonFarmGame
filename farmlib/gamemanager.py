@@ -21,10 +21,9 @@ class GameManager:
             farmid = self.current_farm
         if len(self.farms) == 0:
             self.addfarm()
-            self.addfarm()
         try:
             return self.farms[farmid]
-        except KeyError:
+        except IndexError:
             return None
 
     def getfarmcount(self):
