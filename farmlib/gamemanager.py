@@ -23,7 +23,6 @@ class GameManager:
             farmid = self.current_farm
         if len(self.farms) == 0:
             self.addfarm()
-            self.addfarm()
         try:
             return self.farms[farmid]
         except IndexError:
@@ -169,7 +168,7 @@ class GameManager:
         for farmid in xrange(len(data["fields"])):
             farm = self.getfarm(farmid)
             if farm is None:farm = self.addfarm()
-            #Restore tiles 
+            #Restore tiles
             for tile in data["fields"][farmid]["tiles"]:
                 px = tile["px"]
                 py = tile["py"]
