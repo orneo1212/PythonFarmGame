@@ -60,6 +60,10 @@ class FarmField:
             return True
         else:return False
 
+    def markmodified(self, modified = True):
+        if modified:self.last_checksum = ""
+        else:self.last_checksum = self.get_farm_checksum()
+
     def count_objects(self, objectid):
         count = 0
         for f in self.farmtiles.values():

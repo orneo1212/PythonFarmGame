@@ -1,6 +1,7 @@
 Version 0.5.1
 + M key to mute/unmute sounds
 + Time when raining is based on perlin noise and game seed
++ Multifarm support
 
 Version 0.5
 + Farm object can be placed on farm

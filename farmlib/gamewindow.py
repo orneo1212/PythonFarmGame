@@ -75,7 +75,8 @@ class GameWindow(Window):
         self.inventorywindow.hide()
 
         #create market window
-        self.sellwindow = MarketWindow((400, 400), self.images, player)
+        self.sellwindow = MarketWindow((400, 400), self.images, player, \
+                                       self.gamemanager)
         self.sellwindow.gamewindow = self
 
         #Market button
@@ -233,10 +234,27 @@ class GameWindow(Window):
                         farmlib.clicksound.set_volume(1.0)
                     else:
                         farmlib.clicksound.set_volume(0.0)
+                #help window key
                 if event.key == pygame.K_h:
                     self.sellwindow.hide()
                     self.inventorywindow.hide()
                     self.helpwindow.togglevisible()
+                #previous farm key
+                if event.key == pygame.K_z:
+                    farmcount = self.gamemanager.getfarmcount()
+                    currfarmid = self.gamemanager.getcurrentfarmid()
+                    if currfarmid > 0:
+                        self.gamemanager.setcurrentfarm(currfarmid - 1)
+                        farm = self.gamemanager.getfarm()
+                        farm.markmodified()
+                #next farm key
+                if event.key == pygame.K_x:
+                    farmcount = self.gamemanager.getfarmcount()
+                    currfarmid = self.gamemanager.getcurrentfarmid()
+                    if currfarmid < farmcount - 1:
+                        self.gamemanager.setcurrentfarm(currfarmid + 1)
+                        farm = self.gamemanager.getfarm()
+                        farm.markmodified()
             #others events
             if not self.sellwindow.visible and \
                 not self.inventorywindow.visible:

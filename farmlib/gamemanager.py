@@ -23,6 +23,7 @@ class GameManager:
             farmid = self.current_farm
         if len(self.farms) == 0:
             self.addfarm()
+            self.addfarm()
         try:
             return self.farms[farmid]
         except IndexError:
@@ -30,6 +31,14 @@ class GameManager:
 
     def getfarmcount(self):
         return len(self.farms)
+
+    def getcurrentfarmid(self):
+        return self.current_farm
+
+    def getnextfarmcost(self):
+        farmcount = self.getfarmcount() - 1
+        cost = 10000 + 12000 * farmcount
+        return cost
 
     def addfarm(self):
         newfarm = FarmField(self)

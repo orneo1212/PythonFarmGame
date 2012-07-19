@@ -26,7 +26,7 @@ class CoreListener(Listener):
     def handler_toolused(self, position, gamemanager):
         #print ("Tool %s used on %s" % (toolname, str(position)))
         player = gamemanager.getplayer()
-        farm = gamemanager.getfarm(0)
+        farm = gamemanager.getfarm()
         toolname = player.selectedtool
         if toolname == "watering":
             self.watercan_events(farm, player, position)

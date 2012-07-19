@@ -13,10 +13,10 @@ from tooltip import Tooltip
 
 WATERREFILLCOST = farmlib.rules["WATERREFILLCOST"]
 OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
-NEWFARMCOST = farmlib.rules["NEWFARMCOST"]
 
 class MarketWindow(Container):
-    def __init__(self, size, imgloader, player):
+    def __init__(self, size, imgloader, player, gamemanager):
+        self.gamemanager = gamemanager
         self.player = player
         self.imgloader = imgloader
         Container.__init__(self, size, (200, 50))
@@ -65,10 +65,11 @@ class MarketWindow(Container):
         self.addwidget(waterbuybutton)
 
         #Buy farm
-        buyfarm = Button("Buy new farm ($%s)" % NEWFARMCOST,
+        farmcost = self.gamemanager.getnextfarmcost()
+        self.buyfarm = Button("Buy new farm ($%s)" % farmcost,
                                  (150, 30), color = (255, 0, 0))
-        buyfarm.connect("clicked", self.on_farm_buy)
-        self.addwidget(buyfarm)
+        self.buyfarm.connect("clicked", self.on_farm_buy)
+        self.addwidget(self.buyfarm)
 
         #Add items
         gridimg = self.imgloader['grid2']
@@ -146,6 +147,8 @@ class MarketWindow(Container):
         self.selectedicon.image = None
         self.sellvalue.settext("")
         self.costvalue.settext("")
+        farmcost = self.gamemanager.getnextfarmcost()
+        self.buyfarm.settext("Buy new farm ($%s)" % farmcost)
 
     def get_item_cost(self, itemid):
         cost = int(objects[itemid]["price"])
@@ -254,6 +257,11 @@ class MarketWindow(Container):
         if self.tooltip[1] == widget:self.tooltip = [None, None]
 
     def on_farm_buy(self, widget):
-        farmcost = NEWFARMCOST
+        farmcost = self.gamemanager.getnextfarmcost()
         if self.player.money < farmcost:
             self.message.settext("You dont have money to buy new farm")
+        else:
+            self.player.money -= farmcost
+            self.gamemanager.addfarm()
+            self.message.settext("You bought a new farm")
+            self.on_market_show(None)

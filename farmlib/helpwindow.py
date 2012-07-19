@@ -17,7 +17,7 @@ class HelpWindow(Window):
         self.hide()
 
     def create_gui(self):
-        messages=[
+        messages = [
              "TIPS:",
             "* Plant seeds and harvest to get money",
             "* There is a chance to lost plant when its ready",
@@ -25,6 +25,7 @@ class HelpWindow(Window):
             "",
             "KEYS:",
             "S - Open/Close market  I - Open/Close inventory",
+            "Z/X - Go to previous/next farm",
             "M - Mute/Unmute sounds",
             ]
 
@@ -32,12 +33,12 @@ class HelpWindow(Window):
                            color = (255, 255, 0), align = "center")
         self.addwidget(label)
 
-        fontsize=12
-        index=0
+        fontsize = 12
+        index = 0
         for msg in messages:
             label = Label(msg, \
-                (10, 25+(fontsize+2)*index), size = fontsize,
+                (10, 25 + (fontsize + 2) * index), size = fontsize,
                 color = (255, 240, 240), align = "left")
             self.addwidget(label)
-            index+=1
+            index += 1
 
