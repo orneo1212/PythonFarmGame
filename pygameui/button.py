@@ -14,8 +14,8 @@ class Button(Widget):
         self.position = position
         self.labelsize = labelsize
         self.labelfont = pygame.font.Font("dejavusansmono.ttf", self.labelsize)
-        self.buttonbg = pygame.image.load(buttonbgpath).convert_alpha()
-
+        self.buttonbgorg = pygame.image.load(buttonbgpath).convert_alpha()
+        self.buttonbg=self.buttonbgorg.copy()
         #Setup image
         if not self.bgimage:
             self._settextimage()
@@ -49,6 +49,8 @@ class Button(Widget):
             self.img.blit(img, (2, 0))
             self.img.blit(self.bgimage, (0, 0))
         elif not self.bgimage:
+            img=pygame.transform.smoothscale(self.buttonbgorg, self.size)
+            self.buttonbg=img
             self.img.blit(self.buttonbg, (0, 0))
             self.img.blit(self.image, (2, 0))
         elif not self.label and self.bgimage:
