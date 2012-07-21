@@ -94,5 +94,13 @@
     "requiredlevel":2,
     "type":"seed",
     "name": "Radish"
+  },
+  "11": {
+    "description": "Small pond used to water a plants",
+    "price": 50,
+    "id": 11,
+    "requiredlevel":10,
+    "type":"object",
+    "name": "Pond"
   }
 }

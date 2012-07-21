@@ -9,6 +9,7 @@ Keys:
     S - Show/hide Market
     I - Show/hide inventory
     M - Mute/Unmute sound
+    H - Help window
 
 Tools:
     Sickle - Use it to harvest seeds.

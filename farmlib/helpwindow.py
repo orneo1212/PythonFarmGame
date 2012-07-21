@@ -22,6 +22,7 @@ class HelpWindow(Window):
             "* Plant seeds and harvest to get money",
             "* There is a chance to lost plant when its ready",
             "* You can DESTROY plant using shovel.",
+            "* You can `pickup` pond using shovel.",
             "",
             "KEYS:",
             "S - Open/Close market  I - Open/Close inventory",

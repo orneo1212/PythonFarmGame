@@ -12,6 +12,8 @@ class FarmTile:
     def __init__(self, obj = None):
         self.water = 0.0
         self.farmobject = obj
+        self.posx = -1
+        self.posy = -1
 
     def __getitem__(self, name):
         if name == "water":return self.get_water()
@@ -92,6 +94,8 @@ class FarmField:
         """Set farmobject at given position"""
         farmtile = self.get_farmtile(posx, posy)
         if farmtile:
+            farmtile.posx = posx
+            farmtile.posy = posy
             farmtile["object"] = farmobject
 
     def get_farmtile_position(self, farmtile):
@@ -109,10 +113,12 @@ class FarmField:
         """Set farmtile at given position"""
 
         arg = str(posx) + 'x' + str(posy)
+        farmtile.posx = posx
+        farmtile.posy = posy
         self.farmtiles[arg] = farmtile
 
     def plant(self, posx, posy, fobject):
-        """Plant a seed on the given farmtile position"""
+        """Plant/Place a seed/object on the given farmtile position"""
 
         farmobject = self.get_farmobject(posx, posy)
         if not farmobject:
@@ -169,14 +175,14 @@ class FarmField:
     def remove(self, posx, posy, player):
         self.set_farmtile(posx, posy, FarmTile())
 
-    def water(self, posx, posy):
+    def water(self, posx, posy, force = False):
         """Watering a farm tile"""
 
         farmtile = self.get_farmtile(posx, posy)
         if not farmtile["object"] or not farmtile["object"].type == "seed":
             return False
         #only water dry ground
-        if farmtile['water'] < 30:
+        if farmtile['water'] < 30 or force:
             farmtile['water'] = 100
             return True
         else:return False
@@ -235,8 +241,10 @@ class FarmField:
 
         #Toggle rain using perlin noise
         seed = self.gamemanager.getgameseed()
-        rainnoise = pnoise(time.time() * (1.0 / 64), 23482.8 * (1.0 / 64), seed + 0.5)
-        if rainnoise > 0.0:
+        nx = time.time() * (1.0 / 128.0)
+        ny = 23482.8 * (1.0 / 128)
+        rainnoise = pnoise(nx, ny, seed + 0.5)
+        if rainnoise > 0.2:
             self.raining = True
         else:
             self.raining = False
@@ -250,7 +258,15 @@ class FarmField:
                 if ret:modified = True
                 ret = self.check_wilted(farmtile)
                 if ret:modified = True
-
+                #Water nearest plants for ponds
+                if farmtile.farmobject and farmtile.farmobject.id == 11:
+                    px = farmtile.posx
+                    py = farmtile.posy
+                    self.water(px + 1, py, True)
+                    self.water(px - 1, py, True)
+                    self.water(px, py + 1, True)
+                    self.water(px, py - 1, True)
+                #update farmtile
                 farmtile.update()
             else:
                 #Create anthills

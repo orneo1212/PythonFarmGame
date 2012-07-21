@@ -91,6 +91,12 @@ class CoreListener(Listener):
         if farmobject.id == 8 and player.money >= REMOVEWILTEDCOST:
             player.money -= REMOVEWILTEDCOST
             farm.removewilted(position[0], position[1], player)
+
+        #Pickup pond
+        if farmobject.id == 11:
+            farm.set_farmobject(position[0], position[1], None)
+            player.add_item(11)
+
         #remove seed
         if farmobject and farmobject.type == "seed":
             #remove seed when is NOT ready

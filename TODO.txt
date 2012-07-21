@@ -1,6 +1,3 @@
-[ ] Podzial na server i client
-[ ] System marketu online
-[ ] Ladniejsze gui
 [ ] Przyciski zmiany farmy 1-4. nastepne do kupienia.
 [ ] Wiecej warzyw
 [ ]
