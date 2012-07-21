@@ -46,6 +46,7 @@ class CoreListener(Listener):
         done = farm.water(position[0], position[1])
         if not done:return False
 
+        player.event_water()
         player.watercanuses -= 1
 
     def plant_events(self, farm, player, position):

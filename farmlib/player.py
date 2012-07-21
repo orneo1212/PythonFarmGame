@@ -76,8 +76,6 @@ class Player:
             fobject.apply_dict(objects[itemid])
             return fobject
 
-
-
     def update_skill(self):
         self.nextlvlexp = float(self.level - 1) * 100.0 * 2.75 + 100.0
         if self.exp >= self.nextlvlexp:
@@ -87,4 +85,8 @@ class Player:
     def event_harvest(self, seedharvested):
         if seedharvested.type != "seed":return
         self.exp += seedharvested.price / 4
+        self.update_skill()
+
+    def event_water(self):
+        self.exp += 1
         self.update_skill()
