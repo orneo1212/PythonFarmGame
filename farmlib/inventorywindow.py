@@ -6,6 +6,7 @@ from farm import objects
 from pygameui import Label, Button, Container, Image
 from farmlib.tooltip import Tooltip
 
+
 class InventoryWindow(Container):
     def __init__(self, imgloader, player):
         Container.__init__(self, (400, 500), (200, 50))
@@ -30,7 +31,8 @@ class InventoryWindow(Container):
         if checksum != self.lchecksum:
             self.lchecksum = checksum
             return True
-        else:return False
+        else:
+            return False
 
     def draw(self, surface):
         """Override Winbdow draw function"""
@@ -44,9 +46,9 @@ class InventoryWindow(Container):
         self.addwidget(bg)
 
         #close button
-        closebutton = Button("X", (380, 3), labelsize = 15, \
-                             color = (255, 255, 255))
-        closebutton.connect("clicked", lambda x:self.hide())
+        closebutton = Button("X", (380, 3), labelsize=15,
+                             color=(255, 255, 255))
+        closebutton.connect("clicked", lambda x: self.hide())
         self.addwidget(closebutton)
 
         #create items
@@ -66,17 +68,17 @@ class InventoryWindow(Container):
             #item button
             img = self.images['object' + str(item)]
             itembutton = Button("", (px, py), img)
-            itembutton.connect("clicked", \
-                self.on_item_select, itemid = item)
-            itembutton.connect("onenter", \
-                self.on_item_enter, itemid = item)
-            itembutton.connect("onleave", \
-                self.on_item_leave, itemid = item)
+            itembutton.connect("clicked",
+                self.on_item_select, itemid=item)
+            itembutton.connect("onenter",
+                self.on_item_enter, itemid=item)
+            itembutton.connect("onleave",
+                self.on_item_leave, itemid=item)
             self.addwidget(itembutton)
 
             #item count
             text = str(self.player.itemscounter[str(item)])
-            itemcount = Label(text, (px + 40, py + 16), align = "center")
+            itemcount = Label(text, (px + 40, py + 16), align="center")
             self.addwidget(itemcount)
 
             #limit
@@ -84,7 +86,8 @@ class InventoryWindow(Container):
             if counterx == self.inventorysize[0]:
                 counterx = 0
                 countery += 1
-            if countery == self.inventorysize[1]:break
+            if countery == self.inventorysize[1]:
+                break
 
     def on_item_enter(self, widget, itemid):
         seed = objects[itemid]
@@ -110,7 +113,8 @@ class InventoryWindow(Container):
         self.tooltip = [Tooltip((mx + 5, my + 5), data), widget]
 
     def on_item_leave(self, widget, itemid):
-        if self.tooltip[1] == widget:self.tooltip = [None, None]
+        if self.tooltip[1] == widget:
+            self.tooltip = [None, None]
 
     def repaint(self):
         Container.repaint(self)
@@ -120,15 +124,19 @@ class InventoryWindow(Container):
             widget.mark_modified(False)
 
     def get_index_inventory_under_mouse(self):
-        """Get position of element in inventory under mouse cursor"""
-
+        """
+        Get position of element in inventory under mouse cursor
+        """
         mx, my = pygame.mouse.get_pos()
         xx = (mx - self.inventoryoffset[0]) / 64
         yy = (my - self.inventoryoffset[1]) / 32
 
-        if xx < 0 or yy < 0:return None
-        if xx >= self.inventorysize[0]:return None
-        if yy >= self.inventorysize[1]:return None
+        if xx < 0 or yy < 0:
+            return None
+        if xx >= self.inventorysize[0]:
+            return None
+        if yy >= self.inventorysize[1]:
+            return None
         xx = min(self.inventorysize[0] - 1, xx)
         yy = min(self.inventorysize[1] - 1, yy)
         return (xx, yy)

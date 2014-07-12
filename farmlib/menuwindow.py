@@ -10,6 +10,7 @@ import pygame
 from pygameui import Label, Button, Container, Image
 from farmlib.gamewindow import GameWindow
 
+
 class MenuWindow(Container):
     def __init__(self):
         self.parent = None
@@ -27,19 +28,19 @@ class MenuWindow(Container):
 
         #start button
         self.menucursor = Label("-> ", (230, 120),
-                                  color = (255, 255, 0), size = 20)
+                                  color=(255, 255, 0), size=20)
         self.addwidget(self.menucursor)
 
         #start button
         self.startbutton = Button("Start game / Continue", (270, 120),
-                                  color = (255, 255, 200), labelsize = 20)
+                                  color=(255, 255, 200), labelsize=20)
         self.startbutton.connect("clicked", self.on_startgame)
         self.addwidget(self.startbutton)
 
         #Quit button
         self.quitbutton = Button("Quit", (270, 160),
-                                color = (255, 0, 0),
-                                labelsize = 20)
+                                color=(255, 0, 0),
+                                labelsize=20)
         self.quitbutton.connect("clicked", self.on_quit)
         self.addwidget(self.quitbutton)
 
@@ -62,8 +63,10 @@ class MenuWindow(Container):
         Container.draw(self, surface)
 
     def update_menu_cursor(self):
-        if self.menupos < 0:self.menupos = 0
-        if self.menupos > self.maxmenupos:self.menupos = self.maxmenupos
+        if self.menupos < 0:
+            self.menupos = 0
+        if self.menupos > self.maxmenupos:
+            self.menupos = self.maxmenupos
         newpos = [230, 120 + 40 * self.menupos]
         self.menucursor.position = newpos
         self.repaint()
@@ -83,5 +86,7 @@ class MenuWindow(Container):
                     self.menupos -= 1
                     self.update_menu_cursor()
                 if event.key == pygame.K_RETURN:
-                    if self.menupos == 0:self.on_startgame(None)
-                    if self.menupos == 1:self.running = False
+                    if self.menupos == 0:
+                        self.on_startgame(None)
+                    if self.menupos == 1:
+                        self.running = False

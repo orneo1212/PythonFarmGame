@@ -10,6 +10,7 @@ from farmlib.menuwindow import MenuWindow
 pygame.init()
 pygame.key.set_repeat(100, 100)
 
+
 class FarmGamePygame:
     def __init__(self):
         """Init game"""
@@ -36,7 +37,6 @@ class FarmGamePygame:
     def redraw(self, surface):
         self.activescr.redraw(surface)
 
-
     def run(self):
         """
             Run game. Remove lock when error
@@ -51,7 +51,7 @@ class FarmGamePygame:
 
     def check_game_lock(self):
         if os.path.isfile("game.lock"):
-            print("Game is already running. If not manualy"\
+            print("Game is already running. If not manualy"
                 " remove game.lock file and try again")
             exit(0)
         else:
@@ -91,4 +91,3 @@ if __name__ == '__main__':
     f = FarmGamePygame()
     f.set_active_screen(MenuWindow())
     f.run()
-

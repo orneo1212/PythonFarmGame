@@ -7,6 +7,7 @@ import pygame
 
 from pygameui import Label
 
+
 class ExpBar(Label):
     def __init__(self, player):
         self.player = player
@@ -21,8 +22,8 @@ class ExpBar(Label):
         self.oldexp = self.player.exp
         #calculate progress and set text
         progress = int(exp / nextlvlexp * 100)
-        self.settext("Level: " + str(level) + " Exp: %s/%s (%s %%)" % \
-                     (int(exp), int(nextlvlexp), progress), repaint = False)
+        self.settext("Level: " + str(level) + " Exp: %s/%s (%s %%)" %
+                     (int(exp), int(nextlvlexp), progress), repaint=False)
 
     def update(self):
         if self.oldexp != self.player.exp:
@@ -35,14 +36,14 @@ class ExpBar(Label):
         self.create_widget_image()
         #draw background
         pygame.draw.rect(self.img, (0, 32, 0),
-                         (1, 1, self.width - 1 , self.height - 1))
+                         (1, 1, self.width - 1, self.height - 1))
         #draw background (progress)
         progresswidth = self.width / self.player.nextlvlexp * self.player.exp
         pygame.draw.rect(self.img, (0, 100, 0),
-                         (1, 1, int(progresswidth) - 1 , self.height - 1))
+                         (1, 1, int(progresswidth) - 1, self.height - 1))
         #draw border
         pygame.draw.rect(self.img, (0, 255, 0),
-                         (1, 1, self.width - 1 , self.height - 1), 1)
+                         (1, 1, self.width - 1, self.height - 1), 1)
         #draw text
         text = self.gettext()
         txtimg = self.labelfont.render(text, 0, (64, 255, 100), (255, 0, 255))

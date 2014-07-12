@@ -1,5 +1,6 @@
 import pygame
 
+
 class ImageLoader:
 
     def __init__(self, imagesdict):
@@ -16,15 +17,18 @@ class ImageLoader:
             self.loadimage(item)
         return self.loaded
 
-    def loadimage(self, name, scale = True):
+    def loadimage(self, name, scale=True):
         """Load image by name"""
-
         #wrong name
-        try:self.config[name]
-        except KeyError:return self.empty.copy()
+        try:
+            self.config[name]
+        except KeyError:
+            return self.empty.copy()
         #check loaded images
-        try: return self.loaded[name]
-        except KeyError:pass
+        try:
+            return self.loaded[name]
+        except KeyError:
+            pass
 
         #load file
         filename = self.config[name]

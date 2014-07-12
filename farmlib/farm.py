@@ -7,23 +7,30 @@ import farmlib
 from pnoise import pnoise
 from dictmapper import DictMapper
 
+
 class FarmTile:
     """Farm tile represent one tile on each farm"""
-    def __init__(self, obj = None):
+    def __init__(self, obj=None):
         self.water = 0.0
         self.farmobject = obj
         self.posx = -1
         self.posy = -1
 
     def __getitem__(self, name):
-        if name == "water":return self.get_water()
-        elif name == "object":return self.get_object()
-        else:return None
+        if name == "water":
+            return self.get_water()
+        elif name == "object":
+            return self.get_object()
+        else:
+            return None
 
     def __setitem__(self, name, value):
-        if name == "water":self.water = value
-        elif name == "object":self.farmobject = value
-        else:return None
+        if name == "water":
+            self.water = value
+        elif name == "object":
+            self.farmobject = value
+        else:
+            return None
 
     def get_object(self):
         return self.farmobject
@@ -34,7 +41,8 @@ class FarmTile:
     def update(self):
         #Drying
         self.water -= 0.05
-        if self.water < 0:self.water = 0.0
+        if self.water < 0:
+            self.water = 0.0
 
 
 class FarmField:
@@ -50,7 +58,8 @@ class FarmField:
         self.seconds_to_update = 0
 
     def get_farm_checksum(self):
-        ft = [str(x.water) + str(x.farmobject) for x in self.farmtiles.values()]
+        ft = [str(x.water) + str(x.farmobject
+            ) for x in self.farmtiles.values()]
         checksum = base64.b64encode("".join(ft))
         return checksum
 
@@ -60,11 +69,14 @@ class FarmField:
         if checksum != self.last_checksum:
             self.last_checksum = checksum
             return True
-        else:return False
+        else:
+            return False
 
-    def markmodified(self, modified = True):
-        if modified:self.last_checksum = ""
-        else:self.last_checksum = self.get_farm_checksum()
+    def markmodified(self, modified=True):
+        if modified:
+            self.last_checksum = ""
+        else:
+            self.last_checksum = self.get_farm_checksum()
 
     def count_objects(self, objectid):
         count = 0
@@ -87,8 +99,10 @@ class FarmField:
     def get_farmobject(self, posx, posy):
         """Get farmobject from given position"""
         farmtile = self.get_farmtile(posx, posy)
-        if not farmtile:return None
-        else:return farmtile["object"]
+        if not farmtile:
+            return None
+        else:
+            return farmtile["object"]
 
     def set_farmobject(self, posx, posy, farmobject):
         """Set farmobject at given position"""
@@ -127,15 +141,17 @@ class FarmField:
             fobject.onplant()
             return True
         else:
-            return False #  error there something on that position
+            return False  # error there something on that position
 
     def harvest(self, posx, posy, player):
         """Harvest growed seed from farmtile"""
 
         farmtile = self.get_farmtile(posx, posy)
-        if not farmtile["object"]:return False
+        if not farmtile["object"]:
+            return False
 
-        if not farmtile["object"].type == "seed":return False
+        if not farmtile["object"].type == "seed":
+            return False
 
         if not farmtile['object'].growing and \
             farmtile['object'].to_harvest:
@@ -163,7 +179,7 @@ class FarmField:
 
     def wilt_plant(self, posx, posy):
         fobject = FarmObject()
-        fobject.id = 8 #  Wilted plant
+        fobject.id = 8  # Wilted plant
         fobject.apply_dict(objects[fobject.id])
         farmtile = FarmTile(fobject)
         self.set_farmtile(posx, posy, farmtile)
@@ -175,7 +191,7 @@ class FarmField:
     def remove(self, posx, posy, player):
         self.set_farmtile(posx, posy, FarmTile())
 
-    def water(self, posx, posy, force = False):
+    def water(self, posx, posy, force=False):
         """Watering a farm tile"""
 
         farmtile = self.get_farmtile(posx, posy)
@@ -185,11 +201,12 @@ class FarmField:
         if farmtile['water'] < 30 or force:
             farmtile['water'] = 100
             return True
-        else:return False
+        else:
+            return False
 
     def create_random_anthill(self, farmtile):
         fobject = FarmObject()
-        fobject.id = 7 #  Anthill
+        fobject.id = 7  # Anthill
         fobject.apply_dict(objects[fobject.id])
         farmtile["object"] = fobject
         return fobject
@@ -199,7 +216,7 @@ class FarmField:
             xx = random.randint(0, 11)
             yy = random.randint(0, 11)
             fobject = FarmObject()
-            fobject.id = 6 #  Stone
+            fobject.id = 6  # Stone
             fobject.apply_dict(objects[fobject.id])
             farmtile = FarmTile(fobject)
             self.set_farmtile(xx, yy, farmtile)
@@ -209,16 +226,18 @@ class FarmField:
             xx = random.randint(0, 11)
             yy = random.randint(0, 11)
             fobject = FarmObject()
-            fobject.id = 9 #  Plank
+            fobject.id = 9  # Plank
             fobject.apply_dict(objects[fobject.id])
             farmtile = FarmTile(fobject)
             self.set_farmtile(xx, yy, farmtile)
 
     def check_wilted(self, farmtile):
-        if not farmtile['object']:return False
+        if not farmtile['object']:
+            return False
 
         fobject = farmtile['object']
-        if fobject.type != "seed":return False
+        if fobject.type != "seed":
+            return False
 
         wiltime = farmlib.rules["WILT_TIME_HOURS"]
         if fobject.to_harvest:
@@ -226,7 +245,8 @@ class FarmField:
 
                 #get position
                 position = self.get_farmtile_position(farmtile)
-                if not position:return False
+                if not position:
+                    return False
                 posx, posy = position
 
                 self.wilt_plant(posx, posy)
@@ -255,9 +275,11 @@ class FarmField:
             #Update objects
             if farmtile['object']:
                 ret = farmtile['object'].update(farmtile)
-                if ret:modified = True
+                if ret:
+                    modified = True
                 ret = self.check_wilted(farmtile)
-                if ret:modified = True
+                if ret:
+                    modified = True
                 #Water nearest plants for ponds
                 if farmtile.farmobject and farmtile.farmobject.id == 11:
                     px = farmtile.posx
@@ -292,7 +314,8 @@ class FarmObject:
 
     def apply_dict(self, dictionary):
         """apply dictionary to object"""
-        if dictionary is None:return
+        if dictionary is None:
+            return
         self.__dict__.update(dictionary)
 
     def update(self, farmtile):
@@ -301,6 +324,7 @@ class FarmObject:
     def onplant(self):
         pass
 
+
 class Seed(FarmObject):
     """Represent seed farmobject"""
     def __init__(self):
@@ -308,9 +332,10 @@ class Seed(FarmObject):
         FarmObject.__init__(self)
         self.type = "seed"
 
-        self.growtime = 60 # grow time in seconds
-        self.growstarttime = 0 # when grow was been started
-        self.growquantity = 2 #  how many new seeds you got when seed fully grow
+        self.growtime = 60  # grow time in seconds
+        self.growstarttime = 0  # when grow was been started
+        self.growquantity = 2
+        # how many new seeds you got when seed fully grow
 
         self.growendtime = 0
         self.growtimeremaining = 0
@@ -324,7 +349,7 @@ class Seed(FarmObject):
         #Remaining time string
         self.remainstring = ""
 
-    def update_remainig_growing_time(self, waterlevel = 0):
+    def update_remainig_growing_time(self, waterlevel=0):
         if waterlevel > 0:
             groundwet = float(waterlevel) / 100.0
         else:
@@ -333,7 +358,8 @@ class Seed(FarmObject):
         tenperc = self.growtime * 0.10
         newgrowendtime = self.growendtime - int(tenperc * groundwet)
         self.growtimeremaining = int(newgrowendtime - time.time())
-        if self.growtimeremaining < 0:self.growtimeremaining = 0
+        if self.growtimeremaining < 0:
+            self.growtimeremaining = 0
 
     def update(self, farmtile):
         """update a seed"""
@@ -348,9 +374,12 @@ class Seed(FarmObject):
         remain -= remM * 60
         remS = remain
         #change to string
-        if remH < 10:remH = "0" + str(remH)
-        if remM < 10:remM = "0" + str(remM)
-        if remS < 10:remS = "0" + str(remS)
+        if remH < 10:
+            remH = "0" + str(remH)
+        if remM < 10:
+            remM = "0" + str(remM)
+        if remS < 10:
+            remS = "0" + str(remS)
 
         self.remainstring = "%sh %sm %ss" % (remH, remM, remS)
 
@@ -366,7 +395,7 @@ class Seed(FarmObject):
                     farmtile["water"] = 0
                 return True
 
-        return False #  not updated
+        return False  # not updated
 
     def onplant(self):
         self.start_grow()

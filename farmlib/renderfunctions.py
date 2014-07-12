@@ -6,8 +6,9 @@ Created on 23-05-2012
 import random
 import pygame
 
+
 def draw_tools(surface, currenttool, currentseed, imgloader,
-               drawnearcursor = True):
+               drawnearcursor=True):
     #Draw selection on selected tool
     if currenttool == 'harvest':
         pygame.draw.rect(surface, (255, 255, 255), (10, 10, 48, 48), 1)
@@ -29,7 +30,7 @@ def draw_tools(surface, currenttool, currentseed, imgloader,
         #Draw current tool
         if currenttool == "plant":
             #draw seed only when correct is selected
-            if currentseed == None:
+            if currentseed is None:
                 img = None
             else:
                 img = imgloader.loadimage('object' + str(currentseed))
@@ -56,22 +57,29 @@ def draw_tools(surface, currenttool, currentseed, imgloader,
     surface.blit(imgloader.loadimage('pickaxe'), (210, 10))
     surface.blit(imgloader.loadimage('axe'), (260, 10))
 
+
 def draw_seed(surface, seedid, position, imgloader):
-        img = imgloader.loadimage('object' + str(seedid))
-        surface.blit(img, position)
+    img = imgloader.loadimage('object' + str(seedid))
+    surface.blit(img, position)
+
 
 def draw_selected_seed(surface, selectedseed, imgloader):
-    if  selectedseed == None:return
+    if selectedseed is None:
+        return
     #draw selected seed
     img = imgloader.loadimage('dryground')
     surface.blit(img, (65, 90))
     draw_seed(surface, selectedseed, (65, 90), imgloader)
 
+
 def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
                        imgloader):
-    """Render notification about farm object"""
+    """
+    Render notification about farm object
+    """
 
-    if farmobject is None:return
+    if farmobject is None:
+        return
 
     sizex = 250
     sizey = 150
@@ -121,15 +129,17 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
 
         #ready to harvest
         if farmobject.to_harvest:
-            text = font.render("Ready to Harvest", 0, \
+            text = font.render("Ready to Harvest", 0,
                                (255, 255, 255), (255, 0, 255))
             text.set_colorkey((255, 0, 255))
             img.blit(text, (halfx - text.get_size()[0] / 2, sizey - 20))
 
     #alpha
     img.set_alpha(128 + 64)
-    if posx > 400:posx -= sizex
+    if posx > 400:
+        posx -= sizex
     surface.blit(img, (posx, posy))
+
 
 def render_rain(surface):
     for x in range(30):
@@ -138,6 +148,7 @@ def render_rain(surface):
         offset = random.randint(-15, -8)
         pygame.draw.line(surface, (0, 0, 200), (xx, yy),
                          (xx + offset, yy + 15))
+
 
 def render_one_field(position, screen, imgloader, farmfield, farmoffset):
     """Render one field from farm"""
@@ -164,7 +175,8 @@ def render_one_field(position, screen, imgloader, farmfield, farmoffset):
     farmobject = farmtile['object']
 
     #Avoid draw Null fieldobjects
-    if not farmobject:return
+    if not farmobject:
+        return
 
     if farmobject.type == "seed":
         #not ready to harvest
@@ -186,13 +198,15 @@ def render_one_field(position, screen, imgloader, farmfield, farmoffset):
     else:
         img = imgloader['object' + str(farmobject.id)]
     #Draw field image
-    if img:mainimg.blit(img, rect)
+    if img:
+        mainimg.blit(img, rect)
+
 
 def render_field(screen, imgloader, farmfield, farmoffset):
     img = pygame.surface.Surface((800, 600))
     img.set_colorkey((0, 0, 0))
     for y in range(12):
         for x in range(12):
-            render_one_field((x, y), img, \
+            render_one_field((x, y), img,
                 imgloader, farmfield, farmoffset)
     return img

@@ -7,6 +7,7 @@ import pygame
 
 from container import Container
 
+
 class Window(Container):
     '''
     Window for gui
@@ -43,5 +44,6 @@ class Window(Container):
         mx, my = pygame.mouse.get_pos()
         mx -= self.position[0]
         my -= self.position[1]
-        if mx > self.width or my > self.height:return None
+        if mx > self.width or my > self.height:
+            return None
         return (mx, my)

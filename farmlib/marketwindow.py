@@ -14,6 +14,7 @@ from tooltip import Tooltip
 WATERREFILLCOST = farmlib.rules["WATERREFILLCOST"]
 OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
 
+
 class MarketWindow(Container):
     def __init__(self, size, imgloader, player, gamemanager):
         self.gamemanager = gamemanager
@@ -52,29 +53,30 @@ class MarketWindow(Container):
         self.addwidget(bgimage)
 
         #close button
-        closebutton = Button("X", (380, 3), labelsize = 15, \
-                             color = (255, 255, 255))
-        closebutton.connect("clicked", lambda x:self.hide())
+        closebutton = Button("X", (380, 3), labelsize=15,
+                             color=(255, 255, 255))
+        closebutton.connect("clicked", lambda x: self.hide())
         closebutton.connect("onshow", self.on_market_show)
         self.addwidget(closebutton)
 
         #refill watercan
         waterbuybutton = Button("Refill water ($%s)" % WATERREFILLCOST,
-                                 (10, 30), color = (128, 128, 255))
+                                 (10, 30), color=(128, 128, 255))
         waterbuybutton.connect("clicked", self.on_water_buy)
         self.addwidget(waterbuybutton)
 
         #Buy farm
         farmcost = self.gamemanager.getnextfarmcost()
         self.buyfarm = Button("Buy new farm ($%s)" % farmcost,
-                                 (150, 30), color = (255, 0, 0))
+                                 (150, 30), color=(255, 0, 0))
         self.buyfarm.connect("clicked", self.on_farm_buy)
         self.addwidget(self.buyfarm)
 
         #Add items
         gridimg = self.imgloader['grid2']
         for seeddef in objects:
-            if seeddef["id"] in OBJECTSNOTINMARKET:continue
+            if seeddef["id"] in OBJECTSNOTINMARKET:
+                continue
             itemid = seeddef['id']
             #add seed image widget
             img = self.imgloader['object' + str(itemid)]
@@ -84,13 +86,14 @@ class MarketWindow(Container):
             grid = Image(gridimg, (px, py))
             self.addwidget(grid)
             #Add image button
-            imagebutton = Button("", (px, py), bgimage = img)
+            imagebutton = Button("", (px, py), bgimage=img)
             self.addwidget(imagebutton)
-            imagebutton.connect("clicked", self.on_item_select, itemid = itemid)
+            imagebutton.connect("clicked", self.on_item_select,
+                                itemid=itemid)
             imagebutton.connect("onenter", self.on_mouse_item_enter,
-                                itemid = itemid)
+                                itemid=itemid)
             imagebutton.connect("onleave", self.on_mouse_item_leave,
-                                itemid = itemid)
+                                itemid=itemid)
             #limit
             posx += 1
             if posx >= columns:
@@ -98,36 +101,36 @@ class MarketWindow(Container):
                 posy += 1
 
         #Costlabel
-        costlabel = Label("Cost:", (80, 340), size = 12,
-                           color = (255, 255, 255), align = "center")
+        costlabel = Label("Cost:", (80, 340), size=12,
+                           color=(255, 255, 255), align="center")
         self.addwidget(costlabel)
         #Cost value
-        self.costvalue = Label("", (110, 340), size = 12,
-                           color = (200, 200, 50), align = "center")
+        self.costvalue = Label("", (110, 340), size=12,
+                           color=(200, 200, 50), align="center")
         self.addwidget(self.costvalue)
 
         #Selllabel
-        selllabel = Label("Sell value:", (280, 340), size = 12,
-                           color = (255, 255, 255), align = "center")
+        selllabel = Label("Sell value:", (280, 340), size=12,
+                           color=(255, 255, 255), align="center")
         self.addwidget(selllabel)
         #Sell value
-        self.sellvalue = Label("", (330, 340), size = 12,
-                           color = (200, 200, 50), align = "center")
+        self.sellvalue = Label("", (330, 340), size=12,
+                           color=(200, 200, 50), align="center")
         self.addwidget(self.sellvalue)
 
         #Message
-        self.message = Label("", (10, 360), size = 12,
-                           color = (250, 0, 250), align = "left")
+        self.message = Label("", (10, 360), size=12,
+                           color=(250, 0, 250), align="left")
         self.addwidget(self.message)
         #Selected item icon
         self.selectedicon = Image(None, (160, 332))
         self.addwidget(self.selectedicon)
 
         #add buttons
-        self.buybutton = Button("BUY", (60, 375), color = (0, 255, 0), \
-                                labelsize = 13)
-        self.sellbutton = Button("SELL", (300, 375), color = (0, 255, 0), \
-                                 labelsize = 13)
+        self.buybutton = Button("BUY", (60, 375), color=(0, 255, 0),
+                                labelsize=13)
+        self.sellbutton = Button("SELL", (300, 375), color=(0, 255, 0),
+                                 labelsize=13)
         self.addwidget(self.buybutton)
         self.addwidget(self.sellbutton)
         self.buybutton.connect("clicked", self.on_buy_clicked)
@@ -162,14 +165,16 @@ class MarketWindow(Container):
         have = 0
         if self.player.item_in_inventory(itemid):
             have = self.player.itemscounter[str(itemid)]
-        self.buybutton.settext("BUY x%s (you have %s)" % \
+        self.buybutton.settext("BUY x%s (you have %s)" %
                                (str(self.count), have))
         self.sellbutton.settext("SELL x%s " % str(self.count))
 
     def on_item_select(self, widget, itemid):
         #increase count if the same item selected
-        if itemid == self.selecteditem:self.count += 1
-        else:self.count = 1
+        if itemid == self.selecteditem:
+            self.count += 1
+        else:
+            self.count = 1
 
         self.selecteditem = itemid
         img = self.imgloader["object" + str(self.selecteditem)]
@@ -182,7 +187,8 @@ class MarketWindow(Container):
         self.update_buy_sell_button(itemid)
 
     def on_buy_clicked(self, widget, **data):
-        if self.selecteditem is None:return
+        if self.selecteditem is None:
+            return
         itemid = self.selecteditem
         cost = self.get_item_cost(itemid)
         if self.player.money >= cost:
@@ -194,14 +200,16 @@ class MarketWindow(Container):
             self.message.settext("You dont have enought money")
 
     def on_sell_clicked(self, widget, **data):
-        if self.selecteditem is None:return
+        if self.selecteditem is None:
+            return
         itemid = self.selecteditem
 
         #remove item if player have it
         if self.player.item_in_inventory(itemid) \
             and self.player.itemscounter[str(itemid)] >= self.count:
             done = True
-        else:done = False
+        else:
+            done = False
 
         if done:
             #Remove items
@@ -254,7 +262,8 @@ class MarketWindow(Container):
         self.tooltip = [Tooltip((mx + 5, my + 5), data), widget]
 
     def on_mouse_item_leave(self, widget, itemid):
-        if self.tooltip[1] == widget:self.tooltip = [None, None]
+        if self.tooltip[1] == widget:
+            self.tooltip = [None, None]
 
     def on_farm_buy(self, widget):
         farmcost = self.gamemanager.getnextfarmcost()

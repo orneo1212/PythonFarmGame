@@ -7,7 +7,6 @@ import os
 import random
 
 import pygame
-
 import farmlib
 
 from farmlib import __VERSION__
@@ -44,6 +43,7 @@ for gobject in objects:
     objectsimagepath = os.path.join("images", os.path.join("objects", name))
     imagesdata["object" + str(gobject['id'])] = objectsimagepath
 
+
 class GameWindow(Window):
     def __init__(self):
         Window.__init__(self, (800, 600), (0, 0))
@@ -64,7 +64,6 @@ class GameWindow(Window):
         self.coreplugin = PluginSystem.installPlugin(CorePlugin)
         self.coreplugin.gamewindow = self
 
-
         #background image
         bgimg = Image(self.images['background'], (0, 0))
         self.addwidget(bgimg)
@@ -75,19 +74,19 @@ class GameWindow(Window):
         self.inventorywindow.hide()
 
         #create market window
-        self.sellwindow = MarketWindow((400, 400), self.images, player, \
+        self.sellwindow = MarketWindow((400, 400), self.images, player,
                                        self.gamemanager)
         self.sellwindow.gamewindow = self
 
         #Market button
-        marketbutton = Button("", (800 - 42, 10), \
-                             bgimage = self.images['marketbutton'])
+        marketbutton = Button("", (800 - 42, 10),
+                             bgimage=self.images['marketbutton'])
         marketbutton.connect("clicked", self.toggle_market)
         self.addwidget(marketbutton)
 
         #Inventory button
-        inventorybutton = Button("", (800 - 42, 52), \
-                             bgimage = self.images['inventorybutton'])
+        inventorybutton = Button("", (800 - 42, 52),
+                             bgimage=self.images['inventorybutton'])
         inventorybutton.connect("clicked", self.toggle_inventory)
         self.addwidget(inventorybutton)
 
@@ -99,11 +98,11 @@ class GameWindow(Window):
         self.addwidget(self.expbar)
 
         #labels
-        self.moneylabel = Label("", (400, 5), align = "center")
+        self.moneylabel = Label("", (400, 5), align="center")
         self.addwidget(self.moneylabel)
 
         #Label for version
-        versionlabel = Label("v. " + __VERSION__ + " (H for help)", \
+        versionlabel = Label("v. " + __VERSION__ + " (H for help)",
             (5, 580))
         self.addwidget(versionlabel)
 
@@ -156,8 +155,8 @@ class GameWindow(Window):
 
             if pos:
                 #Emit toolused event
-                PluginSystem.emit_event("toolused", position = pos, \
-                                        gamemanager = self.gamemanager)
+                PluginSystem.emit_event("toolused", position=pos,
+                                        gamemanager=self.gamemanager)
 
         #events for tools
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -274,7 +273,7 @@ class GameWindow(Window):
         #avoid temp farm image to be None
         if not self.tempfarmimage or farm.ismodified():
             #Draw farmfield
-            self.tempfarmimage = render_field(screen, self.images, \
+            self.tempfarmimage = render_field(screen, self.images,
                                         farm, self.farmoffset)
         #Blit farmfield
         screen.blit(self.tempfarmimage, (0, 0))
@@ -292,10 +291,10 @@ class GameWindow(Window):
                    player.selectedtool,
                    player.selecteditem,
                    self.images,
-                   drawnearcursor = drawnearcursor)
+                   drawnearcursor=drawnearcursor)
 
         #draw watercanuses
-        uses = Label("", (110 + 2, 10 + 2), color = (255, 240, 240))
+        uses = Label("", (110 + 2, 10 + 2), color=(255, 240, 240))
         uses.settext(str(player.watercanuses))
         uses.repaint()
         uses.draw(screen)
@@ -318,7 +317,7 @@ class GameWindow(Window):
                                    farmobject, farmtile, self.images
                                   )
         #draw selected seed
-        if player.selecteditem != None:
+        if player.selecteditem is not None:
             draw_selected_seed(screen, player.selecteditem, self.images)
 
         #draw inventory
@@ -343,11 +342,9 @@ class GameWindow(Window):
 
     def get_farmobject_under_cursor(self):
         """Get Seed under mouse cursor"""
-
         pos = self.get_farmtile_pos_under_mouse()
         if pos:
             return self.farm.get_farmobject(pos[0], pos[1])
-
         return None
 
     def iso2screen(self, x, y):
@@ -377,7 +374,6 @@ class GameWindow(Window):
             print ("No save game found. Starting new one")
         #Forward time to match gametime
         self.gamemanager.timeforward()
-
 
     def deinit(self):
         #stop game

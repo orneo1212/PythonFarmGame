@@ -10,6 +10,7 @@ from farmlib.farm import FarmField, FarmTile, FarmObject, Seed, objects
 from farmlib import DictMapper
 from farmlib.player import Player
 
+
 class GameManager:
     def __init__(self):
         self.farms = []
@@ -18,7 +19,7 @@ class GameManager:
         self.current_farm = 0
         self.player = Player()
 
-    def getfarm(self, farmid = None):
+    def getfarm(self, farmid=None):
         if farmid is None:
             farmid = self.current_farm
         if len(self.farms) == 0:
@@ -112,11 +113,12 @@ class GameManager:
         #fill tiles
         for farmid in xrange(self.getfarmcount()):
             farm = self.getfarm(farmid)
-            data["fields"].append({"tiles":[]})
+            data["fields"].append({"tiles": []})
             for ftt in farm.farmtiles.keys():
                 ft = farm.farmtiles[ftt]
                 #skip when no seed
-                if not ft['object']:continue
+                if not ft['object']:
+                    continue
 
                 gameobject = ft['object']
                 tile = {}
@@ -142,7 +144,8 @@ class GameManager:
         return True
 
     def load_gamestate(self, filename, player):
-        if not os.path.isfile(filename):return False
+        if not os.path.isfile(filename):
+            return False
         print ("Loading game state...")
         data = DictMapper()
         data.load(filename)
@@ -154,7 +157,7 @@ class GameManager:
         player.money = int(data.get("money", 1))
         player.level = int(data.get("level", 1))
         #loda game time
-        self.seconds_to_update = int(time.time()) - data.get("gametime", \
+        self.seconds_to_update = int(time.time()) - data.get("gametime",
                                                             int(time.time()))
         seed = data.get("gameseed", int(time.time()))
         self.setgameseed(seed)
@@ -167,13 +170,15 @@ class GameManager:
         #load tiles
         for farmid in xrange(len(data["fields"])):
             farm = self.getfarm(farmid)
-            if farm is None:farm = self.addfarm()
+            if farm is None:
+                farm = self.addfarm()
             #Restore tiles
             for tile in data["fields"][farmid]["tiles"]:
                 px = tile["px"]
                 py = tile["py"]
                 #Avoid null objects
-                if not tile["object"]:continue
+                if not tile["object"]:
+                    continue
 
                 #Restore seed or object
                 if tile["object"]["type"] == "seed":
@@ -195,8 +200,10 @@ class GameManager:
                     newobject.apply_dict(objects[newobject.id])
 
                     #Restore harvest count
-                    newobject.harvestcount = objectdata.get("harvestcount", 1)
-                    newobject.requiredlevel = objectdata.get("requiredlevel", 1)
+                    newobject.harvestcount = objectdata.get(
+                        "harvestcount", 1)
+                    newobject.requiredlevel = objectdata.get(
+                        "requiredlevel", 1)
                 else:
                     newobject = FarmObject()
 

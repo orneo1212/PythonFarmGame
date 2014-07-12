@@ -5,11 +5,11 @@ Created on 22-05-2012
 '''
 import pygame
 
+
 class Widget:
     '''
     Widget for gui
     '''
-
 
     def __init__(self, position, (width, height)):
         #parent widget should inherit from Container
@@ -40,7 +40,7 @@ class Widget:
         self.height = newsize[1]
         self.size = newsize[:]
 
-    def mark_modified(self, modified = True):
+    def mark_modified(self, modified=True):
         self.modified = modified
 
     def repaint(self):
@@ -62,7 +62,8 @@ class Widget:
             #get relative mouse pos if there is parent container
             if self.parent:
                 newpos = self.parent.get_relative_mousepos()
-                if newpos:pos = newpos
+                if newpos:
+                    pos = newpos
             #on_leave event
             if self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = False
@@ -95,7 +96,8 @@ class Widget:
                            self.width - 2, self.height - 2)
         if rect.collidepoint((posx, posy)):
             return True
-        else:return False
+        else:
+            return False
 
     def connect(self, signal, function, **data):
         self.callbacks[signal] = [function, data]

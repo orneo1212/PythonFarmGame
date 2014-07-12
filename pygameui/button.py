@@ -5,9 +5,10 @@ from widget import Widget
 
 buttonbgpath = os.path.join("images", "gui", "buttonbg.png")
 
+
 class Button(Widget):
-    def __init__(self, label, position, bgimage = None, labelsize = 12,
-                 color = (255, 255, 0)):
+    def __init__(self, label, position, bgimage=None, labelsize=12,
+                 color=(255, 255, 0)):
         self.bgimage = bgimage
         self.label = label
         self.color = color
@@ -15,7 +16,7 @@ class Button(Widget):
         self.labelsize = labelsize
         self.labelfont = pygame.font.Font("dejavusansmono.ttf", self.labelsize)
         self.buttonbgorg = pygame.image.load(buttonbgpath).convert_alpha()
-        self.buttonbg=self.buttonbgorg.copy()
+        self.buttonbg = self.buttonbgorg.copy()
         #Setup image
         if not self.bgimage:
             self._settextimage()
@@ -36,7 +37,6 @@ class Button(Widget):
         self.image = self._render_text()
         self._setsize(self._calculate_size(self.image))
 
-
     def setimage(self, newimage):
         self.image = newimage
         self._setsize(self._calculate_size(self.image))
@@ -49,8 +49,8 @@ class Button(Widget):
             self.img.blit(img, (2, 0))
             self.img.blit(self.bgimage, (0, 0))
         elif not self.bgimage:
-            img=pygame.transform.smoothscale(self.buttonbgorg, self.size)
-            self.buttonbg=img
+            img = pygame.transform.smoothscale(self.buttonbgorg, self.size)
+            self.buttonbg = img
             self.img.blit(self.buttonbg, (0, 0))
             self.img.blit(self.image, (2, 0))
         elif not self.label and self.bgimage:
@@ -74,10 +74,10 @@ class Button(Widget):
         #mouse button down
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             #on_click event
-            if pos != None:
+            if pos is not None:
                 if self.pointinwidget(pos[0], pos[1]):
-                    self._call_callback("clicked") # old
-                    self._call_callback("onclick") # old
+                    self._call_callback("clicked")  # old
+                    self._call_callback("onclick")  # old
                     #make button active
                     if self.parent:
                         self.parent.makeactive(self)
