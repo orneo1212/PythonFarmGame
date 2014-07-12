@@ -18,7 +18,7 @@ class Player:
     def update(self):
         #create dict key if not exist in itemscounter
         for i in self.inventory:
-            if not self.itemscounter.has_key(str(i)):
+            if str(i) not in self.itemscounter:  # .has_key(str(i)):
                 self.itemscounter[str(i)] = 0
         #clear selection if player dont have item
         if self.selecteditem is not None:

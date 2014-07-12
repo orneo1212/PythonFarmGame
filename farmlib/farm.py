@@ -89,7 +89,7 @@ class FarmField:
         """Get farmtile from given position"""
 
         arg = str(posx) + 'x' + str(posy)
-        if self.farmtiles.has_key(arg):
+        if arg in self.farmtiles:  # .has_key(arg):
             return self.farmtiles[arg]
 
         else:
