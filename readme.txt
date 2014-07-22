@@ -10,6 +10,7 @@ Keys:
     I - Show/hide inventory
     M - Mute/Unmute sound
     H - Help window
+    A - Screenshot
 
 Tools:
     Sickle - Use it to harvest seeds.

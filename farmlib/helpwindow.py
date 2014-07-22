@@ -28,7 +28,7 @@ class HelpWindow(Window):
             "KEYS:",
             "S - Open/Close market  I - Open/Close inventory",
             "Z/X - Go to previous/next farm",
-            "M - Mute/Unmute sounds",
+            "M - Mute/Unmute sounds", "A - Screenshot"
             ]
 
         label = Label("GAME HELP", (250, 5), size=18,

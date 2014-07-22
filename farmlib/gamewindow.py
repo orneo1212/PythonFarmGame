@@ -5,6 +5,10 @@ Created on 27-05-2012
 '''
 import os
 import random
+from datetime import datetime
+import logging
+log = logging.getLogger("farmlib/gamewindow")
+
 
 import pygame
 import farmlib
@@ -114,6 +118,7 @@ class GameWindow(Window):
 
         #Temp image for farmfield redraw if not modified
         self.tempfarmimage = None
+        self.makescreenshot = None
 
     def update(self):
         """Update farm"""
@@ -254,6 +259,11 @@ class GameWindow(Window):
                         self.gamemanager.setcurrentfarm(currfarmid + 1)
                         farm = self.gamemanager.getfarm()
                         farm.markmodified()
+                #help window key
+                if event.key == pygame.K_a:
+                    log.info('key a for screenshot press')
+                    self.makescreenshot = True
+
             #others events
             if not self.sellwindow.visible and \
                 not self.inventorywindow.visible:
@@ -324,6 +334,12 @@ class GameWindow(Window):
         self.inventorywindow.draw(screen)
         #redraw sell window
         self.sellwindow.draw(screen)
+        if self.makescreenshot:
+            log.info('make screenshot')
+            pygame.image.save(screen,
+                "Screenshots/Screenshot{:%Y%m%d_%H%M%f}.png".format(datetime.now()))
+            self.makescreenshot = False
+
 
     def get_farmtile_pos_under_mouse(self):
         """Get FarmTile position under mouse"""
