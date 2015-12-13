@@ -11,7 +11,7 @@ from farmlib import DictMapper
 from farmlib.player import Player
 
 
-class GameManager:
+class GameManager(object):
     def __init__(self):
         self.farms = []
         self.gameseed = int(time.time())
@@ -22,7 +22,7 @@ class GameManager:
     def getfarm(self, farmid=None):
         if farmid is None:
             farmid = self.current_farm
-        if len(self.farms) == 0:
+        if not self.farms:
             self.addfarm()
         try:
             return self.farms[farmid]

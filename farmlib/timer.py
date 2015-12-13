@@ -1,7 +1,7 @@
 import time
 
 
-class Timer:
+class Timer(object):
     def __init__(self):
         self.lasttick = 0.0
         self.tickcount = -1

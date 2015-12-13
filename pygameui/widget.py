@@ -6,13 +6,17 @@ Created on 22-05-2012
 import pygame
 
 
-class Widget:
+class Widget(object):
     '''
     Widget for gui
     '''
 
     def __init__(self, position, (width, height)):
-        #parent widget should inherit from Container
+        """parent widget should inherit from Container
+
+        :param position:
+        :return:
+        """
         self.parent = None
 
         self.position = position

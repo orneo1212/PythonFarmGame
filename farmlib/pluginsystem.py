@@ -32,7 +32,7 @@ PRIORITY_HIGH = 10
 #################
 # EVENT
 #################
-class Event:
+class Event(object):
     """
     Base event
     Event name will be lowercase
@@ -51,7 +51,7 @@ class Event:
 #################
 # LISTENER
 #################
-class Listener:
+class Listener(object):
     """
     Base listener
     """
@@ -99,7 +99,7 @@ class Listener:
 #################
 # PLUGIN
 #################
-class BasePlugin:
+class BasePlugin(object):
     """
     Base Plugin
     """
@@ -125,7 +125,7 @@ class BasePlugin:
 #################
 # PLUGINSYSTEM
 #################
-class PluginSystem:
+class PluginSystem(object):
     """
     Plugin system. Only one instance for application.
     """

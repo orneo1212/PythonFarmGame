@@ -1,7 +1,7 @@
 import json
 
 
-class DictMapper():
+class DictMapper(object):
     def __init__(self, dicttomap={}):
         self._dict = dicttomap
 

@@ -1,7 +1,7 @@
 from farm import objects, FarmObject, Seed
 
 
-class Player:
+class Player(object):
     def __init__(self):
         self.inventory = [3]
         self.itemscounter = {'3': 2}

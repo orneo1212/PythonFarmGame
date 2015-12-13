@@ -1,7 +1,7 @@
 import pygame
 
 
-class ImageLoader:
+class ImageLoader(object):
 
     def __init__(self, imagesdict):
         self.config = imagesdict
@@ -27,8 +27,8 @@ class ImageLoader:
         #check loaded images
         try:
             return self.loaded[name]
-        except KeyError:
-            pass
+        except KeyError as e:
+            print("Error: Accessed undefined make. Check your data!\nDetails: {0}".format(e))
 
         #load file
         filename = self.config[name]
@@ -37,8 +37,8 @@ class ImageLoader:
             img = pygame.image.load(filename)
             img.set_colorkey((255, 0, 255))
             img = img.convert_alpha()
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
             img = self.empty.copy()
         self.loaded[name] = img
         return img

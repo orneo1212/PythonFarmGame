@@ -8,7 +8,7 @@ from pnoise import pnoise
 from dictmapper import DictMapper
 
 
-class FarmTile:
+class FarmTile(object):
     """Farm tile represent one tile on each farm"""
     def __init__(self, obj=None):
         self.water = 0.0

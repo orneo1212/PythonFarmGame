@@ -11,7 +11,7 @@ pygame.init()
 pygame.key.set_repeat(100, 100)
 
 
-class FarmGamePygame:
+class FarmGamePygame(object):
     def __init__(self):
         """Init game"""
         self.screen = pygame.display.set_mode((800, 600), pygame.DOUBLEBUF)
