@@ -2,6 +2,9 @@ from farm import objects, FarmObject, Seed
 
 
 class Player(object):
+    """
+    class Player
+    """
     def __init__(self):
         self.inventory = [3]
         self.itemscounter = {'3': 2}

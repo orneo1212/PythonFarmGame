@@ -14,6 +14,11 @@ class Window(Container):
     '''
 
     def __init__(self, (width, height), position):
+        """initial
+
+        :param position:
+        :return:
+        """
         Container.__init__(self, (width, height), position)
         self.alphavalue = 196
         #border
@@ -23,6 +28,10 @@ class Window(Container):
         self.backgroundcolor = (80, 80, 80, self.alphavalue)
 
     def create_background(self):
+        """fill backgroundcolor
+
+        :return:
+        """
         img = pygame.surface.Surface(self.size).convert_alpha()
         img.fill(self.backgroundcolor)
         if self.showborder:
@@ -32,14 +41,18 @@ class Window(Container):
         return img
 
     def repaint_container(self):
+        """repaint
+
+        :return:
+        """
         self.create_widget_image()
         img = self.create_background()
         self.img.blit(img, (0, 0))
 
     def get_relative_mousepos(self):
         """
-            Return mouse position relative to window position and size
-            return None when mouse is not under window
+        Return mouse position relative to window position and size
+        return None when mouse is not under window
         """
         mx, my = pygame.mouse.get_pos()
         mx -= self.position[0]
