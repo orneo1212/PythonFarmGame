@@ -7,6 +7,9 @@ REMOVESTONECOST = rules["REMOVESTONECOST"]
 
 
 class CorePlugin(BasePlugin):
+    """
+    CorePlugin
+    """
     name = "coreplugin"
     version = "0.3"
 
@@ -14,11 +17,18 @@ class CorePlugin(BasePlugin):
         BasePlugin.__init__(self)
 
     def setup(self):
+        """setup
+
+        :return:
+        """
         self.listener = CoreListener(self)
-        self.system.registerEvent("toolused", self.listener)
+        self.system.register_event("toolused", self.listener)
 
 
 class CoreListener(Listener):
+    """
+    CoreListener
+    """
     def __init__(self, plugin):
         Listener.__init__(self, plugin)
 
@@ -26,10 +36,16 @@ class CoreListener(Listener):
         pass
 
     def handler_toolused(self, position, gamemanager):
-        #print ("Tool %s used on %s" % (toolname, str(position)))
+        """Tool used on
+
+        :param position:
+        :param gamemanager:
+        :return:
+        """
         player = gamemanager.getplayer()
         farm = gamemanager.getfarm()
         toolname = player.selectedtool
+        # print("Tool {0} used on {1}".format(toolname, str(position)))
         if toolname == "watering":
             self.watercan_events(farm, player, position)
         elif toolname == "plant":
@@ -54,6 +70,13 @@ class CoreListener(Listener):
         player.watercanuses -= 1
 
     def plant_events(self, farm, player, position):
+        """plant events
+
+        :param farm:
+        :param player:
+        :param position:
+        :return:
+        """
         done = False
 
         selecteditem = player.selecteditem
@@ -62,7 +85,7 @@ class CoreListener(Listener):
         if not newobject:
             player.selecteditem = None
 
-        #check player level
+        # check player level
         elif player.level >= newobject.requiredlevel:
             done = farm.plant(position[0], position[1], newobject)
             if done:
@@ -78,9 +101,9 @@ class CoreListener(Listener):
         if not farmobject:
             return
 
-        #Remove stones
+        # Remove stones
         if farmobject.type != "seed" and \
-            farmobject.id == 6 and player.money >= REMOVESTONECOST:
+                farmobject.id == 6 and player.money >= REMOVESTONECOST:
             player.money -= REMOVESTONECOST
             farm.remove(position[0], position[1], player)
 
@@ -90,24 +113,24 @@ class CoreListener(Listener):
         if not farmobject:
             return
 
-        #Remove anthill
+        # Remove anthill
         if farmobject.id == 7 and player.money >= REMOVEANTHILLCOST:
             player.money -= REMOVEANTHILLCOST
             farm.remove(position[0], position[1], player)
 
-        #Remove wilted
+        # Remove wilted
         if farmobject.id == 8 and player.money >= REMOVEWILTEDCOST:
             player.money -= REMOVEWILTEDCOST
             farm.removewilted(position[0], position[1], player)
 
-        #Pickup pond
+        # Pickup pond
         if farmobject.id == 11:
             farm.set_farmobject(position[0], position[1], None)
             player.add_item(11)
 
-        #remove seed
+        # remove seed
         if farmobject and farmobject.type == "seed":
-            #remove seed when is NOT ready
+            # remove seed when is NOT ready
             if not farmobject.to_harvest:
                 farm.remove(position[0], position[1], player)
 
@@ -117,7 +140,7 @@ class CoreListener(Listener):
         if not farmobject:
             return
 
-        #Remove planks
+        # Remove planks
         removeplankcost = rules["REMOVEPLANKCOST"]
         if farmobject.id == 9 and player.money >= removeplankcost:
             player.money -= removeplankcost

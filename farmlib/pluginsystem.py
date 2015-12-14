@@ -60,7 +60,7 @@ class Listener(object):
         self.eventdef = {}
         # dict for supported events for listener
 
-    def isEventSupported(self, eventname):
+    def is_event_supported(self, eventname):
         """
         Return True when eventname is supported by this listener
         """
@@ -69,7 +69,7 @@ class Listener(object):
         else:
             return False
 
-    def getEventPriority(self, eventname):
+    def get_event_priority(self, eventname):
         """
         return event priority for eventname.Return None when eventname
         not definied in supported events
@@ -79,7 +79,7 @@ class Listener(object):
         else:
             return None
 
-    def applyPriority(self, event):
+    def apply_priority(self, event):
         """Apply listener priority to event only when event in eventdef"""
         try:
             event.priority = self.eventdef[event.name]
@@ -87,7 +87,7 @@ class Listener(object):
         except KeyError:
             return False
 
-    def _handleEvent(self, event):
+    def _handle_event(self, event):
         #call handler (handler_<eventname>)
         handler = getattr(self, "handler_%s" % event.name, None)
         if handler:
@@ -111,7 +111,7 @@ class BasePlugin(object):
         self.system = None
         #Plugin system object when installed
 
-    def registerGlobalHook(self, hookname, function):
+    def register_global_hook(self, hookname, function):
         """Register Function globally."""
         try:
             self.system.globalhooks[hookname] = function
@@ -136,24 +136,30 @@ class PluginSystem(object):
         self.globalhooks = {}  # Dict for global hooks
         self.debug = True
 
-    def getLogger(self, loggername):
-        fileHandler = logging.FileHandler(
+    def get_logger(self, loggername):
+        """logger
+
+        :param loggername:
+        :return:
+        """
+        filehandler = logging.FileHandler(
             filename='%s.log' % str(loggername))
         formatter = logging.Formatter(
             '%(asctime)-6s %(levelname)s - %(message)s')
-        fileHandler.setFormatter(formatter)
+        filehandler.setFormatter(formatter)
         logger = logging.getLogger(loggername)
-        logger.addHandler(fileHandler)
+        logger.addHandler(filehandler)
+
         return logger
 
-    def registerEvent(self, eventname, listener, priority=PRIORITY_NORMAL):
+    def register_event(self, eventname, listener, priority=PRIORITY_NORMAL):
         """Register event in listener"""
         listener.eventdef[eventname] = priority
         #Add listener to plugin system
         if listener not in self._listeners:
             self._listeners.append(listener)
 
-    def installPlugin(self, pluginObject):
+    def install_plugin(self, pluginObject):
         """
         Add plugin to system.
         Call this Before emit events otherwise you cant register global
@@ -166,9 +172,9 @@ class PluginSystem(object):
             #Setup plugin
             try:
                 plugin.setup()
-            except Exception, e:
+            except Exception as e:
                 if self.debug:
-                    print e
+                    print(e)
 
             self._plugins.append(plugin)
             self.emit_event("pluginload", pluginname=plugin.name)
@@ -187,7 +193,7 @@ class PluginSystem(object):
         for nr in xrange(len(self.eventqueue)):
             ev = self.eventqueue.pop(0)
             for listener in self._listeners:
-                done = listener.applyPriority(ev)
+                done = listener.apply_priority(ev)
                 if done:
                     break
             tempqueue.append(ev)
@@ -199,8 +205,8 @@ class PluginSystem(object):
         for nr in xrange(len(self.eventqueue)):
             ev = self.eventqueue.pop(0)
             for listener in self._listeners:
-                listener.applyPriority(ev)
-                listener._handleEvent(ev)
+                listener.apply_priority(ev)
+                listener._handle_event(ev)
 
     def emit(self, event):
         """Emit event"""
@@ -214,7 +220,7 @@ class PluginSystem(object):
         event = Event(eventname, **args)
         self.emit(event)
 
-    def getGlobalHook(self, hookname):
+    def get_global_hook(self, hookname):
         """Get Global Hook Function"""
         try:
             return self.globalhooks[hookname]
@@ -226,4 +232,4 @@ class PluginSystem(object):
 
 ###########
 ###########
-basePluginSystem = PluginSystem()
+base_plugin_system = PluginSystem()

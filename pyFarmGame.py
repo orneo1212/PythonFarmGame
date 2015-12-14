@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
+
 import os
 import pygame
 
@@ -16,7 +17,7 @@ class FarmGamePygame(object):
         """Init game"""
         self.screen = pygame.display.set_mode((800, 600), pygame.DOUBLEBUF)
         pygame.display.set_caption("PyFarmGame " + "v. " + __VERSION__)
-        #timer
+        # timer
         self.timer = pygame.time.Clock()
 
         self.activescr = None
@@ -52,7 +53,7 @@ class FarmGamePygame(object):
     def check_game_lock(self):
         if os.path.isfile("game.lock"):
             print("Game is already running. If not manualy"
-                " remove game.lock file and try again")
+                  " remove game.lock file and try again")
             exit(0)
         else:
             open("game.lock", "w").close()
@@ -63,10 +64,10 @@ class FarmGamePygame(object):
 
     def main(self):
         """Main"""
-        #check for lock file
+        # check for lock file
         self.check_game_lock()
 
-        #IN GAME
+        # IN GAME
         if self.ingame:
             self.activescr.init()
         elif not self.ingame and self.inmenu:
@@ -80,11 +81,11 @@ class FarmGamePygame(object):
             self.timer.tick(30)
             pygame.display.flip()
 
-        #Save game
+        # Save game
         if self.ingame:
             self.activescr.deinit()
 
-        #remove lock
+        # remove lock
         self.remove_game_lock()
 
 if __name__ == '__main__':
