@@ -53,11 +53,10 @@ class TestCodeFormat(unittest.TestCase):
         result = pep8style.check_files(['pygameui/__init__.py',
                                         'pygameui/button.py',
                                         'pygameui/container.py',
-                                        'pygameui/coreplugin.py',
-                                        'farmlib/image.py',
-                                        'farmlib/label.py',
-                                        'farmlib/widget.py',
-                                        'farmlib/window.py'])
+                                        'pygameui/image.py',
+                                        'pygameui/label.py',
+                                        'pygameui/widget.py',
+                                        'pygameui/window.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 

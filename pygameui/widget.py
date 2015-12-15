@@ -60,32 +60,45 @@ class Widget(object):
         pass
 
     def poll_event(self, event):
-        #Mouse motion
+        """Mouse motion, on_leave event, on_enter event
+
+        :param event:
+        :return:
+        """
+        # Mouse motion
         if event.type == pygame.MOUSEMOTION:
             pos = (0, 0)
-            #get relative mouse pos if there is parent container
+            # get relative mouse pos if there is parent container
             if self.parent:
                 newpos = self.parent.get_relative_mousepos()
                 if newpos:
                     pos = newpos
-            #on_leave event
+            # on_leave event
             if self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = False
                 self._call_callback("onleave")
                 self.repaint()
-            #on_enter event
+            # on_enter event
             if not self.insidewidget and self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = True
                 self._call_callback("onenter")
                 self.repaint()
 
     def togglevisible(self):
+        """toggle visible
+
+        :return:
+        """
         if self.visible:
             self.hide()
         else:
             self.show()
 
     def hide(self):
+        """hide
+
+        :return:
+        """
         self.visible = False
         self.active = False
         self._call_callback("onhide")

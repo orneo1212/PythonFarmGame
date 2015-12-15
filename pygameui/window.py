@@ -21,7 +21,7 @@ class Window(Container):
         """
         Container.__init__(self, (width, height), position)
         self.alphavalue = 196
-        #border
+        # border
         self.showborder = True
         self.bordercolor = (128, 128, 0)
         self.bordersize = 2
