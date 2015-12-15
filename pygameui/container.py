@@ -16,14 +16,13 @@ class Container(Widget):
         Widget.__init__(self, position, (width, height))
         self.widgets = []
         self.visible = True
-        #last active widget
+        # last active widget
         self._lastactivewidget = None
 
     def repaint(self):
         """Repaint internally"""
         self.repaint_container()
         self.repaint_widgets()
-        #print ("repaint container", self)
 
     def repaint_container(self):
         self.create_widget_image()
@@ -67,15 +66,24 @@ class Container(Widget):
             widget.show()
 
     def makeactive(self, widget=None):
+        """make active and repaint
+
+        :param widget:
+        :return:
+        """
         for widg in self.widgets:
             if widget and widg == widget:
                 widg.active = True
             else:
                 widg.active = False
-            #Repaint
+            # Repaint
             widg.repaint()
 
     def update(self):
+        """update
+
+        :return:
+        """
         for widget in self.widgets:
             widget.update()
 
@@ -88,9 +96,8 @@ class Container(Widget):
             widget.poll_event(event)
 
     def get_relative_mousepos(self):
-        """
-            Return mouse position relative to window position and size
-            return None when mouse is not under window
+        """Return mouse position relative to window position and size
+        return None when mouse is not under window
         """
         mx, my = pygame.mouse.get_pos()
         mx -= self.position[0]
@@ -100,6 +107,11 @@ class Container(Widget):
         return (mx, my)
 
     def addwidget(self, widget):
+        """add widget
+
+        :param widget:
+        :return:
+        """
         widget.parent = self
         widget.mark_modified()
         self.widgets.append(widget)

@@ -7,7 +7,6 @@ import os
 import random
 from datetime import datetime
 import logging
-log = logging.getLogger("farmlib/gamewindow")
 
 
 import pygame
@@ -31,6 +30,8 @@ from farmlib.coreplugin import CorePlugin
 
 from pygameui import Label, Button, Window, Image
 from farmlib.gamemanager import GameManager
+
+log = logging.getLogger("farmlib/gamewindow")
 
 REMOVEWILTEDCOST = farmlib.rules["REMOVEWILTEDCOST"]
 REMOVEANTHILLCOST = farmlib.rules["REMOVEANTHILLCOST"]
@@ -84,13 +85,13 @@ class GameWindow(Window):
 
         # Market button
         marketbutton = Button("", (800 - 42, 10),
-                             bgimage=self.images['marketbutton'])
+                              bgimage=self.images['marketbutton'])
         marketbutton.connect("clicked", self.toggle_market)
         self.addwidget(marketbutton)
 
         # Inventory button
         inventorybutton = Button("", (800 - 42, 52),
-                             bgimage=self.images['inventorybutton'])
+                                 bgimage=self.images['inventorybutton'])
         inventorybutton.connect("clicked", self.toggle_inventory)
         self.addwidget(inventorybutton)
 
@@ -107,7 +108,7 @@ class GameWindow(Window):
 
         # Label for version
         versionlabel = Label("v. " + __VERSION__ + " (H for help)",
-            (5, 580))
+                             (5, 580))
         self.addwidget(versionlabel)
 
         # Is game running?
@@ -227,7 +228,7 @@ class GameWindow(Window):
 
                 # Events only for active game
                 if not self.sellwindow.visible and \
-                    not self.inventorywindow.visible:
+                        not self.inventorywindow.visible:
 
                     self.active_game_events(event)
 
@@ -270,7 +271,7 @@ class GameWindow(Window):
 
             # others events
             if not self.sellwindow.visible and \
-                not self.inventorywindow.visible:
+                    not self.inventorywindow.visible:
 
                 self.handle_farmfield_events(event)
 
@@ -286,9 +287,9 @@ class GameWindow(Window):
 
         # avoid temp farm image to be None
         if not self.tempfarmimage or farm.ismodified():
-            #Draw farmfield
+            # Draw farmfield
             self.tempfarmimage = render_field(screen, self.images,
-                                        farm, self.farmoffset)
+                                              farm, self.farmoffset)
         # Blit farmfield
         screen.blit(self.tempfarmimage, (0, 0))
 
@@ -314,7 +315,7 @@ class GameWindow(Window):
         uses.draw(screen)
 
         if not self.sellwindow.visible and \
-            not self.inventorywindow.visible:
+                not self.inventorywindow.visible:
 
             mx, my = pygame.mouse.get_pos()
 
@@ -329,7 +330,7 @@ class GameWindow(Window):
                 render_seed_notify(screen, self.notifyfont,
                                    mx + 5, my + 5,
                                    farmobject, farmtile, self.images
-                                  )
+                                   )
         # draw selected seed
         if player.selecteditem is not None:
             draw_selected_seed(screen, player.selecteditem, self.images)
@@ -340,10 +341,11 @@ class GameWindow(Window):
         self.sellwindow.draw(screen)
         if self.makescreenshot:
             log.info('make screenshot')
-            pygame.image.save(screen,
-                "Screenshots/Screenshot{:%Y%m%d_%H%M%f}.png".format(datetime.now()))
+            pygame.image.save(
+                    screen,
+                    "Screenshots/Screenshot{:%Y%m%d_%H%M%f}.png".
+                    format(datetime.now()))
             self.makescreenshot = False
-
 
     def get_farmtile_pos_under_mouse(self):
         """Get FarmTile position under mouse
@@ -395,7 +397,7 @@ class GameWindow(Window):
         result = self.gamemanager.loadgame()
         if not result:
             self.gamemanager.start_new_game()
-            print ("No save game found. Starting new one")
+            print("No save game found. Starting new one")
         # Forward time to match gametime
         self.gamemanager.timeforward()
 

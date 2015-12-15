@@ -19,21 +19,22 @@ class ImageLoader(object):
 
     def loadimage(self, name, scale=True):
         """Load image by name"""
-        #wrong name
+        # wrong name
         try:
             self.config[name]
         except KeyError:
             return self.empty.copy()
-        #check loaded images
+        # check loaded images
         try:
             return self.loaded[name]
         except KeyError as e:
-            print("Error: Accessed undefined make. Check your data!\nDetails: {0}".format(e))
+            print("Error: Accessed undefined make. "
+                  "Check your data!\nDetails: {0}".format(e))
 
-        #load file
+        # load file
         filename = self.config[name]
         try:
-            #return scaled image
+            # return scaled image
             img = pygame.image.load(filename)
             img.set_colorkey((255, 0, 255))
             img = img.convert_alpha()

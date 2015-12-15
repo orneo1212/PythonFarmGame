@@ -5,7 +5,7 @@ Licence: GPLv3
 Version: 0.2.1
 """
 
-#CHANGELOG
+# CHANGELOG
 # 0.2.1 (06.06.2012)
 #   = fixed call handlers
 #
@@ -21,17 +21,13 @@ Version: 0.2.1
 import logging
 
 
-#################
 # Constans
-#################
 PRIORITY_LOW = -10
 PRIORITY_NORMAL = 0
 PRIORITY_HIGH = 10
 
 
-#################
 # EVENT
-#################
 class Event(object):
     """
     Base event
@@ -48,9 +44,7 @@ class Event(object):
             )
 
 
-#################
 # LISTENER
-#################
 class Listener(object):
     """
     Base listener
@@ -88,17 +82,15 @@ class Listener(object):
             return False
 
     def _handle_event(self, event):
-        #call handler (handler_<eventname>)
+        # call handler (handler_<eventname>)
         handler = getattr(self, "handler_%s" % event.name, None)
         if handler:
             handler(**event.args)
         else:
-            print ("Handler for event %s not found" % event.name)
+            print("Handler for event %s not found" % event.name)
 
 
-#################
 # PLUGIN
-#################
 class BasePlugin(object):
     """
     Base Plugin
@@ -109,7 +101,7 @@ class BasePlugin(object):
     def __init__(self):
         """Init base plugin"""
         self.system = None
-        #Plugin system object when installed
+        # Plugin system object when installed
 
     def register_global_hook(self, hookname, function):
         """Register Function globally."""
@@ -117,7 +109,7 @@ class BasePlugin(object):
             self.system.globalhooks[hookname] = function
         except:
             msg = ("Cannot Register Global"
-                " Hook %s (Plugin installed?)" % hookname)
+                   " Hook %s (Plugin installed?)" % hookname)
             if self.system and self.system.debug:
                 print msg
 
@@ -155,7 +147,7 @@ class PluginSystem(object):
     def register_event(self, eventname, listener, priority=PRIORITY_NORMAL):
         """Register event in listener"""
         listener.eventdef[eventname] = priority
-        #Add listener to plugin system
+        # Add listener to plugin system
         if listener not in self._listeners:
             self._listeners.append(listener)
 
@@ -169,7 +161,7 @@ class PluginSystem(object):
             plugin = pluginObject()
             plugin.system = self
 
-            #Setup plugin
+            # Setup plugin
             try:
                 plugin.setup()
             except Exception as e:
@@ -188,7 +180,7 @@ class PluginSystem(object):
         """
         Send events to plugins. This should be called with tick delay
         """
-        #Set priority for events
+        # Set priority for events
         tempqueue = []
         for nr in xrange(len(self.eventqueue)):
             ev = self.eventqueue.pop(0)
@@ -197,11 +189,11 @@ class PluginSystem(object):
                 if done:
                     break
             tempqueue.append(ev)
-        #Set new sorted queue
+        # Set new sorted queue
         self.eventqueue = tempqueue
-        #Sort events
+        # Sort events
         self.eventqueue.sort(key=lambda x: x.priority)
-        #Handle events
+        # Handle events
         for nr in xrange(len(self.eventqueue)):
             ev = self.eventqueue.pop(0)
             for listener in self._listeners:

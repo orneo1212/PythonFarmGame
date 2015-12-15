@@ -16,10 +16,10 @@ class InventoryWindow(Container):
         self.player = player
         self.notifyfont = pygame.font.Font("dejavusansmono.ttf", 12)
 
-        #tooltip
+        # tooltip
         self.tooltip = [None, None]
 
-        #Last checksum
+        # Last checksum
         self.lchecksum = ""
 
         self.create_gui()
@@ -35,7 +35,7 @@ class InventoryWindow(Container):
             return False
 
     def draw(self, surface):
-        """Override Winbdow draw function"""
+        """Override Window draw function"""
         Container.draw(self, surface)
         if self.tooltip[0]:
             self.tooltip[0].draw(surface)
@@ -45,43 +45,43 @@ class InventoryWindow(Container):
         bg = Image(self.images['inventory'], (0, 0))
         self.addwidget(bg)
 
-        #close button
+        # close button
         closebutton = Button("X", (380, 3), labelsize=15,
                              color=(255, 255, 255))
         closebutton.connect("clicked", lambda x: self.hide())
         self.addwidget(closebutton)
 
-        #create items
+        # create items
         counterx = 0
         countery = 0
         for item in self.player.inventory:
             px = counterx * 64 + self.inventoryoffset[0] + 25
             py = countery * 32 + self.inventoryoffset[1] + 30
-            #make grid
+            # make grid
             px += counterx * 30
             py += countery * 15
 
-            #grid image
+            # grid image
             gridimage = Image(self.images['grid2'], (px, py))
             self.addwidget(gridimage)
 
-            #item button
+            # item button
             img = self.images['object' + str(item)]
             itembutton = Button("", (px, py), img)
             itembutton.connect("clicked",
-                self.on_item_select, itemid=item)
+                               self.on_item_select, itemid=item)
             itembutton.connect("onenter",
-                self.on_item_enter, itemid=item)
+                               self.on_item_enter, itemid=item)
             itembutton.connect("onleave",
-                self.on_item_leave, itemid=item)
+                               self.on_item_leave, itemid=item)
             self.addwidget(itembutton)
 
-            #item count
+            # item count
             text = str(self.player.itemscounter[str(item)])
             itemcount = Label(text, (px + 40, py + 16), align="center")
             self.addwidget(itemcount)
 
-            #limit
+            # limit
             counterx += 1
             if counterx == self.inventorysize[0]:
                 counterx = 0
@@ -93,7 +93,7 @@ class InventoryWindow(Container):
         seed = objects[itemid]
         otype = objects.get("type", "object")
 
-        #this is seed
+        # this is seed
         if otype == "seed":
             data = [
                     ["Name", seed["name"]],
@@ -102,7 +102,7 @@ class InventoryWindow(Container):
                     ["Grow in", str(seed["growtime"] / 60) + " minutes"],
                     ["Required level", str(seed.get("requiredlevel", 1))],
                     ]
-        #this is object
+        # this is object
         else:
             data = [
                     ["Name", seed["name"]],
@@ -117,9 +117,13 @@ class InventoryWindow(Container):
             self.tooltip = [None, None]
 
     def repaint(self):
+        """repaint
+
+        :return:
+        """
         Container.repaint(self)
-        #self.create_gui()
-        #Mark widgets not modified
+        # self.create_gui()
+        # Mark widgets not modified
         for widget in self.widgets:
             widget.mark_modified(False)
 

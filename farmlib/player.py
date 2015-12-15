@@ -10,20 +10,20 @@ class Player(object):
         self.itemscounter = {'3': 2}
         self.money = 0
         self.watercanuses = 100
-        #Skill
+        # Skill
         self.exp = 0.0
         self.nextlvlexp = 100.0
         self.level = 1
-        #selection
+        # selection
         self.selecteditem = None
         self.selectedtool = "harvest"
 
     def update(self):
-        #create dict key if not exist in itemscounter
+        # create dict key if not exist in itemscounter
         for i in self.inventory:
             if str(i) not in self.itemscounter:  # .has_key(str(i)):
                 self.itemscounter[str(i)] = 0
-        #clear selection if player dont have item
+        # clear selection if player dont have item
         if self.selecteditem is not None:
             if self.selecteditem not in self.inventory:
                 self.selecteditem = None
@@ -34,7 +34,7 @@ class Player(object):
         itemid = int(itemid)
         stritemid = str(itemid)
         if itemid in self.inventory:
-            #itemid must be in itemscounter dict
+            # itemid must be in itemscounter dict
             if stritemid not in self.itemscounter:
                 self.itemscounter[stritemid] = 1
             return True
@@ -45,10 +45,10 @@ class Player(object):
         itemid = int(itemid)
         stritemid = str(itemid)
         if self.item_in_inventory(itemid):
-            #if there is more items in stackremove one item
+            # if there is more items in stackremove one item
             if self.itemscounter[stritemid] > 1:
                 self.itemscounter[stritemid] -= 1
-            #remove item
+            # remove item
             else:
                 del self.itemscounter[stritemid]
                 self.inventory.remove(itemid)
@@ -63,14 +63,14 @@ class Player(object):
             self.itemscounter[stritemid] += 1
             return True
         else:
-            #add item to inventory and set counter to 1
+            # add item to inventory and set counter to 1
             self.inventory.append(itemid)
             self.itemscounter[stritemid] = 1
 
     def create_new_object_by_id(self, itemid):
         """Create new farm object from objects dictionary"""
 
-        #If player dont have this object return False
+        # If player dont have this object return False
         if not self.item_in_inventory(itemid):
             return False
         if objects[itemid].get("type", "object") == "seed":

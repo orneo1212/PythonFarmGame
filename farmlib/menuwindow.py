@@ -20,37 +20,49 @@ class MenuWindow(Container):
         self.menupos = 0
         self.maxmenupos = 1
 
-        #background
+        # background
         imgpath = os.path.join("images", "gui", "mainmenubg.png")
         bgimage = pygame.image.load(imgpath).convert_alpha()
         bg = Image(bgimage, (0, 0))
         self.addwidget(bg)
 
-        #start button
+        # start button
         self.menucursor = Label("-> ", (230, 120),
-                                  color=(255, 255, 0), size=20)
+                                color=(255, 255, 0), size=20)
         self.addwidget(self.menucursor)
 
-        #start button
+        # start button
         self.startbutton = Button("Start game / Continue", (270, 120),
                                   color=(255, 255, 200), labelsize=20)
         self.startbutton.connect("clicked", self.on_startgame)
         self.addwidget(self.startbutton)
 
-        #Quit button
+        # Quit button
         self.quitbutton = Button("Quit", (270, 160),
-                                color=(255, 0, 0),
-                                labelsize=20)
+                                 color=(255, 0, 0),
+                                 labelsize=20)
         self.quitbutton.connect("clicked", self.on_quit)
         self.addwidget(self.quitbutton)
 
-        #Show window
+        # Show window
         self.show()
 
     def on_quit(self, widget, **data):
+        """quit
+
+        :param widget:
+        :param data:
+        :return:
+        """
         self.running = False
 
     def on_startgame(self, widget, **data):
+        """start game
+
+        :param widget:
+        :param data:
+        :return:
+        """
         self.startbutton.settext("Loading...")
         self.parent.gamescreen = GameWindow()
         self.parent.set_active_screen(self.parent.gamescreen)
@@ -63,6 +75,10 @@ class MenuWindow(Container):
         Container.draw(self, surface)
 
     def update_menu_cursor(self):
+        """update menu cursor
+
+        :return:
+        """
         if self.menupos < 0:
             self.menupos = 0
         if self.menupos > self.maxmenupos:
@@ -73,9 +89,9 @@ class MenuWindow(Container):
 
     def events(self):
         for event in pygame.event.get():
-            #poll event to window
+            # poll event to window
             self.poll_event(event)
-            #
+
             if event.type == pygame.QUIT:
                 self.running = False
             if event.type == pygame.KEYDOWN:
