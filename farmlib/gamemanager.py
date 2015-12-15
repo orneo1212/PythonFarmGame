@@ -12,6 +12,9 @@ from farmlib.player import Player
 
 
 class GameManager(object):
+    """Game Manager
+
+    """
     def __init__(self):
         self.farms = []
         self.gameseed = int(time.time())
@@ -20,6 +23,11 @@ class GameManager(object):
         self.player = Player()
 
     def getfarm(self, farmid=None):
+        """getfarm
+
+        :param farmid:
+        :return:
+        """
         if farmid is None:
             farmid = self.current_farm
         if not self.farms:
@@ -30,34 +38,68 @@ class GameManager(object):
             return None
 
     def getfarmcount(self):
+        """get farm count
+
+        :return:
+        """
         return len(self.farms)
 
     def getcurrentfarmid(self):
+        """get current farm id
+
+        :return:
+        """
         return self.current_farm
 
     def getnextfarmcost(self):
+        """get next farm cost
+
+        :return:
+        """
         farmcount = self.getfarmcount() - 1
         cost = 10000 + 12000 * farmcount
         return cost
 
     def addfarm(self):
+        """add farm
+
+        :return:
+        """
         newfarm = FarmField(self)
         self.farms.append(newfarm)
         return newfarm
 
     def setcurrentfarm(self, farmid):
+        """set current farm
+
+        :param farmid:
+        :return:
+        """
         if farmid > self.getfarmcount():
             farmid = self.getfarmcount() - 1
         self.current_farm = farmid
         return farmid
 
     def getgameseed(self):
+        """get game seed
+
+        :return:
+        """
         return self.gameseed
 
     def setgameseed(self, newseed):
+        """set game seed
+
+        :param newseed:
+        :return:
+        """
         self.gameseed = newseed
 
     def getplayer(self):
+        """get player
+
+        :return:
+        """
         return self.player
 
     def update(self):
@@ -81,13 +123,25 @@ class GameManager(object):
         farm.generate_random_planks()
 
     def savegame(self):
+        """save game
+
+        :return:
+        """
         self.save_gamestate('field.json', self.player)
 
     def loadgame(self):
+        """load game
+
+        :return:
+        """
         result = self.load_gamestate('field.json', self.player)
         return result
 
     def timeforward(self):
+        """time forward
+
+        :return:
+        """
         farm = self.getfarm(0)
         if farm.seconds_to_update > 1000:
             farm.seconds_to_update = 1000

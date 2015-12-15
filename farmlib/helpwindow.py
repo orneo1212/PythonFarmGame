@@ -7,6 +7,9 @@ from pygameui import Label, Window
 
 
 class HelpWindow(Window):
+    """Help Window
+
+    """
     def __init__(self, size):
         Window.__init__(self, size, (150, 40))
         # set window alpha
@@ -18,6 +21,10 @@ class HelpWindow(Window):
         self.hide()
 
     def create_gui(self):
+        """create gui
+
+        :return:
+        """
         messages = [
             "TIPS:",
             "* Plant seeds and harvest to get money",

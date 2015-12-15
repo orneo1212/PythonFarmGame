@@ -2,6 +2,9 @@ import json
 
 
 class DictMapper(object):
+    """DictMapper
+
+    """
     def __init__(self, dicttomap={}):
         self._dict = dicttomap
 
@@ -15,9 +18,19 @@ class DictMapper(object):
         self._dict[name] = value
 
     def keys(self):
+        """keys
+
+        :return:
+        """
         return self._dict.keys()
 
     def get(self, keyname, defaultvalue):
+        """get
+
+        :param keyname:
+        :param defaultvalue:
+        :return:
+        """
         if keyname in self._dict.keys():
             return self._dict[keyname]
         else:
@@ -35,7 +48,17 @@ class DictMapper(object):
                 return None
 
     def save(self, filename):
+        """save
+
+        :param filename:
+        :return:
+        """
         json.dump(self._dict, open(filename, "w"), indent=2)
 
     def load(self, filename):
+        """load
+
+        :param filename:
+        :return:
+        """
         self._dict = json.load(open(filename, "r"))

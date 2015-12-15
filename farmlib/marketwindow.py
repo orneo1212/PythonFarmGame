@@ -16,6 +16,9 @@ OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
 
 
 class MarketWindow(Container):
+    """Market Window
+
+    """
     def __init__(self, size, imgloader, player, gamemanager):
         self.gamemanager = gamemanager
         self.player = player
@@ -140,6 +143,11 @@ class MarketWindow(Container):
         self.sellbutton.connect("clicked", self.on_sell_clicked)
 
     def draw(self, surface):
+        """draw
+
+        :param surface:
+        :return:
+        """
         Container.draw(self, surface)
         if self.tooltip[0]:
             self.tooltip[0].draw(surface)
@@ -157,14 +165,29 @@ class MarketWindow(Container):
         self.buyfarm.settext("Buy new farm ($%s)" % farmcost)
 
     def get_item_cost(self, itemid):
+        """get item cost
+
+        :param itemid:
+        :return:
+        """
         cost = int(objects[itemid]["price"])
         return cost * self.count
 
     def get_item_sell_value(self, itemid):
+        """get item sell value
+
+        :param itemid:
+        :return:
+        """
         sellcost = int(self.get_item_cost(itemid) / 8)
         return sellcost
 
     def update_buy_sell_button(self, itemid):
+        """update buy sell button
+
+        :param itemid:
+        :return:
+        """
         have = 0
         if self.player.item_in_inventory(itemid):
             have = self.player.itemscounter[str(itemid)]
@@ -173,7 +196,13 @@ class MarketWindow(Container):
         self.sellbutton.settext("SELL x%s " % str(self.count))
 
     def on_item_select(self, widget, itemid):
-        # increase count if the same item selected
+        """selected item
+        increase count if the same item selected
+
+        :param widget:
+        :param itemid:
+        :return:
+        """
         if itemid == self.selecteditem:
             self.count += 1
         else:
@@ -190,6 +219,12 @@ class MarketWindow(Container):
         self.update_buy_sell_button(itemid)
 
     def on_buy_clicked(self, widget, **data):
+        """buy clicked
+
+        :param widget:
+        :param data:
+        :return:
+        """
         if self.selecteditem is None:
             return
         itemid = self.selecteditem
@@ -226,6 +261,12 @@ class MarketWindow(Container):
             self.message.settext("You don\'t have this item (or not enought)")
 
     def on_water_buy(self, widget, **data):
+        """ water buy
+
+        :param widget:
+        :param data:
+        :return:
+        """
         if self.player.watercanuses == 100:
             self.message.settext("You no need refill")
             return

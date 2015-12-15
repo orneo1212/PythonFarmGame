@@ -9,12 +9,19 @@ from pygameui import Label
 
 
 class ExpBar(Label):
+    """ExpBar
+
+    """
     def __init__(self, player):
         self.player = player
         self.oldexp = -1.0
         Label.__init__(self, "", (9, 58))
 
     def update_text(self):
+        """update text
+
+        :return:
+        """
         # get data
         exp = self.player.exp
         nextlvlexp = self.player.nextlvlexp
@@ -26,10 +33,18 @@ class ExpBar(Label):
                      (int(exp), int(nextlvlexp), progress), repaint=False)
 
     def update(self):
+        """update
+
+        :return:
+        """
         if self.oldexp != self.player.exp:
             self.repaint()
 
     def repaint(self):
+        """repaint
+
+        :return:
+        """
         self.update_text()
 
         self.size = self.width, self.height = ((48 + 2) * 6 - 1, 16)
@@ -55,4 +70,9 @@ class ExpBar(Label):
         self.img.blit(txtimg, (px, py))
 
     def redraw(self, surface):
+        """redraw
+
+        :param surface:
+        :return:
+        """
         surface.blit(self.img, self.position)

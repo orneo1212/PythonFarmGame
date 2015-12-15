@@ -2,6 +2,9 @@ import pygame
 
 
 class ImageLoader(object):
+    """Image Loader
+
+    """
 
     def __init__(self, imagesdict):
         self.config = imagesdict

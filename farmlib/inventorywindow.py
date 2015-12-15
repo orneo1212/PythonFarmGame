@@ -8,6 +8,9 @@ from farmlib.tooltip import Tooltip
 
 
 class InventoryWindow(Container):
+    """Inventory Window
+
+    """
     def __init__(self, imgloader, player):
         Container.__init__(self, (400, 500), (200, 50))
         self.inventoryoffset = (0, 10)
@@ -41,6 +44,10 @@ class InventoryWindow(Container):
             self.tooltip[0].draw(surface)
 
     def create_gui(self):
+        """create gui
+
+        :return:
+        """
         self.remove_all_widgets()
         bg = Image(self.images['inventory'], (0, 0))
         self.addwidget(bg)
@@ -90,6 +97,12 @@ class InventoryWindow(Container):
                 break
 
     def on_item_enter(self, widget, itemid):
+        """on item enter
+
+        :param widget:
+        :param itemid:
+        :return:
+        """
         seed = objects[itemid]
         otype = objects.get("type", "object")
 
@@ -146,5 +159,11 @@ class InventoryWindow(Container):
         return (xx, yy)
 
     def on_item_select(self, widget, itemid):
+        """on item select
+
+        :param widget:
+        :param itemid:
+        :return:
+        """
         self.player.selecteditem = itemid
         self.player.selectedtool = "plant"

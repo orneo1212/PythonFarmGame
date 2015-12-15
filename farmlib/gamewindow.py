@@ -50,6 +50,9 @@ for gobject in objects:
 
 
 class GameWindow(Window):
+    """Game Window
+
+    """
     def __init__(self):
         Window.__init__(self, (800, 600), (0, 0))
 
@@ -150,9 +153,18 @@ class GameWindow(Window):
         self.moneylabel.settext(text)
 
     def recreate_inventory(self):
+        """recreate inventory
+
+        :return:
+        """
         self.inventorywindow.create_gui()
 
     def handle_farmfield_events(self, event):
+        """handle farmfield events
+
+        :param event:
+        :return:
+        """
         # Mouse motion
         mx, my = pygame.mouse.get_pos()
 
@@ -179,14 +191,29 @@ class GameWindow(Window):
                     player.selectedtool = tool
 
     def toggle_market(self, widget):
+        """toggle market
+
+        :param widget:
+        :return:
+        """
         self.inventorywindow.hide()
         self.sellwindow.togglevisible()
 
     def toggle_inventory(self, widget):
+        """toggle inventory
+
+        :param widget:
+        :return:
+        """
         self.sellwindow.hide()
         self.inventorywindow.togglevisible()
 
     def active_game_events(self, event):
+        """active game events
+
+        :param event:
+        :return:
+        """
         player = self.gamemanager.getplayer()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:

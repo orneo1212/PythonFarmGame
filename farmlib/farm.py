@@ -323,9 +323,18 @@ class FarmObject(object):
         self.__dict__.update(dictionary)
 
     def update(self, farmtile):
+        """update
+
+        :param farmtile:
+        :return:
+        """
         return False
 
     def onplant(self):
+        """onplant
+
+        :return:
+        """
         pass
 
 
@@ -354,6 +363,11 @@ class Seed(FarmObject):
         self.remainstring = ""
 
     def update_remainig_growing_time(self, waterlevel=0):
+        """Lower growtime with ground is wet
+
+        :param waterlevel:
+        :return:
+        """
         if waterlevel > 0:
             groundwet = float(waterlevel) / 100.0
         else:
@@ -372,20 +386,20 @@ class Seed(FarmObject):
 
         # calculate remaining time in hours, minutes and seconds
         remain = self.growtimeremaining
-        remH = remain / 3600
-        remain -= remH * 3600
-        remM = remain / 60
-        remain -= remM * 60
-        remS = remain
+        rem_hour = remain / 3600
+        remain -= rem_hour * 3600
+        rem_minute = remain / 60
+        remain -= rem_minute * 60
+        rem_secound = remain
         # change to string
-        if remH < 10:
-            remH = "0" + str(remH)
-        if remM < 10:
-            remM = "0" + str(remM)
-        if remS < 10:
-            remS = "0" + str(remS)
+        if rem_hour < 10:
+            rem_hour = "0" + str(rem_hour)
+        if rem_minute < 10:
+            rem_minute = "0" + str(rem_minute)
+        if rem_secound < 10:
+            rem_secound = "0" + str(rem_secound)
 
-        self.remainstring = "%sh %sm %ss" % (remH, remM, remS)
+        self.remainstring = "%sh %sm %ss" % (rem_hour, rem_minute, rem_secound)
 
         if self.growing:
 
@@ -402,6 +416,10 @@ class Seed(FarmObject):
         return False  # not updated
 
     def onplant(self):
+        """onplant
+
+        :return:
+        """
         self.start_grow()
 
     def start_grow(self):
