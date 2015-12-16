@@ -2,6 +2,9 @@ import time
 
 
 class Timer(object):
+    """
+    Timer
+    """
     def __init__(self):
         self.lasttick = 0.0
         self.tickcount = -1

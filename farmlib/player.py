@@ -19,6 +19,10 @@ class Player(object):
         self.selectedtool = "harvest"
 
     def update(self):
+        """update inventory
+
+        :return:
+        """
         # create dict key if not exist in itemscounter
         for i in self.inventory:
             if str(i) not in self.itemscounter:  # .has_key(str(i)):
@@ -29,6 +33,11 @@ class Player(object):
                 self.selecteditem = None
 
     def item_in_inventory(self, itemid):
+        """item in inventory
+
+        :param itemid:
+        :return:
+        """
         if itemid is None:
             return False
         itemid = int(itemid)
@@ -42,6 +51,11 @@ class Player(object):
             return False
 
     def remove_item(self, itemid):
+        """remove item
+
+        :param itemid:
+        :return:
+        """
         itemid = int(itemid)
         stritemid = str(itemid)
         if self.item_in_inventory(itemid):
@@ -57,6 +71,11 @@ class Player(object):
             return False
 
     def add_item(self, itemid):
+        """add item
+
+        :param itemid:
+        :return:
+        """
         itemid = int(itemid)
         stritemid = str(itemid)
         if self.item_in_inventory(itemid):
@@ -83,12 +102,21 @@ class Player(object):
             return fobject
 
     def update_skill(self):
+        """update skill
+
+        :return:
+        """
         self.nextlvlexp = float(self.level - 1) * 100.0 * 2.75 + 100.0
         if self.exp >= self.nextlvlexp:
             self.level += 1
             self.exp = self.exp - self.nextlvlexp
 
     def event_harvest(self, seedharvested):
+        """event harvest
+
+        :param seedharvested:
+        :return:
+        """
         if seedharvested.type != "seed":
             return
         self.exp += seedharvested.price / 4

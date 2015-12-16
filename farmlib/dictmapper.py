@@ -5,8 +5,8 @@ class DictMapper(object):
     """DictMapper
 
     """
-    def __init__(self, dicttomap={}):
-        self._dict = dicttomap
+    def __init__(self, dicttomap=None):
+        self._dict = dicttomap or {}
 
     def __str__(self):
         return repr(self._dict)
@@ -42,9 +42,9 @@ class DictMapper(object):
         if name in self._dict:
             return self._dict[name]
         else:
-            try:
+            if name in self.__dict__:
                 return self.__dict__[name]
-            except:
+            else:
                 return None
 
     def save(self, filename):

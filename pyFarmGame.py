@@ -13,6 +13,9 @@ pygame.key.set_repeat(100, 100)
 
 
 class FarmGamePygame(object):
+    """
+    Farm Game Pygame
+    """
     def __init__(self):
         """Init game"""
         self.screen = pygame.display.set_mode((800, 600), pygame.DOUBLEBUF)
@@ -26,16 +29,34 @@ class FarmGamePygame(object):
         self.inmenu = True
 
     def set_active_screen(self, activescreen):
+        """set active screen
+
+        :param activescreen:
+        :return:
+        """
         self.activescr = activescreen
         self.activescr.parent = self
 
     def update(self):
+        """update
+
+        :return:
+        """
         self.activescr.update()
 
     def events(self):
+        """events
+
+        :return:
+        """
         self.activescr.events()
 
     def redraw(self, surface):
+        """redraw
+
+        :param surface:
+        :return:
+        """
         self.activescr.redraw(surface)
 
     def run(self):
@@ -51,6 +72,10 @@ class FarmGamePygame(object):
             exit(1)
 
     def check_game_lock(self):
+        """check game lock
+
+        :return:
+        """
         if os.path.isfile("game.lock"):
             print("Game is already running. If not manualy"
                   " remove game.lock file and try again")
@@ -59,6 +84,10 @@ class FarmGamePygame(object):
             open("game.lock", "w").close()
 
     def remove_game_lock(self):
+        """remove game lock
+
+        :return:
+        """
         if os.path.isfile("game.lock"):
             os.remove("game.lock")
 

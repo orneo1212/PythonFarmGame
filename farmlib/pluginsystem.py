@@ -75,14 +75,17 @@ class Listener(object):
 
     def apply_priority(self, event):
         """Apply listener priority to event only when event in eventdef"""
-        try:
-            event.priority = self.eventdef[event.name]
+        if event.name in self.eventdef:
             return True
-        except KeyError:
+        else:
             return False
 
-    def _handle_event(self, event):
-        # call handler (handler_<eventname>)
+    def handle_event(self, event):
+        """call handler (handler_<eventname>)
+
+        :param event:
+        :return:
+        """
         handler = getattr(self, "handler_%s" % event.name, None)
         if handler:
             handler(**event.args)
@@ -107,11 +110,11 @@ class BasePlugin(object):
         """Register Function globally."""
         try:
             self.system.globalhooks[hookname] = function
-        except:
+        except KeyError:
             msg = ("Cannot Register Global"
                    " Hook %s (Plugin installed?)" % hookname)
             if self.system and self.system.debug:
-                print msg
+                print(msg)
 
 
 #################
@@ -174,7 +177,7 @@ class PluginSystem(object):
         except AttributeError:
             msg = "Can't install plugin from %s." % str(pluginObject)
             if self.debug:
-                print msg
+                print(msg)
 
     def run(self):
         """
@@ -198,7 +201,7 @@ class PluginSystem(object):
             ev = self.eventqueue.pop(0)
             for listener in self._listeners:
                 listener.apply_priority(ev)
-                listener._handle_event(ev)
+                listener.handle_event(ev)
 
     def emit(self, event):
         """Emit event"""
@@ -219,7 +222,7 @@ class PluginSystem(object):
         except KeyError:
             msg = "Cannot get Global Hook %s" % hookname
             if self.debug:
-                print msg
+                print(msg)
 
 
 ###########

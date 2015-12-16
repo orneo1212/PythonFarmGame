@@ -33,6 +33,11 @@ class CoreListener(Listener):
         Listener.__init__(self, plugin)
 
     def handler_pluginload(self, pluginname):
+        """handler pluginload
+
+        :param pluginname:
+        :return:
+        """
         pass
 
     def handler_toolused(self, position, gamemanager):
@@ -60,6 +65,13 @@ class CoreListener(Listener):
             self.axe_events(farm, player, position)
 
     def watercan_events(self, farm, player, position):
+        """watercan events
+
+        :param farm:
+        :param player:
+        :param position:
+        :return:
+        """
         if not player.watercanuses:
             False
         done = farm.water(position[0], position[1])

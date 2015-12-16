@@ -12,6 +12,9 @@ from farmlib.gamewindow import GameWindow
 
 
 class MenuWindow(Container):
+    """MenuWindow
+
+    """
     def __init__(self):
         self.parent = None
         Container.__init__(self, (800, 600), (0, 0))
@@ -72,6 +75,11 @@ class MenuWindow(Container):
         self.running = False
 
     def redraw(self, surface):
+        """redraw
+
+        :param surface:
+        :return:
+        """
         Container.draw(self, surface)
 
     def update_menu_cursor(self):
@@ -88,6 +96,10 @@ class MenuWindow(Container):
         self.repaint()
 
     def events(self):
+        """events
+
+        :return:
+        """
         for event in pygame.event.get():
             # poll event to window
             self.poll_event(event)
