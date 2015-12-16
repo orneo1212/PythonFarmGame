@@ -278,11 +278,23 @@ class MarketWindow(Container):
             self.message.settext("You dont have money to refill watercan")
 
     def give_item(self, itemid, count):
+        """give item
+
+        :param itemid:
+        :param count:
+        :return:
+        """
         for x in xrange(count):
             self.player.add_item(self.selecteditem)
 
     # TOOLTIP
     def on_mouse_item_enter(self, widget, itemid):
+        """on mouse item enter
+
+        :param widget:
+        :param itemid:
+        :return:
+        """
         seed = objects[itemid]
         otype = objects.get("type", "object")
 
@@ -306,10 +318,21 @@ class MarketWindow(Container):
         self.tooltip = [Tooltip((mx + 5, my + 5), data), widget]
 
     def on_mouse_item_leave(self, widget, itemid):
+        """on mouse item leave
+
+        :param widget:
+        :param itemid:
+        :return:
+        """
         if self.tooltip[1] == widget:
             self.tooltip = [None, None]
 
     def on_farm_buy(self, widget):
+        """on farm buy
+
+        :param widget:
+        :return:
+        """
         farmcost = self.gamemanager.getnextfarmcost()
         if self.player.money < farmcost:
             self.message.settext("You dont have money to buy new farm")

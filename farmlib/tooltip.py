@@ -7,19 +7,23 @@ from pygameui import Label, Window
 
 
 class Tooltip(Window):
-
+    """create tooltip window
+    """
     def __init__(self, position, data):
-        """
-            create tooltip window.
-            data must be list of pairs ["label", "value"]
+        """create tooltip window.
+        data must be list of pairs ["label", "value"]
         """
         Window.__init__(self, (0, 0), position)
         self.data = data
         self.alphavalue = 200
         #
-        self.crete_widgets()
+        self.create_widgets()
 
-    def crete_widgets(self):
+    def create_widgets(self):
+        """create widgets
+
+        :return:
+        """
         rowid = 0
         fontsize = 13
         spaceing = 4

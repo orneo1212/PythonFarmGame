@@ -3,7 +3,6 @@ import pygame
 
 class ImageLoader(object):
     """Image Loader
-
     """
 
     def __init__(self, imagesdict):
@@ -23,16 +22,11 @@ class ImageLoader(object):
     def loadimage(self, name, scale=True):
         """Load image by name"""
         # wrong name
-        try:
-            self.config[name]
-        except KeyError:
+        if name not in self.config:
             return self.empty.copy()
         # check loaded images
-        try:
+        if name in self.loaded:
             return self.loaded[name]
-        except KeyError as e:
-            print("Error: Accessed undefined make. "
-                  "Check your data!\nDetails: {0}".format(e))
 
         # load file
         filename = self.config[name]
@@ -42,7 +36,8 @@ class ImageLoader(object):
             img.set_colorkey((255, 0, 255))
             img = img.convert_alpha()
         except Exception as e:
-            print(e)
+            print("Error: Exception in imageloader "
+                  "Check your data!\nDetails: {0}".format(e))
             img = self.empty.copy()
         self.loaded[name] = img
         return img
