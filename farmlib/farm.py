@@ -1,11 +1,13 @@
+from __future__ import absolute_import
+
 import os
 import random
 import time
 import base64
 
 import farmlib
-from pnoise import pnoise
-from dictmapper import DictMapper
+from farmlib.pnoise import pnoise
+from farmlib.dictmapper import DictMapper
 
 
 class FarmTile(object):
@@ -182,6 +184,12 @@ class FarmField(object):
             return True
 
     def wilt_plant(self, posx, posy):
+        """wilt plant
+
+        :param posx:
+        :param posy:
+        :return:
+        """
         fobject = FarmObject()
         fobject.id = 8  # Wilted plant
         fobject.apply_dict(objects[fobject.id])
@@ -189,10 +197,22 @@ class FarmField(object):
         self.set_farmtile(posx, posy, farmtile)
         return True
 
-    def removewilted(self, posx, posy, player):
-        self.remove(posx, posy, player)
+    def removewilted(self, posx, posy):
+        """remove wilted
 
-    def remove(self, posx, posy, player):
+        :param posx:
+        :param posy:
+        :return:
+        """
+        self.remove(posx, posy)
+
+    def remove(self, posx, posy):
+        """remove
+
+        :param posx:
+        :param posy:
+        :return:
+        """
         self.set_farmtile(posx, posy, FarmTile())
 
     def water(self, posx, posy, force=False):

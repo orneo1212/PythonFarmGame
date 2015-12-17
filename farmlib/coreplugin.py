@@ -1,5 +1,7 @@
-from __init__ import rules
-from pluginsystem import BasePlugin, Listener
+from __future__ import absolute_import
+
+from farmlib import rules
+from farmlib.pluginsystem import BasePlugin, Listener
 
 REMOVEWILTEDCOST = rules["REMOVEWILTEDCOST"]
 REMOVEANTHILLCOST = rules["REMOVEANTHILLCOST"]
@@ -38,7 +40,7 @@ class CoreListener(Listener):
         :param pluginname:
         :return:
         """
-        pass
+        print(pluginname)
 
     def handler_toolused(self, position, gamemanager):
         """Tool used on

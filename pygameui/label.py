@@ -1,9 +1,14 @@
+from __future__ import absolute_import
+
 import pygame
 
-from widget import Widget
+from pygameui.widget import Widget
 
 
 class Label(Widget):
+    """
+    Label
+    """
     def __init__(self, text, position, size=12,
                  color=(255, 255, 255), align="left"):
         self.text = text
@@ -19,15 +24,24 @@ class Label(Widget):
         self.width = self.image.get_size()[0]
         self.height = self.image.get_size()[1]
         self.setposition(self.position)
-        Widget.__init__(self, self.position, (self.width, self.height))
+        Widget.__init__(self, self.position, self.width, self.height)
 
     def render_text(self):
+        """render_text
+
+        :return:
+        """
         self.image = self.labelfont.render(self.text, 0, self.color)
         self.image = self.image.convert_alpha()
         self.width = self.image.get_size()[0]
         self.height = self.image.get_size()[1]
 
     def setposition(self, position):
+        """setposition
+
+        :param position:
+        :return:
+        """
         if self.align == "center":
             position = position[0] - self.width / 2, position[1]
         if self.align == "right":
@@ -37,15 +51,32 @@ class Label(Widget):
         self.position = position
 
     def repaint(self):
+        """repaint
+
+        :return:
+        """
         self.render_text()
         self.img = self.image
         self.mark_modified()
 
     def settext(self, newtext, repaint=True):
-        newtext = unicode(newtext)
+        """settext
+
+        :param newtext:
+        :param repaint:
+        :return:
+        """
+        try:
+            newtext = unicode(newtext)
+        except NameError:
+            newtext = str(newtext)
         self.text = newtext
         self.setposition(self.orginal_position)
         self.mark_modified()
 
     def gettext(self):
+        """gettext
+
+        :return:
+        """
         return self.text

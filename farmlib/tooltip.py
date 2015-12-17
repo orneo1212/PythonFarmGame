@@ -13,7 +13,7 @@ class Tooltip(Window):
         """create tooltip window.
         data must be list of pairs ["label", "value"]
         """
-        Window.__init__(self, (0, 0), position)
+        Window.__init__(self, 0, 0, position)
         self.data = data
         self.alphavalue = 200
         #

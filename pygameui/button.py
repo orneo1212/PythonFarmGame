@@ -1,7 +1,9 @@
+from __future__ import absolute_import
+
 import os
 import pygame
 
-from widget import Widget
+from pygameui.widget import Widget
 
 buttonbgpath = os.path.join("images", "gui", "buttonbg.png")
 
@@ -22,27 +24,49 @@ class Button(Widget):
             self._settextimage()
         else:
             self._setsize(self._calculate_size(self.bgimage))
-        Widget.__init__(self, self.position, (self.width, self.height))
+        Widget.__init__(self, self.position, self.width, self.height)
 
     def _render_text(self):
+        """_render_text
+
+        :return:
+        """
         img = self.labelfont.render(self.label, 0, self.color)
         return img.convert_alpha()
 
     def _calculate_size(self, image):
+        """_calculate_size
+
+        :param image:
+        :return:
+        """
         width = image.get_size()[0] + 4
         height = image.get_size()[1]
         return (width, height)
 
     def _settextimage(self):
+        """_settextimage
+
+        :return:
+        """
         self.image = self._render_text()
         self._setsize(self._calculate_size(self.image))
 
     def setimage(self, newimage):
+        """setimage
+
+        :param newimage:
+        :return:
+        """
         self.image = newimage
         self._setsize(self._calculate_size(self.image))
         self.repaint()
 
     def repaint(self):
+        """repaint
+
+        :return:
+        """
         self.create_widget_image()
         if self.label and self.bgimage:
             img = self._render_text()
@@ -63,11 +87,21 @@ class Button(Widget):
         self.mark_modified()
 
     def settext(self, newtext):
+        """settext
+
+        :param newtext:
+        :return:
+        """
         self.label = newtext
         self._settextimage()
         self.repaint()
 
     def poll_event(self, event):
+        """poll_event
+
+        :param event:
+        :return:
+        """
         Widget.poll_event(self, event)
         pos = self.parent.get_relative_mousepos()
 
@@ -76,8 +110,8 @@ class Button(Widget):
             # on_click event
             if pos is not None:
                 if self.pointinwidget(pos[0], pos[1]):
-                    self._call_callback("clicked")  # old
-                    self._call_callback("onclick")  # old
+                    self.call_callback("clicked")
+                    self.call_callback("onclick")
                     # make button active
                     if self.parent:
                         self.parent.makeactive(self)

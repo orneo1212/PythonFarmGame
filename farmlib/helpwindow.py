@@ -10,8 +10,8 @@ class HelpWindow(Window):
     """Help Window
 
     """
-    def __init__(self, size):
-        Window.__init__(self, size, (150, 40))
+    def __init__(self, width, height):
+        Window.__init__(self, width, height, (150, 40))
         # set window alpha
         self.alphavalue = 250 * 0.95
         # Create gui

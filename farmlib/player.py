@@ -1,4 +1,6 @@
-from farm import objects, FarmObject, Seed
+from __future__ import absolute_import
+
+from farmlib.farm import objects, FarmObject, Seed
 
 
 class Player(object):

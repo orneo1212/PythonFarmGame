@@ -26,6 +26,11 @@ PRIORITY_LOW = -10
 PRIORITY_NORMAL = 0
 PRIORITY_HIGH = 10
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 
 # EVENT
 class Event(object):

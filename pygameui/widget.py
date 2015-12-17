@@ -11,7 +11,7 @@ class Widget(object):
     Widget for gui
     '''
 
-    def __init__(self, position, (width, height)):
+    def __init__(self, position, width, height):
         """parent widget should inherit from Container
 
         :param position:
@@ -34,6 +34,10 @@ class Widget(object):
         self.create_widget_image()
 
     def create_widget_image(self):
+        """create widget image
+
+        :return:
+        """
         self.img = pygame.surface.Surface(self.size)
         self.img = self.img.convert_alpha()
         self.img.fill((255, 0, 255, 0))
@@ -45,6 +49,11 @@ class Widget(object):
         self.size = newsize[:]
 
     def mark_modified(self, modified=True):
+        """mark modified
+
+        :param modified:
+        :return:
+        """
         self.modified = modified
 
     def repaint(self):
@@ -52,6 +61,11 @@ class Widget(object):
         pass
 
     def draw(self, surface):
+        """draw
+
+        :param surface:
+        :return:
+        """
         self.mark_modified(False)
         if self.img:
             surface.blit(self.img, self.position)
@@ -76,12 +90,12 @@ class Widget(object):
             # on_leave event
             if self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = False
-                self._call_callback("onleave")
+                self.call_callback("onleave")
                 self.repaint()
             # on_enter event
             if not self.insidewidget and self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = True
-                self._call_callback("onenter")
+                self.call_callback("onenter")
                 self.repaint()
 
     def togglevisible(self):
@@ -101,12 +115,12 @@ class Widget(object):
         """
         self.visible = False
         self.active = False
-        self._call_callback("onhide")
+        self.call_callback("onhide")
 
     def show(self):
         self.repaint()
         self.visible = True
-        self._call_callback("onshow")
+        self.call_callback("onshow")
 
     def pointinwidget(self, posx, posy):
         rect = pygame.Rect(self.position[0] + 2, self.position[1] + 2,
@@ -119,7 +133,7 @@ class Widget(object):
     def connect(self, signal, function, **data):
         self.callbacks[signal] = [function, data]
 
-    def _call_callback(self, signal):
+    def call_callback(self, signal):
         """Call internal callback connected to widget and repaint"""
         if signal in self.callbacks:
             if self.callbacks[signal]:

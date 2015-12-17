@@ -24,6 +24,9 @@ import pep8
 
 
 class TestCodeFormat(unittest.TestCase):
+    """
+    Test Code Format
+    """
 
     def test_pep8_conformance(self):
         """Test that we conform to PEP8."""

@@ -54,7 +54,7 @@ class GameWindow(Window):
 
     """
     def __init__(self):
-        Window.__init__(self, (800, 600), (0, 0))
+        Window.__init__(self, 800, 600, (0, 0))
 
         self.lazyscreen = None
 
@@ -82,7 +82,7 @@ class GameWindow(Window):
         self.inventorywindow.hide()
 
         # create market window
-        self.sellwindow = MarketWindow((400, 400), self.images, player,
+        self.sellwindow = MarketWindow(400, 400, self.images, player,
                                        self.gamemanager)
         self.sellwindow.gamewindow = self
 
@@ -99,7 +99,7 @@ class GameWindow(Window):
         self.addwidget(inventorybutton)
 
         # Create help window
-        self.helpwindow = HelpWindow((500, 300))
+        self.helpwindow = HelpWindow(500, 300)
 
         # Create expbar
         self.expbar = ExpBar(player)
@@ -110,7 +110,7 @@ class GameWindow(Window):
         self.addwidget(self.moneylabel)
 
         # Label for version
-        versionlabel = Label("v. " + __VERSION__ + " (H for help)",
+        versionlabel = Label("v. {} (H for help)".format(__VERSION__),
                              (5, 580))
         self.addwidget(versionlabel)
 

@@ -3,9 +3,11 @@ Created on 22-05-2012
 
 @author: orneo1212
 '''
+from __future__ import absolute_import
+
 import pygame
 
-from container import Container
+from pygameui.container import Container
 
 
 class Window(Container):
@@ -13,13 +15,13 @@ class Window(Container):
     Window for gui
     '''
 
-    def __init__(self, (width, height), position):
+    def __init__(self, width, height, position):
         """initial
 
         :param position:
         :return:
         """
-        Container.__init__(self, (width, height), position)
+        Container.__init__(self, width, height, position)
         self.alphavalue = 196
         # border
         self.showborder = True

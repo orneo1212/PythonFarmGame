@@ -1,8 +1,10 @@
+from __future__ import absolute_import
+
 import base64
 
 import pygame
 
-from farm import objects
+from farmlib.farm import objects
 from pygameui import Label, Button, Container, Image
 from farmlib.tooltip import Tooltip
 
@@ -12,7 +14,7 @@ class InventoryWindow(Container):
 
     """
     def __init__(self, imgloader, player):
-        Container.__init__(self, (400, 500), (200, 50))
+        Container.__init__(self, 400, 500, (200, 50))
         self.inventoryoffset = (0, 10)
         self.inventorysize = (4, 5)
         self.images = imgloader

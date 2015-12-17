@@ -3,8 +3,10 @@ Created on 22-05-2012
 
 @author: orneo1212
 '''
+from __future__ import absolute_import
+
 import pygame
-from widget import Widget
+from pygameui.widget import Widget
 
 
 class Container(Widget):
@@ -12,8 +14,8 @@ class Container(Widget):
     Container for gui
     '''
 
-    def __init__(self, (width, height), position):
-        Widget.__init__(self, position, (width, height))
+    def __init__(self, width, height, position):
+        Widget.__init__(self, position, width, height)
         self.widgets = []
         self.visible = True
         # last active widget
@@ -25,15 +27,28 @@ class Container(Widget):
         self.repaint_widgets()
 
     def repaint_container(self):
+        """repaint container
+
+        :return:
+        """
         self.create_widget_image()
 
     def repaint_widgets(self):
+        """repaint widgets
+
+        :return:
+        """
         for widget in self.widgets:
             if widget.visible:
                 widget.repaint()
                 widget.draw(self.img)
 
     def draw(self, surface):
+        """draw
+
+        :param surface:
+        :return:
+        """
         if not self.visible:
             return
 
@@ -49,17 +64,30 @@ class Container(Widget):
         surface.blit(self.img, self.position)
 
     def update_size(self, newsize):
+        """update size
+
+        :param newsize:
+        :return:
+        """
         self.width = newsize[0]
         self.height = newsize[1]
         self.size = newsize
 
     def hide(self):
+        """hide
+
+        :return:
+        """
         self.visible = False
         for widget in self.widgets:
-            widget._call_callback("onleave")
+            widget.call_callback("onleave")
             widget.hide()
 
     def show(self):
+        """show
+
+        :return:
+        """
         self.repaint()
         self.visible = True
         for widget in self.widgets:
@@ -88,6 +116,11 @@ class Container(Widget):
             widget.update()
 
     def poll_event(self, event):
+        """poll event
+
+        :param event:
+        :return:
+        """
         if not self.visible:
             return
         for widget in self.widgets:
@@ -117,4 +150,8 @@ class Container(Widget):
         self.widgets.append(widget)
 
     def remove_all_widgets(self):
+        """remove all widgets
+
+        :return:
+        """
         self.widgets = []

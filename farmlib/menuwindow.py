@@ -17,7 +17,7 @@ class MenuWindow(Container):
     """
     def __init__(self):
         self.parent = None
-        Container.__init__(self, (800, 600), (0, 0))
+        Container.__init__(self, 800, 600, (0, 0))
         self.running = True
 
         self.menupos = 0

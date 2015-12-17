@@ -10,6 +10,11 @@ from farmlib.farm import FarmField, FarmTile, FarmObject, Seed, objects
 from farmlib import DictMapper
 from farmlib.player import Player
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 
 class GameManager(object):
     """Game Manager
@@ -127,7 +132,7 @@ class GameManager(object):
 
         :return:
         """
-        self.save_gamestate('field.json', self.player)
+        self.save_gamestate(self.player)
 
     def loadgame(self):
         """load game
@@ -150,10 +155,9 @@ class GameManager(object):
             for _ in xrange(farm.seconds_to_update):
                 self.update()
 
-    def save_gamestate(self, filename, player):
+    def save_gamestate(self, player):
         """Saveing game state
 
-        :param filename:
         :param player:
         :return:
         """

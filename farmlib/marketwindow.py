@@ -3,13 +3,15 @@ Created on 24-05-2012
 
 @author: orneo1212
 '''
+from __future__ import absolute_import
+
 import pygame
 
 import farmlib
 
 from pygameui import Label, Image, Container, Button
-from farm import objects
-from tooltip import Tooltip
+from farmlib.farm import objects
+from farmlib.tooltip import Tooltip
 
 WATERREFILLCOST = farmlib.rules["WATERREFILLCOST"]
 OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
@@ -19,11 +21,11 @@ class MarketWindow(Container):
     """Market Window
 
     """
-    def __init__(self, size, imgloader, player, gamemanager):
+    def __init__(self, width, height, imgloader, player, gamemanager):
         self.gamemanager = gamemanager
         self.player = player
         self.imgloader = imgloader
-        Container.__init__(self, size, (200, 50))
+        Container.__init__(self, width, height, (200, 50))
         # set window alpha
         self.alphavalue = 250 * 0.95
         # items offset for gui buttons
@@ -50,6 +52,7 @@ class MarketWindow(Container):
 
         :return:
         """
+        print('generate Marketwindow')
         posx, posy = [0, 0]
         columns = (self.width / 64) - 1
         # rows = (self.height / 32) - 1
