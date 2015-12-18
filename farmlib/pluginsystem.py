@@ -117,7 +117,7 @@ class BasePlugin(object):
             self.system.globalhooks[hookname] = function
         except KeyError:
             msg = ("Cannot Register Global"
-                   " Hook %s (Plugin installed?)" % hookname)
+                   " Hook {} (Plugin installed?)".format(hookname))
             if self.system and self.system.debug:
                 print(msg)
 

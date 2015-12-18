@@ -19,7 +19,7 @@ class ImageLoader(object):
             self.loadimage(item)
         return self.loaded
 
-    def loadimage(self, name, scale=True):
+    def loadimage(self, name):
         """Load image by name"""
         # wrong name
         if name not in self.config:

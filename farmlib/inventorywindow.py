@@ -163,7 +163,6 @@ class InventoryWindow(Container):
     def on_item_select(self, widget, itemid):
         """on item select
 
-        :param widget:
         :param itemid:
         :return:
         """

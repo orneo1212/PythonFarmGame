@@ -190,19 +190,17 @@ class GameWindow(Window):
                     farmlib.clicksound.play()
                     player.selectedtool = tool
 
-    def toggle_market(self, widget):
+    def toggle_market(self, *args, **kwargs):
         """toggle market
 
-        :param widget:
         :return:
         """
         self.inventorywindow.hide()
         self.sellwindow.togglevisible()
 
-    def toggle_inventory(self, widget):
+    def toggle_inventory(self, *args, **kwargs):
         """toggle inventory
 
-        :param widget:
         :return:
         """
         self.sellwindow.hide()
@@ -382,7 +380,7 @@ class GameWindow(Window):
         my -= self.farmoffset[1]
         xx, yy = self.screen2iso(mx, my)
 
-        if xx < 0 or yy < 0 or xx > 11 or yy > 11:
+        if not (0 <= xx <= 11 and 0 <= yy <= 11):
             return None
         else:
             xx = min(12 - 1, xx)
@@ -397,18 +395,36 @@ class GameWindow(Window):
             return self.farm.get_farmobject(pos[0], pos[1])
         return None
 
-    def iso2screen(self, x, y):
+    @staticmethod
+    def iso2screen(x, y):
+        """iso to screen
+
+        :param x:
+        :param y:
+        :return:
+        """
         xx = (x - y) * (64 / 2)
         yy = (x + y) * (32 / 2)
         return xx, yy
 
-    def screen2iso(self, x, y):
+    @staticmethod
+    def screen2iso(x, y):
+        """screen to iso
+
+        :param x:
+        :param y:
+        :return:
+        """
         x = x / 2
         xx = (y + x) / (32)
         yy = (y - x) / (32)
         return xx, yy
 
     def go_to_main_menu(self):
+        """go to main menu
+
+        :return:
+        """
         self.deinit()
         from farmlib.menuwindow import MenuWindow
         self.parent.set_active_screen(MenuWindow())

@@ -35,12 +35,24 @@ class FarmTile(object):
             return None
 
     def get_object(self):
+        """get object
+
+        :return:
+        """
         return self.farmobject
 
     def get_water(self):
+        """get water
+
+        :return:
+        """
         return self.water
 
     def update(self):
+        """update
+
+        :return:
+        """
         # Drying
         self.water -= 0.05
         if self.water < 0:
@@ -79,12 +91,22 @@ class FarmField(object):
             return False
 
     def markmodified(self, modified=True):
+        """mark modified
+
+        :param modified:
+        :return:
+        """
         if modified:
             self.last_checksum = ""
         else:
             self.last_checksum = self.get_farm_checksum()
 
     def count_objects(self, objectid):
+        """count objects
+
+        :param objectid:
+        :return:
+        """
         count = 0
         for f in self.farmtiles.values():
             if f["object"] and f["object"].id == objectid:
@@ -228,7 +250,14 @@ class FarmField(object):
         else:
             return False
 
+    @staticmethod
     def create_random_anthill(self, farmtile):
+        """create random anthill
+
+        :param self:
+        :param farmtile:
+        :return:
+        """
         fobject = FarmObject()
         fobject.id = 7  # Anthill
         fobject.apply_dict(objects[fobject.id])
@@ -236,6 +265,10 @@ class FarmField(object):
         return fobject
 
     def generate_random_stones(self):
+        """generate random stones
+
+        :return:
+        """
         for _ in xrange(random.randint(10, 15)):
             xx = random.randint(0, 11)
             yy = random.randint(0, 11)
@@ -246,6 +279,10 @@ class FarmField(object):
             self.set_farmtile(xx, yy, farmtile)
 
     def generate_random_planks(self):
+        """generate random planks
+
+        :return:
+        """
         for _ in xrange(random.randint(10, 15)):
             xx = random.randint(0, 11)
             yy = random.randint(0, 11)
@@ -256,6 +293,11 @@ class FarmField(object):
             self.set_farmtile(xx, yy, farmtile)
 
     def check_wilted(self, farmtile):
+        """check wilted
+
+        :param farmtile:
+        :return:
+        """
         if not farmtile['object']:
             return False
 
@@ -264,17 +306,16 @@ class FarmField(object):
             return False
 
         wiltime = farmlib.rules["WILT_TIME_HOURS"]
-        if fobject.to_harvest:
-            if time.time() > fobject.growendtime + wiltime * 3600:
+        if (fobject.to_harvest and
+                time.time() > fobject.growendtime + wiltime * 3600):
+            # get position
+            position = self.get_farmtile_position(farmtile)
+            if not position:
+                return False
+            posx, posy = position
 
-                # get position
-                position = self.get_farmtile_position(farmtile)
-                if not position:
-                    return False
-                posx, posy = position
-
-                self.wilt_plant(posx, posy)
-                return True
+            self.wilt_plant(posx, posy)
+            return True
         return False
 
     # UPDATE
@@ -342,10 +383,10 @@ class FarmObject(object):
             return
         self.__dict__.update(dictionary)
 
-    def update(self, farmtile):
+    @staticmethod
+    def update(self):
         """update
 
-        :param farmtile:
         :return:
         """
         return False
