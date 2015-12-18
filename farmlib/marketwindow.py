@@ -69,14 +69,14 @@ class MarketWindow(Container):
         self.addwidget(closebutton)
 
         # refill watercan
-        waterbuybutton = Button("Refill water ($%s)" % WATERREFILLCOST,
+        waterbuybutton = Button("Refill water (${0!s})".format(WATERREFILLCOST),
                                 (10, 30), color=(128, 128, 255))
         waterbuybutton.connect("clicked", self.on_water_buy)
         self.addwidget(waterbuybutton)
 
         # Buy farm
         farmcost = self.gamemanager.getnextfarmcost()
-        self.buyfarm = Button("Buy new farm ($%s)" % farmcost,
+        self.buyfarm = Button("Buy new farm (${0!s})".format(farmcost),
                               (150, 30), color=(255, 0, 0))
         self.buyfarm.connect("clicked", self.on_farm_buy)
         self.addwidget(self.buyfarm)
@@ -165,7 +165,7 @@ class MarketWindow(Container):
         self.sellvalue.settext("")
         self.costvalue.settext("")
         farmcost = self.gamemanager.getnextfarmcost()
-        self.buyfarm.settext("Buy new farm ($%s)" % farmcost)
+        self.buyfarm.settext("Buy new farm (${0!s})".format(farmcost))
 
     def get_item_cost(self, itemid):
         """get item cost
@@ -194,9 +194,8 @@ class MarketWindow(Container):
         have = 0
         if self.player.item_in_inventory(itemid):
             have = self.player.itemscounter[str(itemid)]
-        self.buybutton.settext("BUY x%s (you have %s)" %
-                               (str(self.count), have))
-        self.sellbutton.settext("SELL x%s " % str(self.count))
+        self.buybutton.settext("BUY x{0!s} (you have {1!s})".format(str(self.count), have))
+        self.sellbutton.settext("SELL x{0!s} ".format(str(self.count)))
 
     def on_item_select(self, widget, itemid):
         """selected item

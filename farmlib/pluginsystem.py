@@ -44,7 +44,7 @@ class Event(object):
         self.priority = PRIORITY_NORMAL
 
     def __str__(self):
-        return "Event:%s Priority:%i Args:%s" % (
+        return "Event:{0!s} Priority:{1:d} Args:{2!s}".format(
             str(self.name), self.priority, str(self.args)
             )
 
@@ -91,11 +91,11 @@ class Listener(object):
         :param event:
         :return:
         """
-        handler = getattr(self, "handler_%s" % event.name, None)
+        handler = getattr(self, "handler_{0!s}".format(event.name), None)
         if handler:
             handler(**event.args)
         else:
-            print("Handler for event %s not found" % event.name)
+            print("Handler for event {0!s} not found".format(event.name))
 
 
 # PLUGIN
@@ -143,7 +143,7 @@ class PluginSystem(object):
         :return:
         """
         filehandler = logging.FileHandler(
-            filename='%s.log' % str(loggername))
+            filename='{0!s}.log'.format(str(loggername)))
         formatter = logging.Formatter(
             '%(asctime)-6s %(levelname)s - %(message)s')
         filehandler.setFormatter(formatter)
@@ -180,7 +180,7 @@ class PluginSystem(object):
             self.emit_event("pluginload", pluginname=plugin.name)
             return plugin
         except AttributeError:
-            msg = "Can't install plugin from %s." % str(pluginObject)
+            msg = "Can't install plugin from {0!s}.".format(str(pluginObject))
             if self.debug:
                 print(msg)
 
@@ -225,7 +225,7 @@ class PluginSystem(object):
         try:
             return self.globalhooks[hookname]
         except KeyError:
-            msg = "Cannot get Global Hook %s" % hookname
+            msg = "Cannot get Global Hook {0!s}".format(hookname)
             if self.debug:
                 print(msg)
 
