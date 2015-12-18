@@ -46,7 +46,11 @@ class TestCodeFormat(unittest.TestCase):
                                         'farmlib/marketwindow.py',
                                         'farmlib/menuwindow.py',
                                         'farmlib/player.py',
-                                        'farmlib/pluginsystem.py'])
+                                        'farmlib/pluginsystem.py',
+                                        'farmlib/pnoise.py',
+                                        'farmlib/renderfunctions.py',
+                                        'farmlib/timer.py',
+                                        'farmlib/tooltip.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 

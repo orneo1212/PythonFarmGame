@@ -419,7 +419,9 @@ class Seed(FarmObject):
         if rem_secound < 10:
             rem_secound = "0" + str(rem_secound)
 
-        self.remainstring = "{0!s}h {1!s}m {2!s}s".format(rem_hour, rem_minute, rem_secound)
+        self.remainstring = "{0!s}h {1!s}m {2!s}s".format(rem_hour,
+                                                          rem_minute,
+                                                          rem_secound)
 
         if self.growing:
 

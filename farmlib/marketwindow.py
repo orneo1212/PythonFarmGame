@@ -69,7 +69,8 @@ class MarketWindow(Container):
         self.addwidget(closebutton)
 
         # refill watercan
-        waterbuybutton = Button("Refill water (${0!s})".format(WATERREFILLCOST),
+        waterbuybutton = Button("Refill water (${0!s})".
+                                format(WATERREFILLCOST),
                                 (10, 30), color=(128, 128, 255))
         waterbuybutton.connect("clicked", self.on_water_buy)
         self.addwidget(waterbuybutton)
@@ -194,7 +195,8 @@ class MarketWindow(Container):
         have = 0
         if self.player.item_in_inventory(itemid):
             have = self.player.itemscounter[str(itemid)]
-        self.buybutton.settext("BUY x{0!s} (you have {1!s})".format(str(self.count), have))
+        self.buybutton.settext("BUY x{0!s} (you have {1!s})".
+                               format(str(self.count), have))
         self.sellbutton.settext("SELL x{0!s} ".format(str(self.count)))
 
     def on_item_select(self, widget, itemid):

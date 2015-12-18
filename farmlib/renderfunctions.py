@@ -116,7 +116,7 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
 
         # Quentity
         text = "Quantity: {0!s} ({1!s})".format(str(farmobject.growquantity),
-                                      str(farmobject.harvestcount))
+                                                str(farmobject.harvestcount))
         text = font.render(text, 0, (255, 255, 150), (255, 0, 255))
         text.set_colorkey((255, 0, 255))
         img.blit(text, (halfx - text.get_size()[0] / 2, 65))
@@ -208,5 +208,5 @@ def render_field(screen, imgloader, farmfield, farmoffset):
     for y in range(12):
         for x in range(12):
             render_one_field((x, y), img,
-                imgloader, farmfield, farmoffset)
+                             imgloader, farmfield, farmoffset)
     return img

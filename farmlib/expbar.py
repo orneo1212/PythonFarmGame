@@ -29,7 +29,9 @@ class ExpBar(Label):
         self.oldexp = self.player.exp
         # calculate progress and set text
         progress = int(exp / nextlvlexp * 100)
-        self.settext("Level: " + str(level) + " Exp: {0!s}/{1!s} ({2!s} %)".format(int(exp), int(nextlvlexp), progress), repaint=False)
+        self.settext("Level: " + str(level) + " Exp: {0!s}/{1!s} ({2!s} %)".
+                     format(int(exp), int(nextlvlexp), progress),
+                     repaint=False)
 
     def update(self):
         """update

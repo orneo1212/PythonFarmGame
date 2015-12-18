@@ -9,6 +9,9 @@ buttonbgpath = os.path.join("images", "gui", "buttonbg.png")
 
 
 class Button(Widget):
+    """Button Widget
+
+    """
     def __init__(self, label, position, bgimage=None, labelsize=12,
                  color=(255, 255, 0)):
         self.bgimage = bgimage
@@ -45,7 +48,7 @@ class Button(Widget):
         return (width, height)
 
     def _settextimage(self):
-        """_settextimage
+        """_set text image
 
         :return:
         """
@@ -53,7 +56,7 @@ class Button(Widget):
         self._setsize(self._calculate_size(self.image))
 
     def setimage(self, newimage):
-        """setimage
+        """set image
 
         :param newimage:
         :return:

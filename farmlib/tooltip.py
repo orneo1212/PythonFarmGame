@@ -42,8 +42,8 @@ class Tooltip(Window):
             valuewidth = marginleft + label.size[0] + spaceing
             valueheight = rowid * (fontsize + 2)
             value = Label(data[1], (valuewidth, valueheight),
-                           color=(255, 255, 150),
-                           size=fontsize)
+                          color=(255, 255, 150),
+                          size=fontsize)
             self.addwidget(value)
             # total width
             totalwidth = label.size[0] + value.size[0]
