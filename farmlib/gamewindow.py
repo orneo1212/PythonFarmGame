@@ -149,7 +149,7 @@ class GameWindow(Window):
         """
         player = self.gamemanager.getplayer()
         # Render current money
-        text = "Money: $%s " % player.money
+        text = "Money: ${0!s} ".format(player.money)
         self.moneylabel.settext(text)
 
     def recreate_inventory(self):
