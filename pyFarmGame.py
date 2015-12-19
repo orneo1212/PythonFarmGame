@@ -84,7 +84,8 @@ class FarmGamePygame(object):
         else:
             open("game.lock", "w").close()
 
-    def remove_game_lock(self):
+    @staticmethod
+    def remove_game_lock():
         """remove game lock
 
         :return:

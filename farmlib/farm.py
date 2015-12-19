@@ -339,10 +339,20 @@ class FarmField(object):
         except AttributeError:
             # Python 3
             def listvalues(d):
+                """listvalues Python 3
+
+                :param d:
+                :return:
+                """
                 return list(d.values())
         else:
             # Python 2
             def listvalues(d):
+                """listvalues Python 2
+
+                :param d:
+                :return:
+                """
                 return d.values()
 
         # update each farmtile
@@ -395,7 +405,7 @@ class FarmObject(object):
         self.__dict__.update(dictionary)
 
     @staticmethod
-    def update(self):
+    def update():
         """update
 
         :return:

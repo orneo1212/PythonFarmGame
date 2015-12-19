@@ -33,7 +33,8 @@ class InventoryWindow(Container):
         """Return True when inventory was been modified (based on checksum)"""
         try:
             checksum = base64.b64encode(str(self.player.inventory))
-            checksum = base64.b64encode(checksum + str(self.player.itemscounter))
+            checksum = base64.b64encode(
+                    checksum + str(self.player.itemscounter))
         except TypeError:
             checksum = base64.b64encode(b'{}'.format(self.player.inventory))
             checksum = base64.b64encode(checksum + (self.player.itemscounter))
