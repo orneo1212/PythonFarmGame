@@ -34,7 +34,8 @@ class CoreListener(Listener):
     def __init__(self, plugin):
         Listener.__init__(self, plugin)
 
-    def handler_pluginload(self, pluginname):
+    @staticmethod
+    def handler_pluginload(pluginname):
         """handler pluginload
 
         :param pluginname:
@@ -66,7 +67,8 @@ class CoreListener(Listener):
         elif toolname == "axe":
             self.axe_events(farm, player, position)
 
-    def watercan_events(self, farm, player, position):
+    @staticmethod
+    def watercan_events(farm, player, position):
         """watercan events
 
         :param farm:
@@ -83,7 +85,8 @@ class CoreListener(Listener):
         player.event_water()
         player.watercanuses -= 1
 
-    def plant_events(self, farm, player, position):
+    @staticmethod
+    def plant_events(farm, player, position):
         """plant events
 
         :param farm:
@@ -105,11 +108,13 @@ class CoreListener(Listener):
             if done:
                 player.remove_item(newobject.id)
 
-    def harvest_events(self, farm, player, position):
+    @staticmethod
+    def harvest_events(farm, player, position):
         """Harvest events"""
         farm.harvest(position[0], position[1], player)
 
-    def pickaxe_events(self, farm, player, position):
+    @staticmethod
+    def pickaxe_events(farm, player, position):
         """Pickaxe events"""
         farmobject = farm.get_farmobject(position[0], position[1])
         if not farmobject:
@@ -121,7 +126,8 @@ class CoreListener(Listener):
             player.money -= REMOVESTONECOST
             farm.remove(position[0], position[1], player)
 
-    def shovel_events(self, farm, player, position):
+    @staticmethod
+    def shovel_events(farm, player, position):
         """Shovel events"""
         farmobject = farm.get_farmobject(position[0], position[1])
         if not farmobject:
@@ -148,7 +154,8 @@ class CoreListener(Listener):
             # remove seed when is NOT ready
             farm.remove(position[0], position[1], player)
 
-    def axe_events(self, farm, player, position):
+    @staticmethod
+    def axe_events(farm, player, position):
         """Axe events"""
         farmobject = farm.get_farmobject(position[0], position[1])
         if not farmobject:

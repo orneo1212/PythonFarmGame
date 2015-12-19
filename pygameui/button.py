@@ -37,7 +37,8 @@ class Button(Widget):
         img = self.labelfont.render(self.label, 0, self.color)
         return img.convert_alpha()
 
-    def _calculate_size(self, image):
+    @staticmethod
+    def _calculate_size(image):
         """_calculate_size
 
         :param image:

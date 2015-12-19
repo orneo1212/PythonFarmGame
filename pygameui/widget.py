@@ -127,11 +127,21 @@ class Widget(object):
         self.call_callback("onhide")
 
     def show(self):
+        """show
+
+        :return:
+        """
         self.repaint()
         self.visible = True
         self.call_callback("onshow")
 
     def pointinwidget(self, posx, posy):
+        """point in widget
+
+        :param posx:
+        :param posy:
+        :return:
+        """
         rect = pygame.Rect(self.position[0] + 2, self.position[1] + 2,
                            self.width - 2, self.height - 2)
         if rect.collidepoint((posx, posy)):

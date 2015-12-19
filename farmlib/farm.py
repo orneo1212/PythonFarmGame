@@ -251,7 +251,7 @@ class FarmField(object):
             return False
 
     @staticmethod
-    def create_random_anthill(self, farmtile):
+    def create_random_anthill(farmtile):
         """create random anthill
 
         :param self:
@@ -334,8 +334,19 @@ class FarmField(object):
         else:
             self.raining = False
 
+        try:
+            dict.iteritems
+        except AttributeError:
+            # Python 3
+            def listvalues(d):
+                return list(d.values())
+        else:
+            # Python 2
+            def listvalues(d):
+                return d.values()
+
         # update each farmtile
-        for farmtile in self.farmtiles.values():
+        for farmtile in listvalues(self.farmtiles):
 
             # Update objects
             if farmtile['object']:

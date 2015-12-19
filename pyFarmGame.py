@@ -71,7 +71,8 @@ class FarmGamePygame(object):
             self.remove_game_lock()
             exit(1)
 
-    def check_game_lock(self):
+    @staticmethod
+    def check_game_lock():
         """check game lock
 
         :return:

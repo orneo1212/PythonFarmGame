@@ -136,7 +136,8 @@ class PluginSystem(object):
         self.globalhooks = {}  # Dict for global hooks
         self.debug = True
 
-    def get_logger(self, loggername):
+    @staticmethod
+    def get_logger(loggername):
         """logger
 
         :param loggername:

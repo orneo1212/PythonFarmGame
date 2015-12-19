@@ -31,8 +31,13 @@ class InventoryWindow(Container):
 
     def ismodified(self):
         """Return True when inventory was been modified (based on checksum)"""
-        checksum = base64.b64encode(str(self.player.inventory))
-        checksum = base64.b64encode(checksum + str(self.player.itemscounter))
+        try:
+            checksum = base64.b64encode(str(self.player.inventory))
+            checksum = base64.b64encode(checksum + str(self.player.itemscounter))
+        except TypeError:
+            checksum = base64.b64encode(b'{}'.format(self.player.inventory))
+            checksum = base64.b64encode(checksum + (self.player.itemscounter))
+
         if checksum != self.lchecksum:
             self.lchecksum = checksum
             return True
