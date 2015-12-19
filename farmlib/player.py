@@ -30,9 +30,9 @@ class Player(object):
             if str(i) not in self.itemscounter:  # .has_key(str(i)):
                 self.itemscounter[str(i)] = 0
         # clear selection if player dont have item
-        if self.selecteditem is not None:
-            if self.selecteditem not in self.inventory:
-                self.selecteditem = None
+        if self.selecteditem is not None\
+                and self.selecteditem not in self.inventory:
+            self.selecteditem = None
 
     def item_in_inventory(self, itemid):
         """item in inventory
@@ -125,5 +125,9 @@ class Player(object):
         self.update_skill()
 
     def event_water(self):
+        """event water
+
+        :return:
+        """
         self.exp += 1
         self.update_skill()

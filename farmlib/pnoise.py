@@ -40,7 +40,7 @@ def grad(hash, x, y, z):
         u = y
     if h < 4:
         v = y
-    elif h == 12 or h == 14:
+    elif h in [12, 14]:
         v = x
     else:
         v = z

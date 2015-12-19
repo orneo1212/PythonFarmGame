@@ -242,6 +242,12 @@ class MarketWindow(Container):
             self.message.settext("You dont have enought money")
 
     def on_sell_clicked(self, widget, **data):
+        """on sel clicked
+
+        :param widget:
+        :param data:
+        :return:
+        """
         if self.selecteditem is None:
             return
         itemid = self.selecteditem

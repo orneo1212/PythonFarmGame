@@ -128,6 +128,12 @@ class InventoryWindow(Container):
         self.tooltip = [Tooltip((mx + 5, my + 5), data), widget]
 
     def on_item_leave(self, widget, itemid):
+        """on item leave
+
+        :param widget:
+        :param itemid:
+        :return:
+        """
         if self.tooltip[1] == widget:
             self.tooltip = [None, None]
 

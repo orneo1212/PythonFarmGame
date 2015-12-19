@@ -109,12 +109,11 @@ class Button(Widget):
         pos = self.parent.get_relative_mousepos()
 
         # mouse button down
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and pos\
+                and self.pointinwidget(pos[0], pos[1]):
             # on_click event
-            if pos is not None:
-                if self.pointinwidget(pos[0], pos[1]):
-                    self.call_callback("clicked")
-                    self.call_callback("onclick")
-                    # make button active
-                    if self.parent:
-                        self.parent.makeactive(self)
+            self.call_callback("clicked")
+            self.call_callback("onclick")
+            # make button active
+            if self.parent:
+                self.parent.makeactive(self)

@@ -44,6 +44,11 @@ class Widget(object):
         return self.img
 
     def _setsize(self, newsize):
+        """set size
+
+        :param newsize:
+        :return:
+        """
         self.width = newsize[0]
         self.height = newsize[1]
         self.size = newsize[:]
@@ -71,6 +76,10 @@ class Widget(object):
             surface.blit(self.img, self.position)
 
     def update(self):
+        """update
+
+        :return:
+        """
         pass
 
     def poll_event(self, event):
@@ -131,11 +140,17 @@ class Widget(object):
             return False
 
     def connect(self, signal, function, **data):
+        """connect
+
+        :param signal:
+        :param function:
+        :param data:
+        :return:
+        """
         self.callbacks[signal] = [function, data]
 
     def call_callback(self, signal):
         """Call internal callback connected to widget and repaint"""
-        if signal in self.callbacks:
-            if self.callbacks[signal]:
-                self.callbacks[signal][0](self, **self.callbacks[signal][1])
-                self.repaint()
+        if signal in self.callbacks and self.callbacks[signal]:
+            self.callbacks[signal][0](self, **self.callbacks[signal][1])
+            self.repaint()

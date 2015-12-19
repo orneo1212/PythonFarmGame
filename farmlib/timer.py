@@ -39,6 +39,11 @@ class Timer(object):
             return False
 
     def timepassed(self, timepassed):
+        """time passed
+
+        :param timepassed:
+        :return:
+        """
         if time.time() - self.lasttick > timepassed / 1000.0:
             self.tick()
             return True

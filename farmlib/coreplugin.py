@@ -135,7 +135,7 @@ class CoreListener(Listener):
         # Remove wilted
         if farmobject.id == 8 and player.money >= REMOVEWILTEDCOST:
             player.money -= REMOVEWILTEDCOST
-            farm.removewilted(position[0], position[1], player)
+            farm.removewilted(position[0], position[1])
 
         # Pickup pond
         if farmobject.id == 11:
@@ -143,10 +143,10 @@ class CoreListener(Listener):
             player.add_item(11)
 
         # remove seed
-        if farmobject and farmobject.type == "seed":
+        if farmobject and farmobject.type == "seed"\
+                and not farmobject.to_harvest:
             # remove seed when is NOT ready
-            if not farmobject.to_harvest:
-                farm.remove(position[0], position[1], player)
+            farm.remove(position[0], position[1], player)
 
     def axe_events(self, farm, player, position):
         """Axe events"""

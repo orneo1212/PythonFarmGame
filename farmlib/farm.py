@@ -464,17 +464,15 @@ class Seed(FarmObject):
                                                           rem_minute,
                                                           rem_secound)
 
-        if self.growing:
-
+        if self.growing and self.growtimeremaining == 0:
             # check for grow complete
-            if self.growtimeremaining == 0:
-                self.growing = False
-                self.to_harvest = True
-                chance = random.randint(0, 100)
-                if chance <= farmlib.rules["DESTROY_CHANCE"]:
-                    farmtile["object"] = None
-                    farmtile["water"] = 0
-                return True
+            self.growing = False
+            self.to_harvest = True
+            chance = random.randint(0, 100)
+            if chance <= farmlib.rules["DESTROY_CHANCE"]:
+                farmtile["object"] = None
+                farmtile["water"] = 0
+            return True
 
         return False  # not updated
 

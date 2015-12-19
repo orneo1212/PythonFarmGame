@@ -9,7 +9,15 @@ import pygame
 
 def draw_tools(surface, currenttool, currentseed, imgloader,
                drawnearcursor=True):
-    # Draw selection on selected tool
+    """Draw selection on selected tool
+
+    :param surface:
+    :param currenttool:
+    :param currentseed:
+    :param imgloader:
+    :param drawnearcursor:
+    :return:
+    """
     if currenttool == 'harvest':
         pygame.draw.rect(surface, (255, 255, 255), (10, 10, 48, 48), 1)
     if currenttool == 'plant':
@@ -59,11 +67,26 @@ def draw_tools(surface, currenttool, currentseed, imgloader,
 
 
 def draw_seed(surface, seedid, position, imgloader):
+    """draw seed
+
+    :param surface:
+    :param seedid:
+    :param position:
+    :param imgloader:
+    :return:
+    """
     img = imgloader.loadimage('object' + str(seedid))
     surface.blit(img, position)
 
 
 def draw_selected_seed(surface, selectedseed, imgloader):
+    """draw selected seed
+
+    :param surface:
+    :param selectedseed:
+    :param imgloader:
+    :return:
+    """
     if selectedseed is None:
         return
     # draw selected seed
@@ -142,6 +165,11 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
 
 
 def render_rain(surface):
+    """render rain
+
+    :param surface:
+    :return:
+    """
     for x in range(30):
         xx = random.randint(0, surface.get_size()[0])
         yy = random.randint(0, 100)
@@ -203,6 +231,14 @@ def render_one_field(position, screen, imgloader, farmfield, farmoffset):
 
 
 def render_field(screen, imgloader, farmfield, farmoffset):
+    """render field
+
+    :param screen:
+    :param imgloader:
+    :param farmfield:
+    :param farmoffset:
+    :return:
+    """
     img = pygame.surface.Surface((800, 600))
     img.set_colorkey((0, 0, 0))
     for y in range(12):
