@@ -176,12 +176,33 @@ class GameManager(object):
         data["gameseed"] = self.getgameseed()
         # save tiles
         data["fields"] = []
+        try:
+            dict.iteritems
+        except AttributeError:
+            # Python 3
+            def listkeys(d):
+                """listkeys
+
+                :param d:
+                :return:
+                """
+                return list(d)
+        else:
+            # Python 2
+            def listkeys(d):
+                """listkeys
+
+                :param d:
+                :return:
+                """
+                return d.keys()
+
 
         # fill tiles
         for farmid in xrange(self.getfarmcount()):
             farm = self.getfarm(farmid)
             data["fields"].append({"tiles": []})
-            for ftt in farm.farmtiles.keys():
+            for ftt in listkeys(farm.farmtiles):
                 ft = farm.farmtiles[ftt]
                 # skip when no seed
                 if not ft['object']:

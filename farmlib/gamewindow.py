@@ -3,6 +3,8 @@ Created on 27-05-2012
 
 @author: orneo1212
 '''
+from __future__ import division
+
 import os
 import random
 from datetime import datetime
@@ -403,8 +405,9 @@ class GameWindow(Window):
         :param y:
         :return:
         """
-        xx = (x - y) * (64 / 2)
-        yy = (x + y) * (32 / 2)
+        xx = (x - y) * (32)
+        yy = (x + y) * (16)
+        print(x, y, xx, yy)
         return xx, yy
 
     @staticmethod
@@ -416,8 +419,8 @@ class GameWindow(Window):
         :return:
         """
         x = x / 2
-        xx = (y + x) / (32)
-        yy = (y - x) / (32)
+        xx = int(round(((y + x) / 32) - 0.5))
+        yy = int(round(((y - x) / 32) - 0.5))
         return xx, yy
 
     def go_to_main_menu(self):

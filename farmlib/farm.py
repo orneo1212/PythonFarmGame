@@ -9,6 +9,11 @@ import farmlib
 from farmlib.pnoise import pnoise
 from farmlib.dictmapper import DictMapper
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 
 class FarmTile(object):
     """Farm tile represent one tile on each farm"""
@@ -76,9 +81,33 @@ class FarmField(object):
 
         :return:
         """
+        try:
+            dict.iteritems
+        except AttributeError:
+            # Python 3
+            def listvalues(d):
+                """listvalues Python 3
+
+                :param d:
+                :return:
+                """
+                return list(d.values())
+        else:
+            # Python 2
+            def listvalues(d):
+                """listvalues Python 2
+
+                :param d:
+                :return:
+                """
+                return d.values()
+
         ft = [str(x.water) + str(x.farmobject)
-              for x in self.farmtiles.values()]
-        checksum = base64.b64encode("".join(ft))
+              for x in listvalues(self.farmtiles)]
+        try:
+            checksum = base64.b64encode("".join(ft))
+        except TypeError:
+            checksum = base64.b64encode(bytes(str("".join(ft)).encode()))
         return checksum
 
     def ismodified(self):
@@ -153,7 +182,6 @@ class FarmField(object):
 
     def set_farmtile(self, posx, posy, farmtile):
         """Set farmtile at given position"""
-
         arg = str(posx) + 'x' + str(posy)
         farmtile.posx = posx
         farmtile.posy = posy
@@ -405,7 +433,7 @@ class FarmObject(object):
         self.__dict__.update(dictionary)
 
     @staticmethod
-    def update():
+    def update(farmtile):
         """update
 
         :return:
@@ -468,11 +496,11 @@ class Seed(FarmObject):
 
         # calculate remaining time in hours, minutes and seconds
         remain = self.growtimeremaining
-        rem_hour = remain / 3600
+        rem_hour = int(remain / 3600)
         remain -= rem_hour * 3600
-        rem_minute = remain / 60
+        rem_minute = int(remain / 60)
         remain -= rem_minute * 60
-        rem_secound = remain
+        rem_secound = int(remain)
         # change to string
         if rem_hour < 10:
             rem_hour = "0" + str(rem_hour)

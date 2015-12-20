@@ -152,7 +152,7 @@ class CoreListener(Listener):
         if farmobject and farmobject.type == "seed"\
                 and not farmobject.to_harvest:
             # remove seed when is NOT ready
-            farm.remove(position[0], position[1], player)
+            farm.remove(position[0], position[1])
 
     @staticmethod
     def axe_events(farm, player, position):

@@ -36,8 +36,9 @@ class InventoryWindow(Container):
             checksum = base64.b64encode(
                     checksum + str(self.player.itemscounter))
         except TypeError:
-            checksum = base64.b64encode(b'{}'.format(self.player.inventory))
-            checksum = base64.b64encode(checksum + (self.player.itemscounter))
+            checksum = base64.b64encode(bytes(self.player.inventory))
+            checksum = base64.b64encode(
+                    checksum + bytes(str(self.player.itemscounter).encode()))
 
         if checksum != self.lchecksum:
             self.lchecksum = checksum
