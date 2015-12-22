@@ -13,6 +13,11 @@ from pygameui import Label, Image, Container, Button
 from farmlib.farm import objects
 from farmlib.tooltip import Tooltip
 
+try:
+    xrange
+except NameError:
+    xrange = range
+
 WATERREFILLCOST = farmlib.rules["WATERREFILLCOST"]
 OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
 
