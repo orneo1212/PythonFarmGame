@@ -1,4 +1,5 @@
 import json
+import os
 
 
 class DictMapper(object):
@@ -61,4 +62,10 @@ class DictMapper(object):
         :param filename:
         :return:
         """
-        self._dict = json.load(open(filename, "r"))
+        if os.path.isfile(filename):
+            self._dict = json.load(open(filename, "r"))
+        elif os.path.isfile(os.path.join('..', filename)):
+            self._dict = json.load(open(os.path.join('..', filename), "r"))
+        else:
+            # handle error in a way that doesn't make sphinx crash
+            print("ERROR: No such file: '{}'".format(filename))
