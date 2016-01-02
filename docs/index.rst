@@ -8,9 +8,14 @@ Welcome to PythonFarmGame's documentation!
 
 PythonFarmGame
 
-documentation: make html
+Make the documentation as .html file::
 
-To add new modules: sphinx-apidoc -F -o docs .
+  cd docs
+  make html
+
+To add new modules::
+
+  sphinx-apidoc -F -o docs .
 
 
 Contents:
