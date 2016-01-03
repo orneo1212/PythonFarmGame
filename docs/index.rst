@@ -1,5 +1,5 @@
 .. PythonFarmGame documentation master file, created by
-   sphinx-quickstart on Fri Dec 25 16:46:14 2015.
+   sphinx-quickstart on Sun Jan  3 09:48:30 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -21,12 +21,13 @@ To add new modules::
 Contents:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 4
 
-   pyFarmGame
    farmlib
+   pyFarmGame
    pygameui
    test
+
 
 Indices and tables
 ==================

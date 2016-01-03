@@ -218,7 +218,7 @@ class GameManager(object):
                 tile["object"]["type"] = gameobject.type
                 tile["object"]['id'] = gameobject.id
 
-                if str(type(gameobject)) == "<class 'farmlib.farm.Seed'>":
+                if isinstance(gameobject, Seed):
                     tile["object"]['growstarttime'] = gameobject.growstarttime
                     tile["object"]['growendtime'] = gameobject.growendtime
                     tile["object"]['growing'] = bool(gameobject.growing)

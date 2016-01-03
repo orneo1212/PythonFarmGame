@@ -83,7 +83,6 @@ class TestFarmField(TestCase):
         fobject = FarmObject()
         fobject.id = 2
         fobject.apply_dict(objects[fobject.id])
-        # self.farm.plant(2, 2, fobject)
         self.farm.set_farmobject(3, 2, fobject)
         self.farm.set_farmobject(3, 3, self.farm.create_anthill())
         self.assertEqual(self.farm.get_farmobject(3, 3).name, 'Anthill')
@@ -113,8 +112,15 @@ class TestFarmField(TestCase):
         """
         self.farm.set_farmobject(3, 3, self.farm.create_anthill())
         self.farm.plant(3, 3, self.farm.create_anthill())
+        self.assertEqual(str(self.farm.farmtiles['3x3']),
+                         "<FarmTile: x:3, y:3, farmobject:<FarmObject: id:7,"
+                         " name:Anthill, type:>, water:0.0>")
         self.assertEqual(str(type(self.farm.farmtiles['3x3'])),
                          "<class 'farmlib.farm.FarmTile'>")
+        self.assertEqual(type(self.farm.farmtiles['3x3']),
+                         type(farmlib.farm.FarmTile()))
+        self.assertTrue(isinstance(self.farm.farmtiles['3x3'],
+                        farmlib.farm.FarmTile))
         self.farm.check_wilted(self.farm.farmtiles['3x3'])
 
     def test_generate_random_stones(self):

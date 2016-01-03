@@ -176,17 +176,6 @@ class FarmField(object):
             farmtile.posy = posy
             farmtile["object"] = farmobject
 
-    def old_get_farmtile_position(self, farmtile):
-        """
-            Return farmtile position by spliting farmtile key in
-            farmtiles dict.
-        """
-        for ft in self.farmtiles.keys():
-            if self.farmtiles[ft] == farmtile:
-                px = int(ft.split('x')[0])
-                py = int(ft.split('x')[1])
-                return (px, py)
-
     def set_farmtile(self, posx, posy, farmtile):
         """Set farmtile at given position"""
         arg = str(posx) + 'x' + str(posy)
@@ -335,12 +324,11 @@ class FarmField(object):
             return False
 
         fobject = farmtile['object']
-        if str(type(fobject)) != "<class 'farmlib.farm.Seed'>":
+        if not isinstance(fobject, Seed):
             return False
 
-        wiltime = farmlib.rules["WILT_TIME_HOURS"]
-        if (fobject.to_harvest and
-                time.time() > fobject.growendtime + wiltime * 3600):
+        if (fobject.to_harvest and time.time() > fobject.growendtime +
+                farmlib.rules["WILT_TIME_HOURS"] * 3600):
             # get position
             position = self.get_farmtile_position(farmtile)
             if not position:
@@ -371,9 +359,6 @@ class FarmField(object):
             dict.iteritems
         except AttributeError:
             # Python 3
-            def iteritems(d):
-                return iter(d.items())
-
             def listvalues(d):
                 """listvalues Python 3
 
@@ -383,9 +368,6 @@ class FarmField(object):
                 return list(d.values())
         else:
             # Python 2
-            def iteritems(d):
-                return d.iteritems()
-
             def listvalues(d):
                 """listvalues Python 2
 
@@ -485,8 +467,9 @@ class Seed(FarmObject):
         self.remainstring = ""
 
     def __repr__(self):
-        return "<Seed(FarmObject): id:{0}, name:{1}, type:{2}>".format(
-                self.id, self.name, self.type)
+        return "<Seed(FarmObject): id:{0}, name:{1}, type:{2}," \
+               " to_harvest:{3}>".format(
+                self.id, self.name, self.type, self.to_harvest)
 
     def update_remainig_growing_time(self, waterlevel=0):
         """Lower growtime with ground is wet

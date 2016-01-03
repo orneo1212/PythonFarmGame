@@ -4,6 +4,14 @@ test package
 Submodules
 ----------
 
+test.test_farmField module
+--------------------------
+
+.. automodule:: test.test_farmField
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 test.test_inventoryWindow module
 --------------------------------
 

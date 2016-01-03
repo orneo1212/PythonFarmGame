@@ -5,6 +5,7 @@ Created on 23-05-2012
 '''
 import random
 import pygame
+from farmlib.farm import Seed
 
 
 def draw_tools(surface, currenttool, currentseed, imgloader,
@@ -128,7 +129,7 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
     img.blit(text, (halfx - text.get_size()[0] / 2, 25))
 
     # Draw Seed info
-    if str(type(farmobject)) == "<class 'farmlib.farm.Seed'>":
+    if isinstance(farmobject, Seed):
         # Draw seed
         draw_seed(img, farmobject.id, (sizex / 2 - 32, 100), imgloader)
         # remaining time
@@ -206,7 +207,7 @@ def render_one_field(position, screen, imgloader, farmfield, farmoffset):
     if not farmobject:
         return
 
-    if str(type(farmobject)) == "<class 'farmlib.farm.Seed'>":
+    if isinstance(farmobject, Seed):
         # not ready to harvest
         if not farmobject.to_harvest:
             farmobject.update_remainig_growing_time()
