@@ -136,7 +136,7 @@ class CoreListener(Listener):
         # Remove anthill
         if farmobject.id == 7 and player.money >= REMOVEANTHILLCOST:
             player.money -= REMOVEANTHILLCOST
-            farm.remove(position[0], position[1], player)
+            farm.remove(position[0], position[1])
 
         # Remove wilted
         if farmobject.id == 8 and player.money >= REMOVEWILTEDCOST:
@@ -165,4 +165,4 @@ class CoreListener(Listener):
         removeplankcost = rules["REMOVEPLANKCOST"]
         if farmobject.id == 9 and player.money >= removeplankcost:
             player.money -= removeplankcost
-            farm.remove(position[0], position[1], player)
+            farm.remove(position[0], position[1])

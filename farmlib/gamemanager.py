@@ -197,7 +197,6 @@ class GameManager(object):
                 """
                 return d.keys()
 
-
         # fill tiles
         for farmid in xrange(self.getfarmcount()):
             farm = self.getfarm(farmid)
@@ -219,7 +218,7 @@ class GameManager(object):
                 tile["object"]["type"] = gameobject.type
                 tile["object"]['id'] = gameobject.id
 
-                if gameobject.type == "seed":
+                if str(type(gameobject)) == "<class 'farmlib.farm.Seed'>":
                     tile["object"]['growstarttime'] = gameobject.growstarttime
                     tile["object"]['growendtime'] = gameobject.growendtime
                     tile["object"]['growing'] = bool(gameobject.growing)
