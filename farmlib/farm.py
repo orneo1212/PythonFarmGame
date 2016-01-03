@@ -39,6 +39,10 @@ class FarmTile(object):
         else:
             return None
 
+    def __repr__(self):
+        return "<FarmTile: x:{0}, y:{1}, farmobject:{2}, water:{3}>"\
+            .format(self.posx, self.posy, self.farmobject, self.water)
+
     def get_object(self):
         """get object
 
@@ -75,6 +79,9 @@ class FarmField(object):
         self.raintime = time.time()
         self.last_checksum = ""
         self.seconds_to_update = 0
+
+    def __repr__(self):
+        return "<FarmField: {}>".format(self.farmtiles)
 
     def get_farm_checksum(self):
         """calculate checksum
@@ -169,7 +176,7 @@ class FarmField(object):
             farmtile.posy = posy
             farmtile["object"] = farmobject
 
-    def get_farmtile_position(self, farmtile):
+    def old_get_farmtile_position(self, farmtile):
         """
             Return farmtile position by spliting farmtile key in
             farmtiles dict.
@@ -206,7 +213,7 @@ class FarmField(object):
         if not farmtile["object"]:
             return False
 
-        if not farmtile["object"].type == "seed":
+        if not str(type(farmtile["object"])) == "<class 'farmlib.farm.Seed'>":
             return False
 
         if not farmtile['object'].growing and \
@@ -279,17 +286,15 @@ class FarmField(object):
             return False
 
     @staticmethod
-    def create_random_anthill(farmtile):
-        """create random anthill
+    def create_anthill():
+        """create anthill
 
         :param self:
-        :param farmtile:
         :return:
         """
         fobject = FarmObject()
         fobject.id = 7  # Anthill
         fobject.apply_dict(objects[fobject.id])
-        farmtile["object"] = fobject
         return fobject
 
     def generate_random_stones(self):
@@ -330,7 +335,7 @@ class FarmField(object):
             return False
 
         fobject = farmtile['object']
-        if fobject.type != "seed":
+        if str(type(fobject)) != "<class 'farmlib.farm.Seed'>":
             return False
 
         wiltime = farmlib.rules["WILT_TIME_HOURS"]
@@ -366,6 +371,9 @@ class FarmField(object):
             dict.iteritems
         except AttributeError:
             # Python 3
+            def iteritems(d):
+                return iter(d.items())
+
             def listvalues(d):
                 """listvalues Python 3
 
@@ -375,6 +383,9 @@ class FarmField(object):
                 return list(d.values())
         else:
             # Python 2
+            def iteritems(d):
+                return d.iteritems()
+
             def listvalues(d):
                 """listvalues Python 2
 
@@ -385,14 +396,11 @@ class FarmField(object):
 
         # update each farmtile
         for farmtile in listvalues(self.farmtiles):
-
             # Update objects
             if farmtile['object']:
-                ret = farmtile['object'].update(farmtile)
-                if ret:
+                if farmtile['object'].update(farmtile):
                     modified = True
-                ret = self.check_wilted(farmtile)
-                if ret:
+                if self.check_wilted(farmtile):
                     modified = True
                 # Water nearest plants for ponds
                 if farmtile.farmobject and farmtile.farmobject.id == 11:
@@ -407,11 +415,11 @@ class FarmField(object):
             else:
                 # Create anthills
                 chance = random.randint(0, 10000)
-                maxanthills = farmlib.rules["MAX_ANTHILLS"]
-                if chance == 1 and int(time.time()) % 600 == 0\
-                        and self.count_objects(7) < maxanthills:
-                    self.create_random_anthill(farmtile)
-                    return True
+                if (chance == 1 and int(time.time()) % 600 == 0 and
+                        self.count_objects(7) <
+                        farmlib.rules["MAX_ANTHILLS"] and not modified):
+                    farmtile["object"] = self.create_anthill()
+                    modified = True
         return modified
 
 
@@ -425,6 +433,10 @@ class FarmObject(object):
 
         self.price = 0
         self.type = ""
+
+    def __repr__(self):
+        return "<FarmObject: id:{0}, name:{1}, type:{2}>".format(
+                self.id, self.name, self.type)
 
     def apply_dict(self, dictionary):
         """apply dictionary to object"""
@@ -471,6 +483,10 @@ class Seed(FarmObject):
 
         # Remaining time string
         self.remainstring = ""
+
+    def __repr__(self):
+        return "<Seed(FarmObject): id:{0}, name:{1}, type:{2}>".format(
+                self.id, self.name, self.type)
 
     def update_remainig_growing_time(self, waterlevel=0):
         """Lower growtime with ground is wet

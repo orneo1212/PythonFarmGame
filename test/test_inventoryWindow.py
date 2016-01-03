@@ -42,7 +42,7 @@ class TestInventoryWindow(TestCase):
     """
 
     def setUp(self):
-        '''Creates the QApplication instance'''
+        '''Creates the instance'''
         imagesdata = farmlib.images["imagesdata"]
         self.images = ImageLoader(imagesdata)
         self.gamemanager = GameManager()
@@ -56,9 +56,6 @@ class TestInventoryWindow(TestCase):
         """
         self.inventor.lchecksum = b'ABC'
         self.assertEqual(self.inventor.ismodified(), True)
-        print(self.player.inventory, bytes(self.player.inventory))
-        print(self.player.itemscounter)
-        print(bytes(str(self.player.itemscounter).encode()))
         base64.b64encode(bytes(self.player.inventory))
 
         checksum = base64.b64encode(bytes(self.player.inventory))

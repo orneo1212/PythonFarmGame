@@ -128,7 +128,7 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
     img.blit(text, (halfx - text.get_size()[0] / 2, 25))
 
     # Draw Seed info
-    if farmobject.type == "seed":
+    if str(type(farmobject)) == "<class 'farmlib.farm.Seed'>":
         # Draw seed
         draw_seed(img, farmobject.id, (sizex / 2 - 32, 100), imgloader)
         # remaining time
@@ -206,7 +206,7 @@ def render_one_field(position, screen, imgloader, farmfield, farmoffset):
     if not farmobject:
         return
 
-    if farmobject.type == "seed":
+    if str(type(farmobject)) == "<class 'farmlib.farm.Seed'>":
         # not ready to harvest
         if not farmobject.to_harvest:
             farmobject.update_remainig_growing_time()

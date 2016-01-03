@@ -34,6 +34,7 @@ class TestCodeFormat(unittest.TestCase):
         result = pep8style.check_files(['pyFarmGame.py',
                                         'test/test_pep8.py',
                                         'test/test_inventoryWindow.py',
+                                        'test/test_farmField.py',
                                         'farmlib/__init__.py',
                                         'farmlib/coreplugin.py',
                                         'farmlib/dictmapper.py',
