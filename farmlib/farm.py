@@ -330,10 +330,10 @@ class FarmField(object):
         if (fobject.to_harvest and time.time() > fobject.growendtime +
                 farmlib.rules["WILT_TIME_HOURS"] * 3600):
             # get position
-            position = self.get_farmtile_position(farmtile)
-            if not position:
+            posx = farmtile.posx
+            posy = farmtile.posy
+            if not posx or not posy:
                 return False
-            posx, posy = position
 
             self.wilt_plant(posx, posy)
             return True
