@@ -427,7 +427,7 @@ class FarmObject(object):
         self.__dict__.update(dictionary)
 
     @staticmethod
-    def update(farmtile):
+    def update(*args, **kwargs):
         """update
 
         :return:
