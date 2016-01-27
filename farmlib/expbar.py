@@ -30,8 +30,7 @@ class ExpBar(Label):
         # calculate progress and set text
         progress = int(exp / nextlvlexp * 100)
         self.settext("Level: " + str(level) + " Exp: {0!s}/{1!s} ({2!s} %)".
-                     format(int(exp), int(nextlvlexp), progress),
-                     repaint=False)
+                     format(int(exp), int(nextlvlexp), progress))
 
     def update(self):
         """update

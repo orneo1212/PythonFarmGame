@@ -50,7 +50,7 @@ class MenuWindow(Container):
         # Show window
         self.show()
 
-    def on_quit(self, widget, **data):
+    def on_quit(self, *args, **kwargs):
         """quit
 
         :param widget:
@@ -59,7 +59,7 @@ class MenuWindow(Container):
         """
         self.running = False
 
-    def on_startgame(self, widget, **data):
+    def on_startgame(self, *args, **kwargs):
         """start game
 
         :param widget:

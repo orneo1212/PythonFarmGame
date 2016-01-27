@@ -59,8 +59,10 @@ class Label(Widget):
         self.img = self.image
         self.mark_modified()
 
-    def settext(self, newtext, repaint=True):
+    def settext(self, newtext):
         """settext
+
+        remove , repaint=True
 
         :param newtext:
         :param repaint:
