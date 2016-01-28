@@ -88,8 +88,7 @@ class InventoryWindow(Container):
                                self.on_item_select, itemid=item)
             itembutton.connect("onenter",
                                self.on_item_enter, itemid=item)
-            itembutton.connect("onleave",
-                               self.on_item_leave, itemid=item)
+            itembutton.connect("onleave", self.on_item_leave)
             self.addwidget(itembutton)
 
             # item count
@@ -134,11 +133,10 @@ class InventoryWindow(Container):
         mx, my = pygame.mouse.get_pos()
         self.tooltip = [Tooltip((mx + 5, my + 5), data), widget]
 
-    def on_item_leave(self, widget, itemid):
+    def on_item_leave(self, widget):
         """on item leave
-
+        remove itemid
         :param widget:
-        :param itemid:
         :return:
         """
         if self.tooltip[1] == widget:
