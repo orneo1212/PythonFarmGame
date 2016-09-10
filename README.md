@@ -1,9 +1,6 @@
 Python farm game
 ================
 
-[![Code Issues](https://www.quantifiedcode.com/api/v1/project/0ca8d4cc207947f5a59027a6621212f1/badge.svg)]
-(https://www.quantifiedcode.com/app/project/0ca8d4cc207947f5a59027a6621212f1)
-
 Farming game where you can plant strawberries, onions, beans, carrots, potatos, tomatos and radishes.
 Use axe and pickaxe to remove plank and stone and shovel to remove anthill.
 
