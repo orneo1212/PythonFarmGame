@@ -3,25 +3,37 @@ Created on 22-05-2012
 
 @author: orneo1212
 '''
+from __future__ import absolute_import
+
 import pygame
 
-from container import Container
+from pygameui.container import Container
+
 
 class Window(Container):
     '''
     Window for gui
     '''
 
-    def __init__(self, (width, height), position):
-        Container.__init__(self, (width, height), position)
+    def __init__(self, width, height, position):
+        """initial
+
+        :param position:
+        :return:
+        """
+        Container.__init__(self, width, height, position)
         self.alphavalue = 196
-        #border
+        # border
         self.showborder = True
         self.bordercolor = (128, 128, 0)
         self.bordersize = 2
         self.backgroundcolor = (80, 80, 80, self.alphavalue)
 
     def create_background(self):
+        """fill backgroundcolor
+
+        :return:
+        """
         img = pygame.surface.Surface(self.size).convert_alpha()
         img.fill(self.backgroundcolor)
         if self.showborder:
@@ -31,17 +43,22 @@ class Window(Container):
         return img
 
     def repaint_container(self):
+        """repaint
+
+        :return:
+        """
         self.create_widget_image()
         img = self.create_background()
         self.img.blit(img, (0, 0))
 
     def get_relative_mousepos(self):
         """
-            Return mouse position relative to window position and size
-            return None when mouse is not under window
+        Return mouse position relative to window position and size
+        return None when mouse is not under window
         """
         mx, my = pygame.mouse.get_pos()
         mx -= self.position[0]
         my -= self.position[1]
-        if mx > self.width or my > self.height:return None
+        if mx > self.width or my > self.height:
+            return None
         return (mx, my)

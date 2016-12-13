@@ -1,8 +1,13 @@
 import json
+import os
 
-class DictMapper():
-    def __init__(self, dicttomap = {}):
-        self._dict = dicttomap
+
+class DictMapper(object):
+    """DictMapper
+
+    """
+    def __init__(self, dicttomap=None):
+        self._dict = dicttomap or {}
 
     def __str__(self):
         return repr(self._dict)
@@ -14,12 +19,23 @@ class DictMapper():
         self._dict[name] = value
 
     def keys(self):
+        """keys
+
+        :return:
+        """
         return self._dict.keys()
 
     def get(self, keyname, defaultvalue):
+        """get
+
+        :param keyname:
+        :param defaultvalue:
+        :return:
+        """
         if keyname in self._dict.keys():
             return self._dict[keyname]
-        else:return defaultvalue
+        else:
+            return defaultvalue
 
     def __getitem__(self, name):
         if isinstance(name, int):
@@ -27,12 +43,29 @@ class DictMapper():
         if name in self._dict:
             return self._dict[name]
         else:
-            try:
+            if name in self.__dict__:
                 return self.__dict__[name]
-            except:return None
+            else:
+                return None
 
     def save(self, filename):
-        json.dump(self._dict, open(filename, "w"), indent = 2)
+        """save
+
+        :param filename:
+        :return:
+        """
+        json.dump(self._dict, open(filename, "w"), indent=2)
 
     def load(self, filename):
-        self._dict = json.load(open(filename, "r"))
+        """load
+
+        :param filename:
+        :return:
+        """
+        if os.path.isfile(filename):
+            self._dict = json.load(open(filename, "r"))
+        elif os.path.isfile(os.path.join('..', filename)):
+            self._dict = json.load(open(os.path.join('..', filename), "r"))
+        else:
+            # handle error in a way that doesn't make sphinx crash
+            print("ERROR: No such file: '{}'".format(filename))

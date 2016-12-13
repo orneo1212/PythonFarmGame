@@ -5,46 +5,55 @@ Created on 31-05-2012
 '''
 from pygameui import Label, Window
 
+
 class Tooltip(Window):
+    """create tooltip window
+    """
     def __init__(self, position, data):
+        """create tooltip window.
+        data must be list of pairs ["label", "value"]
         """
-            create tooltip window. data must be list of pairs ["label", "value"]
-        """
-        Window.__init__(self, (0, 0), position)
+        Window.__init__(self, 0, 0, position)
         self.data = data
         self.alphavalue = 200
         #
-        self.crete_widgets()
+        self.create_widgets()
 
-    def crete_widgets(self):
+    def create_widgets(self):
+        """create widgets
+
+        :return:
+        """
         rowid = 0
         fontsize = 13
         spaceing = 4
         marginleft = 5
         for data in self.data:
-            if len(data) < 2:continue
+            if len(data) < 2:
+                continue
 
-            #Label
+            # Label
             labelwidth = marginleft
             labelheight = rowid * (fontsize + 2)
-            label = Label(data[0], (labelwidth, labelheight), size = fontsize)
+            label = Label(data[0], (labelwidth, labelheight), size=fontsize)
             self.addwidget(label)
 
-            #Value
+            # Value
             valuewidth = marginleft + label.size[0] + spaceing
             valueheight = rowid * (fontsize + 2)
             value = Label(data[1], (valuewidth, valueheight),
-                           color = (255, 255, 150),
-                           size = fontsize
-                          )
+                          color=(255, 255, 150),
+                          size=fontsize)
             self.addwidget(value)
-            #total width
+            # total width
             totalwidth = label.size[0] + value.size[0]
-            if self.width < totalwidth:self.width = totalwidth + 5
-            #increase row
+            if self.width < totalwidth:
+                self.width = totalwidth + 5
+            # increase row
             rowid += 1
-        #update height
+        # update height
         totalheight = len(self.data) * (fontsize + 2)
-        if self.height < totalheight:self.height = totalheight + 5
-        #update window size
+        if self.height < totalheight:
+            self.height = totalheight + 5
+        # update window size
         self.size = [self.width, self.height]

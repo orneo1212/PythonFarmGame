@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
+
 import os
 import pygame
 
@@ -10,12 +11,16 @@ from farmlib.menuwindow import MenuWindow
 pygame.init()
 pygame.key.set_repeat(100, 100)
 
-class FarmGamePygame:
+
+class FarmGamePygame(object):
+    """
+    Farm Game Pygame
+    """
     def __init__(self):
         """Init game"""
         self.screen = pygame.display.set_mode((800, 600), pygame.DOUBLEBUF)
         pygame.display.set_caption("PyFarmGame " + "v. " + __VERSION__)
-        #timer
+        # timer
         self.timer = pygame.time.Clock()
 
         self.activescr = None
@@ -24,18 +29,35 @@ class FarmGamePygame:
         self.inmenu = True
 
     def set_active_screen(self, activescreen):
+        """set active screen
+
+        :param activescreen:
+        :return:
+        """
         self.activescr = activescreen
         self.activescr.parent = self
 
     def update(self):
+        """update
+
+        :return:
+        """
         self.activescr.update()
 
     def events(self):
+        """events
+
+        :return:
+        """
         self.activescr.events()
 
     def redraw(self, surface):
-        self.activescr.redraw(surface)
+        """redraw
 
+        :param surface:
+        :return:
+        """
+        self.activescr.redraw(surface)
 
     def run(self):
         """
@@ -49,24 +71,34 @@ class FarmGamePygame:
             self.remove_game_lock()
             exit(1)
 
-    def check_game_lock(self):
+    @staticmethod
+    def check_game_lock():
+        """check game lock
+
+        :return:
+        """
         if os.path.isfile("game.lock"):
-            print("Game is already running. If not manualy"\
-                " remove game.lock file and try again")
+            print("Game is already running. If not manualy"
+                  " remove game.lock file and try again")
             exit(0)
         else:
             open("game.lock", "w").close()
 
-    def remove_game_lock(self):
+    @staticmethod
+    def remove_game_lock():
+        """remove game lock
+
+        :return:
+        """
         if os.path.isfile("game.lock"):
             os.remove("game.lock")
 
     def main(self):
         """Main"""
-        #check for lock file
+        # check for lock file
         self.check_game_lock()
 
-        #IN GAME
+        # IN GAME
         if self.ingame:
             self.activescr.init()
         elif not self.ingame and self.inmenu:
@@ -80,15 +112,14 @@ class FarmGamePygame:
             self.timer.tick(30)
             pygame.display.flip()
 
-        #Save game
+        # Save game
         if self.ingame:
             self.activescr.deinit()
 
-        #remove lock
+        # remove lock
         self.remove_game_lock()
 
 if __name__ == '__main__':
     f = FarmGamePygame()
     f.set_active_screen(MenuWindow())
     f.run()
-
