@@ -18,3 +18,6 @@ Tools:
     Pickaxe - Use it to remove stones.
     Axe - Use it to cut off the planks.
     
+
+Donate:
+    Bitcoin: 115UaPGtPhCUwv4QXwk19MVEoVhK7NZcUB
