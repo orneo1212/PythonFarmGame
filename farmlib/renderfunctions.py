@@ -99,12 +99,14 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
     #Draw Seed info
     if farmobject.type == "seed":
         #Draw seed
-        draw_seed(img, farmobject.id, (sizex / 2 - 32, 100), imgloader)
+        draw_seed(img, farmobject.id, (sizex / 2 - 32, 90), imgloader)
+
         #remaining time
-        text = "Complete in: " + farmobject.remainstring
-        text = font.render(text, 0, (255, 0, 100), (255, 0, 255))
-        text.set_colorkey((255, 0, 255))
-        img.blit(text, (halfx - text.get_size()[0] / 2, 45))
+        if not farmobject.to_harvest:
+            text = "Complete in: " + farmobject.remainstring
+            text = font.render(text, 0, (255, 0, 100), (255, 0, 255))
+            text.set_colorkey((255, 0, 255))
+            img.blit(text, (halfx - text.get_size()[0] / 2, 45))
 
         #Quentity
         text = "Quantity: %s (%s)" % (str(farmobject.growquantity),
@@ -113,11 +115,25 @@ def render_seed_notify(surface, font, posx, posy, farmobject, farmtile,
         text.set_colorkey((255, 0, 255))
         img.blit(text, (halfx - text.get_size()[0] / 2, 65))
 
-        #Water
-        text = "Water: " + str(int(farmtile["water"])) + " %"
-        text = font.render(text, 0, (0, 128, 255), (255, 0, 255))
-        text.set_colorkey((255, 0, 255))
-        img.blit(text, (halfx - text.get_size()[0] / 2, 85))
+        # grow progress
+        if not farmobject.to_harvest:
+            width = sizex - 4
+            p = int(width / float(farmobject.growtime) * int(farmobject.growtimeremaining))
+            py = sizey - 12
+
+            if farmtile["water"]:
+                py = sizey - 24
+
+            pygame.draw.rect(img, (20, 20, 0), (1, py, width, 10), 0)
+            pygame.draw.rect(img, (128, 128, 0), (1, py, p, 10), 0)
+
+        # water progress bar
+        if farmtile["water"]:
+            width = sizex - 4
+            p = int(width / 100.0 * int(farmtile["water"]))
+
+            pygame.draw.rect(img, (0, 0, 20), (1, sizey-12, width, 10), 0)
+            pygame.draw.rect(img, (0, 0, 128), (1, sizey-12, p, 10), 0)
 
         #ready to harvest
         if farmobject.to_harvest:

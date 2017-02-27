@@ -2,4 +2,5 @@
 *~
 field.json
 game.lock
-
+.vscode
+dev/
