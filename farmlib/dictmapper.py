@@ -1,7 +1,9 @@
 import json
 
+
 class DictMapper():
-    def __init__(self, dicttomap = {}):
+
+    def __init__(self, dicttomap={}):
         self._dict = dicttomap
 
     def __str__(self):
@@ -19,7 +21,8 @@ class DictMapper():
     def get(self, keyname, defaultvalue):
         if keyname in self._dict.keys():
             return self._dict[keyname]
-        else:return defaultvalue
+        else:
+            return defaultvalue
 
     def __getitem__(self, name):
         if isinstance(name, int):
@@ -29,10 +32,11 @@ class DictMapper():
         else:
             try:
                 return self.__dict__[name]
-            except:return None
+            except:
+                return None
 
     def save(self, filename):
-        json.dump(self._dict, open(filename, "w"), indent = 2)
+        json.dump(self._dict, open(filename, "w"), indent=2)
 
     def load(self, filename):
         self._dict = json.load(open(filename, "r"))

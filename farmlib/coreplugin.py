@@ -5,6 +5,7 @@ REMOVEWILTEDCOST = rules["REMOVEWILTEDCOST"]
 REMOVEANTHILLCOST = rules["REMOVEANTHILLCOST"]
 REMOVESTONECOST = rules["REMOVESTONECOST"]
 
+
 class CorePlugin(BasePlugin):
     name = "coreplugin"
     version = "0.3"
@@ -16,7 +17,9 @@ class CorePlugin(BasePlugin):
         self.listener = CoreListener(self)
         self.system.registerEvent("toolused", self.listener)
 
+
 class CoreListener(Listener):
+
     def __init__(self, plugin):
         Listener.__init__(self, plugin)
 
@@ -42,9 +45,11 @@ class CoreListener(Listener):
             self.axe_events(farm, player, position)
 
     def watercan_events(self, farm, player, position):
-        if not player.watercanuses:return False
+        if not player.watercanuses:
+            return False
         done = farm.water(position[0], position[1])
-        if not done:return False
+        if not done:
+            return False
 
         player.event_water()
         player.watercanuses -= 1
@@ -58,10 +63,11 @@ class CoreListener(Listener):
         if not newobject:
             player.selecteditem = None
 
-        #check player level
+        # check player level
         elif player.level >= newobject.requiredlevel:
             done = farm.plant(position[0], position[1], newobject)
-            if done:player.remove_item(newobject.id)
+            if done:
+                player.remove_item(newobject.id)
 
     def harvest_events(self, farm, player, position):
         """Harvest events"""
@@ -70,46 +76,49 @@ class CoreListener(Listener):
     def pickaxe_events(self, farm, player, position):
         """Pickaxe events"""
         farmobject = farm.get_farmobject(position[0], position[1])
-        if not farmobject:return
+        if not farmobject:
+            return
 
-        #Remove stones
+        # Remove stones
         if farmobject.type != "seed" and \
-            farmobject.id == 6 and player.money >= REMOVESTONECOST:
+                farmobject.id == 6 and player.money >= REMOVESTONECOST:
             player.money -= REMOVESTONECOST
             farm.remove(position[0], position[1], player)
 
     def shovel_events(self, farm, player, position):
         """Shovel events"""
         farmobject = farm.get_farmobject(position[0], position[1])
-        if not farmobject:return
+        if not farmobject:
+            return
 
-        #Remove anthill
+        # Remove anthill
         if farmobject.id == 7 and player.money >= REMOVEANTHILLCOST:
             player.money -= REMOVEANTHILLCOST
             farm.remove(position[0], position[1], player)
 
-        #Remove wilted
+        # Remove wilted
         if farmobject.id == 8 and player.money >= REMOVEWILTEDCOST:
             player.money -= REMOVEWILTEDCOST
             farm.removewilted(position[0], position[1], player)
 
-        #Pickup pond
+        # Pickup pond
         if farmobject.id == 11:
             farm.set_farmobject(position[0], position[1], None)
             player.add_item(11)
 
-        #remove seed
+        # remove seed
         if farmobject and farmobject.type == "seed":
-            #remove seed when is NOT ready
+            # remove seed when is NOT ready
             if not farmobject.to_harvest:
                 farm.remove(position[0], position[1], player)
 
     def axe_events(self, farm, player, position):
         """Axe events"""
         farmobject = farm.get_farmobject(position[0], position[1])
-        if not farmobject:return
+        if not farmobject:
+            return
 
-        #Remove planks
+        # Remove planks
         removeplankcost = rules["REMOVEPLANKCOST"]
         if farmobject.id == 9 and player.money >= removeplankcost:
             player.money -= removeplankcost
