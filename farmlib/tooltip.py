@@ -53,3 +53,22 @@ class Tooltip(Window):
             self.height = totalheight + 5
         # update window size
         self.size = [self.width, self.height]
+
+    def draw(self, surface):
+        if not self.visible:
+            return
+
+        needrepaint = False
+        for widget in self.widgets:
+            if widget.modified:
+                widget.mark_modified(False)
+                needrepaint = True
+                break
+        #
+        if needrepaint:
+            self.repaint()
+        pos = list(self.position[:])
+        diffw = pos[0]+self.img.get_width()-800
+        if diffw > 0:
+            pos[0] = pos[0] - diffw
+        surface.blit(self.img, pos)
