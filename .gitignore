@@ -4,3 +4,5 @@ field.json
 game.lock
 .vscode
 dev/
+build/
+PythonFarmGame.pex

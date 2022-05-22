@@ -24,7 +24,7 @@ class HelpWindow(Window):
         messages = []
 
         currpath = os.path.join(os.path.dirname(__file__))
-        with open(os.path.join(currpath, '../data/help.txt'), 'r') as help_file:
+        with open('data/help.txt', 'r') as help_file:
             lines = help_file.readlines()
             for l in lines:
                 messages.append(l.strip())

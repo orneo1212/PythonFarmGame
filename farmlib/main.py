@@ -1,21 +1,22 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 import os
 import pygame
 
-from farmlib import __VERSION__
-from farmlib import PluginSystem
-from farmlib.menuwindow import MenuWindow
+from . import __VERSION__
+from . import PluginSystem
+from .menuwindow import MenuWindow
 
 pygame.init()
 pygame.key.set_repeat(400, 100)
+
 
 class FarmGamePygame:
     def __init__(self):
         """Init game"""
         self.screen = pygame.display.set_mode((800, 600), pygame.DOUBLEBUF)
         pygame.display.set_caption("PyFarmGame " + "v. " + __VERSION__)
-        #timer
+        # timer
         self.timer = pygame.time.Clock()
 
         self.activescr = None
@@ -36,7 +37,6 @@ class FarmGamePygame:
     def redraw(self, surface):
         self.activescr.redraw(surface)
 
-
     def run(self):
         """
             Run game. Remove lock when error
@@ -51,8 +51,8 @@ class FarmGamePygame:
 
     def check_game_lock(self):
         if os.path.isfile("game.lock"):
-            print("Game is already running. If not manualy"\
-                " remove game.lock file and try again")
+            print("Game is already running. If not manualy"
+                  " remove game.lock file and try again")
             exit(0)
         else:
             open("game.lock", "w").close()
@@ -63,10 +63,10 @@ class FarmGamePygame:
 
     def main(self):
         """Main"""
-        #check for lock file
+        # check for lock file
         self.check_game_lock()
 
-        #IN GAME
+        # IN GAME
         if self.ingame:
             self.activescr.init()
         elif not self.ingame and self.inmenu:
@@ -80,15 +80,19 @@ class FarmGamePygame:
             self.timer.tick(30)
             pygame.display.flip()
 
-        #Save game
+        # Save game
         if self.ingame:
             self.activescr.deinit()
 
-        #remove lock
+        # remove lock
         self.remove_game_lock()
 
-if __name__ == '__main__':
+
+def main():
     f = FarmGamePygame()
     f.set_active_screen(MenuWindow())
     f.run()
 
+
+if __name__ == '__main__':
+    main()

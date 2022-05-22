@@ -41,7 +41,8 @@ imagesdata = farmlib.images["imagesdata"]
 # merge objects images data (objects image have objects/objects+id.png)
 for gobject in objects:
     name = "object" + str(gobject['id']) + ".png"
-    objectsimagepath = os.path.join("images", os.path.join("objects", name))
+    objectsimagepath = os.path.join(
+        "data", "images", os.path.join("objects", name))
     imagesdata["object" + str(gobject['id'])] = objectsimagepath
 
 

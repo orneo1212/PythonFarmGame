@@ -1,23 +1,23 @@
 {
-    "imagesdata":{
-        "seed":"images/seedstartgrow.png",
-        "seedhalfgrow":"images/seedhalfgrow.png",
-        "seedfullgrow":"images/seedfullgrow.png",
-        "dryground":"images/dryground.png",
-        "wetground":"images/wetground.png",
-        "background":"images/gui/background.png",
-        "mainmenubg":"images/gui/mainmenubg.png",
-        "sickle":"images/sickle.png",
-        "plant":"images/plant.png",
-        "wateringcan":"images/wateringcan.png",
-        "shovel":"images/shovel.png",
-        "pickaxe":"images/pickaxe.png",
-        "axe":"images/axe.png",
-        "inventory":"images/gui/inventory.png",
-        "grid":"images/grid.png",
-        "grid2":"images/grid2.png",
-        "marketbutton":"images/gui/marketbutton.png",
-        "inventorybutton":"images/gui/inventorybutton.png",
-        "marketbg":"images/gui/marketbg.png"
+    "imagesdata": {
+        "seed": "data/images/seedstartgrow.png",
+        "seedhalfgrow": "data/images/seedhalfgrow.png",
+        "seedfullgrow": "data/images/seedfullgrow.png",
+        "dryground": "data/images/dryground.png",
+        "wetground": "data/images/wetground.png",
+        "background": "data/images/gui/background.png",
+        "mainmenubg": "data/images/gui/mainmenubg.png",
+        "sickle": "data/images/sickle.png",
+        "plant": "data/images/plant.png",
+        "wateringcan": "data/images/wateringcan.png",
+        "shovel": "data/images/shovel.png",
+        "pickaxe": "data/images/pickaxe.png",
+        "axe": "data/images/axe.png",
+        "inventory": "data/images/gui/inventory.png",
+        "grid": "data/images/grid.png",
+        "grid2": "data/images/grid2.png",
+        "marketbutton": "data/images/gui/marketbutton.png",
+        "inventorybutton": "data/images/gui/inventorybutton.png",
+        "marketbg": "data/images/gui/marketbg.png"
     }
 }
