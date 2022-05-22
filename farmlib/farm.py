@@ -369,11 +369,11 @@ class Seed(FarmObject):
 
         # calculate remaining time in hours, minutes and seconds
         remain = self.growtimeremaining
-        remH = remain / 3600
+        remH = int(remain / 3600)
         remain -= remH * 3600
-        remM = remain / 60
+        remM = int(remain / 60)
         remain -= remM * 60
-        remS = remain
+        remS = int(remain)
         # change to string
         if remH < 10:
             remH = "0" + str(remH)
