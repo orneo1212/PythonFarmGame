@@ -8,7 +8,7 @@ from farmlib import PluginSystem
 from farmlib.menuwindow import MenuWindow
 
 pygame.init()
-pygame.key.set_repeat(100, 100)
+pygame.key.set_repeat(400, 100)
 
 class FarmGamePygame:
     def __init__(self):
