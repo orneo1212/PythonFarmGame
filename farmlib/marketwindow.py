@@ -8,8 +8,8 @@ import pygame
 import farmlib
 
 from pygameui import Label, Image, Container, Button
-from farm import objects
-from tooltip import Tooltip
+from .farm import objects
+from .tooltip import Tooltip
 
 WATERREFILLCOST = farmlib.rules["WATERREFILLCOST"]
 OBJECTSNOTINMARKET = farmlib.rules["OBJECTSNOTINMARKET"]
@@ -213,7 +213,7 @@ class MarketWindow(Container):
 
         if done:
             # Remove items
-            for x in xrange(self.count):
+            for x in range(self.count):
                 self.player.remove_item(itemid)
             # Add money
             self.player.money += self.get_item_sell_value(itemid)
@@ -234,7 +234,7 @@ class MarketWindow(Container):
             self.message.settext("You dont have money to refill watercan")
 
     def give_item(self, itemid, count):
-        for x in xrange(count):
+        for x in range(count):
             self.player.add_item(self.selecteditem)
 
     # TOOLTIP

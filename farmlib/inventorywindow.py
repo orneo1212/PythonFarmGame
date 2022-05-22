@@ -2,7 +2,7 @@ import base64
 
 import pygame
 
-from farm import objects
+from .farm import objects
 from pygameui import Label, Button, Container, Image
 from farmlib.tooltip import Tooltip
 
@@ -27,8 +27,10 @@ class InventoryWindow(Container):
 
     def ismodified(self):
         """Return True when inventory was been modified (based on checksum)"""
-        checksum = base64.b64encode(str(self.player.inventory))
-        checksum = base64.b64encode(checksum + str(self.player.itemscounter))
+        checksum = base64.b64encode(bytes(str(self.player.inventory), "utf-8"))
+        checksum = base64.b64encode(
+            checksum + bytes(str(self.player.itemscounter), "utf-8")
+        )
         if checksum != self.lchecksum:
             self.lchecksum = checksum
             return True

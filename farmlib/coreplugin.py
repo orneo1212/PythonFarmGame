@@ -1,5 +1,5 @@
-from __init__ import rules
-from pluginsystem import BasePlugin, Listener
+from . import rules
+from .pluginsystem import BasePlugin, Listener
 
 REMOVEWILTEDCOST = rules["REMOVEWILTEDCOST"]
 REMOVEANTHILLCOST = rules["REMOVEANTHILLCOST"]
@@ -27,10 +27,10 @@ class CoreListener(Listener):
         pass
 
     def handler_toolused(self, position, gamemanager):
-        #print ("Tool %s used on %s" % (toolname, str(position)))
         player = gamemanager.getplayer()
         farm = gamemanager.getfarm()
         toolname = player.selectedtool
+        #print("Tool %s used on %s" % (toolname, str(position)))
         if toolname == "watering":
             self.watercan_events(farm, player, position)
         elif toolname == "plant":

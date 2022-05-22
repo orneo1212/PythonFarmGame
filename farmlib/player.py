@@ -1,4 +1,4 @@
-from farm import objects, FarmObject, Seed
+from .farm import objects, FarmObject, Seed
 
 
 class Player:
@@ -19,7 +19,7 @@ class Player:
     def update(self):
         # create dict key if not exist in itemscounter
         for i in self.inventory:
-            if not self.itemscounter.has_key(str(i)):
+            if not str(i) in self.itemscounter.keys():
                 self.itemscounter[str(i)] = 0
         # clear selection if player dont have item
         if self.selecteditem != None:

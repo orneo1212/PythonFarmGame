@@ -5,17 +5,18 @@ Created on 22-05-2012
 '''
 import pygame
 
-from container import Container
+from .container import Container
+
 
 class Window(Container):
     '''
     Window for gui
     '''
 
-    def __init__(self, (width, height), position):
-        Container.__init__(self, (width, height), position)
+    def __init__(self, size, position):
+        Container.__init__(self, size, position)
         self.alphavalue = 196
-        #border
+        # border
         self.showborder = True
         self.bordercolor = (128, 128, 0)
         self.bordersize = 2
@@ -43,5 +44,6 @@ class Window(Container):
         mx, my = pygame.mouse.get_pos()
         mx -= self.position[0]
         my -= self.position[1]
-        if mx > self.width or my > self.height:return None
+        if mx > self.width or my > self.height:
+            return None
         return (mx, my)

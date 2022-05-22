@@ -4,8 +4,8 @@ import time
 import base64
 
 import farmlib
-from pnoise import pnoise
-from dictmapper import DictMapper
+from .pnoise import pnoise
+from .dictmapper import DictMapper
 
 
 class FarmTile:
@@ -61,7 +61,7 @@ class FarmField:
     def get_farm_checksum(self):
         ft = [str(x.water) + str(x.farmobject)
               for x in self.farmtiles.values()]
-        checksum = base64.b64encode("".join(ft))
+        checksum = base64.b64encode("".join(ft).encode("utf-8"))
         return checksum
 
     def ismodified(self):
@@ -90,7 +90,7 @@ class FarmField:
         """Get farmtile from given position"""
 
         arg = str(posx) + 'x' + str(posy)
-        if self.farmtiles.has_key(arg):
+        if arg in self.farmtiles.keys():
             return self.farmtiles[arg]
 
         else:
@@ -158,7 +158,7 @@ class FarmField:
                 farmtile['object'].to_harvest:
             # harvest seeds
             player.event_harvest(farmtile['object'])
-            for _ in xrange(farmtile['object'].growquantity):
+            for _ in range(farmtile['object'].growquantity):
                 #
                 itemid = farmtile['object'].id
                 if itemid not in player.inventory:
@@ -213,7 +213,7 @@ class FarmField:
         return fobject
 
     def generate_random_stones(self):
-        for _ in xrange(random.randint(10, 15)):
+        for _ in range(random.randint(10, 15)):
             xx = random.randint(0, 11)
             yy = random.randint(0, 11)
             fobject = FarmObject()
@@ -223,7 +223,7 @@ class FarmField:
             self.set_farmtile(xx, yy, farmtile)
 
     def generate_random_planks(self):
-        for _ in xrange(random.randint(10, 15)):
+        for _ in range(random.randint(10, 15)):
             xx = random.randint(0, 11)
             yy = random.randint(0, 11)
             fobject = FarmObject()

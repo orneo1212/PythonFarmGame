@@ -1,10 +1,11 @@
 import pygame
 
-from widget import Widget
+from .widget import Widget
+
 
 class Label(Widget):
-    def __init__(self, text, position, size = 12,
-            color = (255, 255, 255), align = "left"):
+    def __init__(self, text, position, size=12,
+                 color=(255, 255, 255), align="left"):
         self.text = text
         self.labelfont = pygame.font.Font("dejavusansmono.ttf", size)
         self.image = None
@@ -13,7 +14,7 @@ class Label(Widget):
         self.orginal_position = position
         self.align = align
 
-        #set width and height
+        # set width and height
         self.render_text()
         self.width = self.image.get_size()[0]
         self.height = self.image.get_size()[1]
@@ -40,8 +41,8 @@ class Label(Widget):
         self.img = self.image
         self.mark_modified()
 
-    def settext(self, newtext, repaint = True):
-        newtext = unicode(newtext)
+    def settext(self, newtext, repaint=True):
+        newtext = newtext
         self.text = newtext
         self.setposition(self.orginal_position)
         self.mark_modified()

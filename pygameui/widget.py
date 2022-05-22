@@ -5,20 +5,20 @@ Created on 22-05-2012
 '''
 import pygame
 
+
 class Widget:
     '''
     Widget for gui
     '''
 
-
-    def __init__(self, position, (width, height)):
-        #parent widget should inherit from Container
+    def __init__(self, position, size):
+        # parent widget should inherit from Container
         self.parent = None
 
         self.position = position
-        self.width = width
-        self.height = height
-        self.size = [self.width, self.height]
+        self.width = size[0]
+        self.height = size[1]
+        self.size = size
 
         self.visible = True
         self.active = False
@@ -40,7 +40,7 @@ class Widget:
         self.height = newsize[1]
         self.size = newsize[:]
 
-    def mark_modified(self, modified = True):
+    def mark_modified(self, modified=True):
         self.modified = modified
 
     def repaint(self):
@@ -56,19 +56,20 @@ class Widget:
         pass
 
     def poll_event(self, event):
-        #Mouse motion
+        # Mouse motion
         if event.type == pygame.MOUSEMOTION:
             pos = (0, 0)
-            #get relative mouse pos if there is parent container
+            # get relative mouse pos if there is parent container
             if self.parent:
                 newpos = self.parent.get_relative_mousepos()
-                if newpos:pos = newpos
-            #on_leave event
+                if newpos:
+                    pos = newpos
+            # on_leave event
             if self.insidewidget and not self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = False
                 self._call_callback("onleave")
                 self.repaint()
-            #on_enter event
+            # on_enter event
             if not self.insidewidget and self.pointinwidget(pos[0], pos[1]):
                 self.insidewidget = True
                 self._call_callback("onenter")
@@ -95,7 +96,8 @@ class Widget:
                            self.width - 2, self.height - 2)
         if rect.collidepoint((posx, posy)):
             return True
-        else:return False
+        else:
+            return False
 
     def connect(self, signal, function, **data):
         self.callbacks[signal] = [function, data]

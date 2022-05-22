@@ -1,13 +1,14 @@
+from .pluginsystem import basePluginSystem as PluginSystem
 import os
 import pygame
 
-import imageloader
-import player
+from . import imageloader
+from . import player
 
-from dictmapper import DictMapper
+from .dictmapper import DictMapper
 
 
-#SETTINGS
+# SETTINGS
 
 rules = DictMapper()
 rules.load(os.path.join("data", "rules.json"))
@@ -17,8 +18,7 @@ images.load(os.path.join("data", "images.json"))
 
 __VERSION__ = rules["VERSION"]
 
-#init plugin system
-from pluginsystem import basePluginSystem as PluginSystem
+# init plugin system
 
 pygame.font.init()
 pygame.mixer.init()

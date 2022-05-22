@@ -118,7 +118,7 @@ class BasePlugin:
         except:
             msg = "Cannot Register Global Hook %s (Plugin installed?)" % hookname
             if self.system and self.system.debug:
-                print msg
+                print(msg)
 
 
 #################
@@ -165,9 +165,9 @@ class PluginSystem:
             # Setup plugin
             try:
                 plugin.setup()
-            except Exception, e:
+            except Exception as e:
                 if self.debug:
-                    print e
+                    print(e)
 
             self._plugins.append(plugin)
             self.emit_event("pluginload", pluginname=plugin.name)
@@ -175,7 +175,7 @@ class PluginSystem:
         except AttributeError:
             msg = "Can't install plugin from %s." % str(pluginObject)
             if self.debug:
-                print msg
+                print(msg)
 
     def run(self):
         """
@@ -183,7 +183,7 @@ class PluginSystem:
         """
         # Set priority for events
         tempqueue = []
-        for nr in xrange(len(self.eventqueue)):
+        for nr in range(len(self.eventqueue)):
             ev = self.eventqueue.pop(0)
             for listener in self._listeners:
                 done = listener.applyPriority(ev)
@@ -195,7 +195,7 @@ class PluginSystem:
         # Sort events
         self.eventqueue.sort(key=lambda x: x.priority)
         # Handle events
-        for nr in xrange(len(self.eventqueue)):
+        for nr in range(len(self.eventqueue)):
             ev = self.eventqueue.pop(0)
             for listener in self._listeners:
                 listener.applyPriority(ev)
@@ -220,7 +220,7 @@ class PluginSystem:
         except KeyError:
             msg = "Cannot get Global Hook %s" % hookname
             if self.debug:
-                print msg
+                print(msg)
 
 
 ###########

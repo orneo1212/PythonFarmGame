@@ -4,19 +4,19 @@ Created on 22-05-2012
 @author: orneo1212
 '''
 import pygame
-from widget import Widget
+from .widget import Widget
+
 
 class Container(Widget):
     '''
     Container for gui
     '''
 
-
-    def __init__(self, (width, height), position):
-        Widget.__init__(self, position, (width, height))
+    def __init__(self, size, position):
+        Widget.__init__(self, position, size)
         self.widgets = []
         self.visible = True
-        #last active widget
+        # last active widget
         self._lastactivewidget = None
 
     def repaint(self):
@@ -35,7 +35,8 @@ class Container(Widget):
                 widget.draw(self.img)
 
     def draw(self, surface):
-        if not self.visible:return
+        if not self.visible:
+            return
 
         needrepaint = False
         for widget in self.widgets:
@@ -44,7 +45,8 @@ class Container(Widget):
                 needrepaint = True
                 break
         #
-        if needrepaint:self.repaint()
+        if needrepaint:
+            self.repaint()
         surface.blit(self.img, self.position)
 
     def update_size(self, newsize):
@@ -64,13 +66,13 @@ class Container(Widget):
         for widget in self.widgets:
             widget.show()
 
-    def makeactive(self, widget = None):
+    def makeactive(self, widget=None):
         for widg in self.widgets:
             if widget and widg == widget:
                 widg.active = True
             else:
                 widg.active = False
-            #Repaint
+            # Repaint
             widg.repaint()
 
     def update(self):
@@ -78,7 +80,8 @@ class Container(Widget):
             widget.update()
 
     def poll_event(self, event):
-        if not self.visible:return
+        if not self.visible:
+            return
         for widget in self.widgets:
             if not widget.visible:
                 continue
@@ -92,10 +95,11 @@ class Container(Widget):
         mx, my = pygame.mouse.get_pos()
         mx -= self.position[0]
         my -= self.position[1]
-        if mx > self.width or my > self.height:return None
+        if mx > self.width or my > self.height:
+            return None
         return (mx, my)
 
-    def addwidget(self , widget):
+    def addwidget(self, widget):
         widget.parent = self
         widget.mark_modified()
         self.widgets.append(widget)

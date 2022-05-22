@@ -360,7 +360,7 @@ class GameWindow(Window):
         x = x / 2
         xx = (y + x) / (32)
         yy = (y - x) / (32)
-        return xx, yy
+        return int(xx), int(yy)
 
     def go_to_main_menu(self):
         self.deinit()
