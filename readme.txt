@@ -17,6 +17,9 @@ Tools:
     Shovel - Use it to remove planted seeds.
     Pickaxe - Use it to remove stones.
     Axe - Use it to cut off the planks.
+
+
+Uppdated to Python 3
     
 
 Donate:
