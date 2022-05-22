@@ -1,6 +1,6 @@
 Python farm game writen in python using pygame game library
 
-Creator: orneo1212 <orneo1212@gmail.com>
+Creator: orneo1212 orneo1212 [at] gmail.com
 GitHub (source): https://github.com/orneo1212/PythonFarmGame
 Licence: GPL v3 ( http://gplv3.fsf.org or gpl-3.0.txt included with game)
 
@@ -20,4 +20,4 @@ Tools:
     
 
 Donate:
-    Bitcoin: 115UaPGtPhCUwv4QXwk19MVEoVhK7NZcUB
+    Paypal: orneo1212 [at] gmail.com
